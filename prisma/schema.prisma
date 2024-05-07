@@ -25,3 +25,13 @@ model Users {
   updated_at    DateTime  @updatedAt
 
 }
+
+model Books {
+  id String   @id @default(uuid()) @db.VarChar(36)
+  author String
+  title String
+  image String?
+
+  created_at    DateTime  @default(now()) @db.Timestamp
+  updated_at    DateTime  @updatedAt
+}
