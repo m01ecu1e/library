@@ -14,11 +14,14 @@
 
         <!-- Book cards -->
         <div class=" md:block row-span-8">
-          <!--<MainSection/>-->
-          Books
+          <MainSection/>
         </div>
       </div>
 
     </div>
   </div>
 </template>
+
+<script setup>
+
+</script>

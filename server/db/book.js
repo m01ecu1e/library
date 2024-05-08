@@ -6,6 +6,8 @@ export const createBook = (bookData) => {
     })
 }
 
-export const readBooks = () => {
-    return prisma.books.findMany()
+export const getBooks = (params = {}) => {
+    return prisma.books.findMany({
+        ...params
+    })
 }

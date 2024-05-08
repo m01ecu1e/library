@@ -1,11 +1,17 @@
-import { readBooks } from "~/server/db/book"
+import { getBooks } from "~/server/db/book"
 
 export default defineEventHandler(async (event) => {
 
-    const books = await readBooks()
+    const books = await getBooks({
+        orderBy: [
+            {
+                created_at: 'desc'
+            }
+        ]
+    })
 
     return {
-        books
+        books: books
     }
 
 })
