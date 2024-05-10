@@ -1,10 +1,7 @@
 <template>
-    <div class ="flex w-screen justify-center">
-        
-        <div class="px-20 py-8 rounded-lg justify-center shadow-lg">
-            <div>
-               <SearchPageForm/>
-            </div>
+    <div class="flex flex-row justify-center ">
+        <div class="basis-6/12 shadow-lg px-5 rounded-lg">
+            <SearchPageForm />
         </div>
 
     </div>

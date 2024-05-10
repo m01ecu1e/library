@@ -1,9 +1,9 @@
 <template>
-    <div class="flex justify-center">
-        <div class="flex p-3 text-lg text-indigo-500 font-bold">
-            <nuxt-link to="/">
+    <div class="flex justify-center w-screen">
+        <div class="flex p-3 text-lg text-sky-500 hover:text-sky-600 font-bold">
+            <NuxtLink to="">
                     <p>libPnz.ru</p>
-            </nuxt-link>
+            </NuxtLink>
         </div>
 
         <div class="flex mx-8 justify-center">

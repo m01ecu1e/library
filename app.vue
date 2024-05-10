@@ -14,7 +14,7 @@
 
         <!-- Book cards -->
         <div class=" md:block row-span-8">
-          <MainSection/>
+          <NuxtPage/>
         </div>
       </div>
 

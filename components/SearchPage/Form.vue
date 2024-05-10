@@ -1,18 +1,25 @@
 <template>
-    <div>
-        <div class="flex h-8 ">
-            <UIInput label="bookSearch" placeholder="Название, автор, тема, издательство"
-            class="mx-2 pr-12 flex-none"/>
-            <button @click="handleSearch" class="text-white text-sm font-semibold bg-indigo-500 
-            hover:bg-indigo-600 rounded-full px-5 ml-8">Найти</button>
-            <div class="text-indigo-600 font-semibold text-sm content-center ml-3">Избранное</div>
-            <div class="text-indigo-600 font-semibold text-sm content-center ml-5">Личный кабинет</div>
-        </div>
+    <div class="flex flex-row justify-center h-8 mx-5 my-10">
+
+        <input v-model="search" class="border px-4 basis-8/12
+              rounded-full h-full text-sm  focus:border-sky-500  outline-none"
+            placeholder="Название, автор, тема, издательство" />
+        <button @click="handleSearch" class="basis-1/12 text-white text-sm font-semibold bg-sky-500 
+            hover:bg-sky-600 rounded-full px-5 ml-4">Найти</button>
+        <div class="content-center basis-1/12 text-sky-600 hover:text-sky-700 font-semibold text-sm ml-3">Избранное</div>
+        <div class="content-center basis-3/12 text-sky-600 hover:text-sky-700 font-semibold text-sm ml-5">Личный кабинет</div>
     </div>
 </template>
 
 <script setup>
-    async function handleSearch() {
+const search = ref('')
 
-    }
+async function handleSearch() {
+    useRouter().push({
+        path: '/search',
+        query: {
+            q:search.value
+        }
+    })
+}
 </script>

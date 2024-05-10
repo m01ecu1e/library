@@ -1,9 +1,9 @@
 export default () => {
 
-    const getHomeBooks = (params = {}) => {
+    const getBooks = (params = {}) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const response = await useFetchApi('/api/books/books', {
+                const response = await useFetchApi('/api/LibraryBook/', {
                     method: 'GET',
                     params
                 })
@@ -16,6 +16,6 @@ export default () => {
     }
 
     return {
-        getHomeBooks
+        getBooks
     }
 }
