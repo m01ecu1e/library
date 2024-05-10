@@ -1,21 +1,31 @@
 export default () => {
+  const loading = ref(false)
+  const error = ref(null)
 
-    const getBooks = (params = {}) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const response = await useFetchApi('/api/LibraryBook/', {
-                    method: 'GET',
-                    params
-                })
-                
-                resolve(response)
-            } catch (error) {
-                reject(error)
-            }
-        })
-    }
+  const fetchBooks = async (params = {}) => {
+    if (loading.value) return
 
-    return {
-        getBooks
+    loading.value = true
+    error.value = null
+
+    try {
+      const response = await useFetchApi('/api/LibraryBook/', {
+        method: 'GET',
+        params
+      })
+      return response.books
     }
+    catch (err) {
+      error.value = err.message
+    }
+    finally {
+      loading.value = false
+    }
+  }
+
+  return {
+    fetchBooks,
+    loading,
+    error
+  }
 }

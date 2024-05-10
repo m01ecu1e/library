@@ -1,12 +1,13 @@
 <template>
   <div class="flex flex-col bg-red-400">
-    {{ searchQuery }}
+    <div v-if="loading">Loading...</div>
+    <div v-if="error">{{ error }}</div>
     <BookListFeed :books="searchBooks" />
   </div>
 </template>
 
 <script setup>
-const { getBooks: getBooksComposable } = useBooks()
+const { fetchBooks, loading, error } = useBooks()
 
 const searchBooks = ref([])
 const route = useRoute()
@@ -19,16 +20,12 @@ watch(searchQuery, () => {
 })
 
 async function getBooks() {
-  console.log("getBooks")
-  try {
-    const { books } = await getBooksComposable({
-      query: searchQuery.value
-    })
+  const books = await fetchBooks({
+    query: searchQuery.value
+  })
 
+  if (books) {
     searchBooks.value = books
-
-  } catch (error) {
-    console.log(error)
   }
 }
 
