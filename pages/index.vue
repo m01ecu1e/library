@@ -1,31 +1,35 @@
 <template>
     
-    <MainSection class="flex flex-col bg-red-400">
+    <MainSection class="flex flex-col bg-red-600">
 
         Home Page
-        <BookListFeed :books="homeBooks"/>
+        <BookListFeed :books="searchBooks"/>
     </MainSection>
 </template>
 
 <script setup>
-import MainSection from '~/components/MainSection.vue';
+const { fetchBooks, loading, error } = useBooks()
+
+const searchBooks = ref([])
+const route = useRoute()
+const searchQuery = computed(() => route.query.q)
 
 
-const {getBooks} = useBooks()
-    const homeBooks = ref([])
-    const searchQuery = useRoute().query.q
+watch(searchQuery, () => {
+  console.log("route changed")
+  getBooks()
+})
 
-    onBeforeMount(async () => {
-        console.log(searchQuery)
-        try {
-            const {books} = await getBooks({
-                query: searchQuery
-            })
+async function getBooks() {
+  const books = await fetchBooks({
+    query: searchQuery.value
+  })
 
-            homeBooks.value = books
-        } catch (error) {
-            console.log(error)
-        } 
-    })
+  if (books) {
+    searchBooks.value = books
+  }
+}
+
+getBooks()
 
 </script>

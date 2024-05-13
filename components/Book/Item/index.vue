@@ -1,13 +1,19 @@
 <template>
     <div>
-        <p>
-            {{ props.book.title }}
-        </p>
+        <NuxtLink :to="bookUrl">
+            <p class="font-semibold">
+                {{ props.book.title }}
+            </p>
+
+        </NuxtLink>
         <p>
             Автор: {{props.book.author}}
         </p>
         <p>
             Издательство: {{ props.book.publisher }}
+        </p>
+        <p>
+            В наличии в {{ props.book.libraryBookCount }} библиотеках
         </p>
     </div>
 </template>
@@ -19,4 +25,6 @@
             required: true
         }
     })
+
+const bookUrl = computed(() => `/Book/${props.book.id}`)
 </script>

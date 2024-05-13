@@ -42,7 +42,17 @@ export const getBookById = (bookId) => {
     return prisma.books.findUnique({
         where: {
             id: bookId
-        }
+        },
+        include: {
+            author: true,
+            publisher: true,
+            //LibraryBook: true,
+            _count: {
+                select: {
+                    LibraryBook: true
+                }
+            }
+        },
     })
 }
 

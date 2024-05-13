@@ -9,7 +9,7 @@ export default () => {
     error.value = null
 
     try {
-      const response = await useFetchApi('/api/LibraryBook/', {
+      const response = await useFetchApi('/api/books/', {
         method: 'GET',
         params
       })
@@ -23,9 +23,23 @@ export default () => {
     }
   }
 
+  const getBookById = (bookId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await useFetchApi(`/api/books/${bookId}`)
+
+        resolve(response)
+
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
   return {
     fetchBooks,
     loading,
-    error
+    error,
+    getBookById,
   }
 }

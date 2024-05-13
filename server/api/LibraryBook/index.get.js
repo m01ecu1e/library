@@ -1,5 +1,5 @@
 import { getLibraryBooks } from "~/server/db/book"
-import { bookTransformer } from "../transformers/book"
+import { libraryBookTransformer } from "../transformers/libraryBook"
 
 export default defineEventHandler(async (event) => {
 
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
         ]
     }
 
-    if(!!query) {
+    if(query) {
         prismaQuery = {
             ...prismaQuery,
             where: {
@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
 
     return {
         //prismaQuery
-        books: books.map(bookTransformer)
+        //books: books.map(libraryBookTransformer)
         //books: books
         
     }

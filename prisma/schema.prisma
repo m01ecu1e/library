@@ -40,14 +40,14 @@ model Books {
   created_at    DateTime   @default(now()) @db.Timestamp
   updated_at    DateTime   @updatedAt
 
-  LibraryBook LibraryBook?
+  LibraryBook LibraryBook[]
 }
 
 model LibraryBook {
   id        String    @id @default(uuid()) @db.VarChar(36)
 
   book      Books     @relation(fields: [bookId], references: [id])
-  bookId    String    @unique
+  bookId    String
 
   library   Libraries @relation(fields: [libraryId], references: [id])
   libraryId String
