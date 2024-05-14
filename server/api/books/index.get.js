@@ -1,12 +1,13 @@
 import { getBooks } from "~/server/db/book"
 import { bookTransformer } from "../transformers/book"
-import { prisma } from "~/server/db"
 
 export default defineEventHandler(async (event) => {
 
-    const { query } = getQuery(event)
+    const { query, skip, take } = getQuery(event)
 
     let prismaQuery = {
+        skip: +skip,
+        take: +take,
         include: {
             author: true,
             publisher: true,
