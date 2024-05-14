@@ -23,7 +23,7 @@ const bookId = computed(() => route.params.id)
 
 async function getBook() {
   try {
-    const response = await getBookById(bookId)
+    const response = await getBookById(bookId.value)
     book.value = response.book
   } catch (error) {
     console.log(error)
