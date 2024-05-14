@@ -1,10 +1,8 @@
 <template>
-    
-    <MainSection class="flex flex-col bg-red-600">
-
-        Home Page
-        <BookListFeed :books="searchBooks"/>
-    </MainSection>
+  <div class="flex flex-col bg-red-600">
+    Home Page
+    <LatestBooks :books="searchBooks" />
+  </div>
 </template>
 
 <script setup>

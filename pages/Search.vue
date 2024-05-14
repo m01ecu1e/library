@@ -2,7 +2,7 @@
   <div class="flex flex-col bg-red-400">
     <div v-if="loading">Loading...</div>
     <div v-if="error">{{ error }}</div>
-    <BookSearchFeed :books="searchBooks" />
+    <SearchedBooks :books="searchBooks" />
   </div>
 </template>
 

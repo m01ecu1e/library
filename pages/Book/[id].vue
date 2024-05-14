@@ -1,27 +1,34 @@
 <template>
-    <h1>СТРАНИЦА КНИГИ </h1>
+  <h1>СТРАНИЦА КНИГИ </h1>
 
-    <BookPage v-if="book" :book="book"/>
+  <div v-if="book">
+    <p>
+      Автор: {{ book.author }}
+    </p>
+    <p>
+      Издательство: {{ book.publisher }}
+    </p>
+    <p>
+      В наличии в {{ book.libraryBookCount }} библиотеках
+    </p>
+  </div>
 </template>
 
 <script setup>
-const {getBookById} = useBooks()
-let book = ref(null)
+const { getBookById } = useBooks()
+const book = ref(null)
+const route = useRoute()
 
-function getBookIdFromRoute() {
-    return useRoute().params.id
-}
+const bookId = computed(() => route.params.id)
 
 async function getBook() {
-    try {
-        const response = await getBookById(getBookIdFromRoute())
-        book.value = response.book
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    const response = await getBookById(bookId)
+    book.value = response.book
+  } catch (error) {
+    console.log(error)
+  }
 }
 
-onBeforeMount(() => {
-    getBook()
-})
+getBook()
 </script>

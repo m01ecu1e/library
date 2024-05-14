@@ -5,11 +5,11 @@
 
         <!-- Header -->
         <div class=" row-span-1 content-center">
-          <HeaderPage/>
+          <Header></Header>
         </div>
         <!-- Search bar -->
         <div class="row-span-3 content-center border">
-          <SearchPage/>
+          <HomePageSearchBar/>
         </div>
 
         <!-- Book cards -->
