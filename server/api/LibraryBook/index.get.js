@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
 
     return {
         //prismaQuery
-        //books: books.map(libraryBookTransformer)
+        books: books.map(libraryBookTransformer)
         //books: books
         
     }

@@ -30,13 +30,6 @@ export const getLibraryBooks = (params = {}) => {
     })
 }
 
-export const getLibraryBookIdByBookTitle = (title) => {
-    return prisma.books.findUnique({
-        where: {
-            title
-        }
-    })
-} 
 
 export const getBookById = (bookId) => {
     return prisma.books.findUnique({
@@ -46,7 +39,6 @@ export const getBookById = (bookId) => {
         include: {
             author: true,
             publisher: true,
-            //LibraryBook: true,
             _count: {
                 select: {
                     LibraryBook: true

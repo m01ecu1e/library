@@ -7,6 +7,7 @@ export const bookTransformer = (book) => {
         title: book.title,
         author: book.author.name,
         publisher: book.publisher.name,
-        libraryBookCount: book._count.LibraryBook
+        libraryBookCount: book._count.LibraryBook,
+
     }
 }
