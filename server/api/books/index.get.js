@@ -123,8 +123,8 @@ export default defineEventHandler(async (event) => {
         //prismaQuery,
         //books: books[0].map(bookTransformer),
         //total: books[1]
-        books: books
+        books: books[0].map(bookTransformer),
+        total: books[1]
         //books: books.map(bookTransformer)
-        
     }
 })

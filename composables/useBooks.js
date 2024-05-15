@@ -13,7 +13,11 @@ export default () => {
         method: 'GET',
         params
       })
-      return response.books
+      console.log("fetchBooks", response.books, response.total)
+      return {
+        books: response.books,
+        total: response.total
+      }
     }
     catch (err) {
       error.value = err.message

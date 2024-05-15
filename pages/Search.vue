@@ -1,14 +1,12 @@
 <template>
-  <div class="flex flex-col bg-red-400">
+  <div class="flex flex-col justify-center bg-red-400">
     <div v-if="loading">Loading...</div>
     <div v-if="error">{{ error }}</div>
-    <div v-if="searchBooks">
+    <div class="flex justify-center" v-if="searchBooks">
       <UPagination 
       v-model="page" 
-      :page-count= "2"
+      :page-count= "pageSize"
       :total="totalPages"
-      :model-value="currentPage"
-      @update:model-value="updatePage"
      />
 
     </div>
@@ -18,41 +16,41 @@
 </template>
 
 <script setup >
-function updatePage(){
-
-}
 
 const { fetchBooks, loading, error } = useBooks()
 
 const searchBooks = ref([])
 const route = useRoute()
 const searchQuery = computed(() => route.query.q)
-const skip = computed(() => route.query.skip)
-const take = computed(() => route.query.take)
+// const skip = computed(() => route.query.skip)
+// const take = computed(() => route.query.take)
 
-const currentPage = ref(0)
+const page = ref(route.query.page ? route.query.page : 1)
 
-const page = ref(1)
 
 const totalPages = ref(1)
+const pageSize = 3
 
-watchEffect(searchQuery,skip,take, () => {
+
+watch([searchQuery,page], () => {
+  console.log(page.value)
   getBooks()
 })
 
 async function getBooks() {
-
-  const books = await fetchBooks({
+  console.log("bobs")
+  const skip = (page.value - 1)*pageSize
+  const books= await fetchBooks({
     query: searchQuery.value,
-    skip: skip.value,
-    take: take.value
+    skip: skip,
+    take: pageSize
   })
 
   if (books) {
-    searchBooks.value = books[0]
-    totalPages.value = books[1]
+    searchBooks.value = books.books
+    totalPages.value = books.total
 
-    console.log("books",books)
+    //console.log("books",books)
   }
 }
 

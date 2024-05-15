@@ -5,8 +5,9 @@ export const bookTransformer = (book) => {
     return {
         id: book.id,
         title: book.title,
-        //author: book.author.name,
-        //publisher: book.publisher.name,
-        //libraryBookCount: book.book._count.LibraryBook,
+        author: book.author.name,
+        publisher: book.publisher.name,
+        libraryBook: book.libraryBook,
+        libraryBookCount: book._count.LibraryBook,
     }
 }
