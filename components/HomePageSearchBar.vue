@@ -34,7 +34,9 @@ async function handleSearch(e) {
   useRouter().push({
     path: '/search',
     query: {
-      q: search.value
+      q: search.value,
+      skip: '0',
+      take: '2'
     }
   })
 }

@@ -1,4 +1,4 @@
-import {prisma} from ".";
+import { prisma } from ".";
 
 export const createBook = (bookData) => {
     return prisma.books.create({
@@ -23,6 +23,7 @@ export const getBooks = (params = {}) => {
         ...params
     })
 }
+
 
 export const getLibraryBooks = (params = {}) => {
     return prisma.libraryBook.findMany({

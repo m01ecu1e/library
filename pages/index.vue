@@ -19,12 +19,13 @@ watch(searchQuery, () => {
 })
 
 async function getBooks() {
+  
   const books = await fetchBooks({
     query: searchQuery.value
   })
 
   if (books) {
-    searchBooks.value = books
+    searchBooks.value = books[0]
   }
 }
 

@@ -16,10 +16,12 @@
 
 <script setup>
 
+
 const props = defineProps({
   books: {
     type: Array,
     required: true
   }
 })
+
 </script>
