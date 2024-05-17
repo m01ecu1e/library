@@ -25,9 +25,7 @@ export default defineEventHandler(async (event) => {
     const LB = await getLibraryBooks(query)
 
     return {
-         book: bookTransformer(book),
-        // book: book,
-        //libs: LB
+        book: bookTransformer(book),
         libs: LB.map(libTransformer)
     }
 })

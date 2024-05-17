@@ -27,10 +27,8 @@ const searchQuery = computed(() => route.query.q)
 
 const page = ref(route.query.page ? route.query.page : 1)
 
-
 const totalPages = ref(1)
 const pageSize = 3
-
 
 watch([searchQuery,page], () => {
   console.log(page.value)

@@ -13,7 +13,6 @@ export default () => {
         method: 'GET',
         params
       })
-      console.log("fetchBooks", response.books, response.total)
       return {
         books: response.books,
         total: response.total
@@ -26,7 +25,6 @@ export default () => {
       loading.value = false
     }
   }
-
 
   const getBookById = (bookId) => {
     return new Promise(async (resolve, reject) => {

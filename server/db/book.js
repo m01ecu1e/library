@@ -24,6 +24,11 @@ export const getBooks = (params = {}) => {
     })
 }
 
+export const getBooksCount = (params = {}) => {
+    return prisma.books.count({
+        ...params
+    });
+};
 
 export const getLibraryBooks = (params = {}) => {
     return prisma.libraryBook.findMany({

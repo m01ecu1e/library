@@ -25,7 +25,7 @@ async function getBooks() {
   })
 
   if (books) {
-    searchBooks.value = books[0]
+    searchBooks.value = books.books
   }
 }
 
