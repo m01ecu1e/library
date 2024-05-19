@@ -1,13 +1,12 @@
 <template>
+  <div class="row-span-3 content-center border-t-2 ">
+    <HomePageSearchBar />
+  </div>
   <div class="flex flex-col justify-center bg-red-400">
     <div v-if="loading">Loading...</div>
     <div v-if="error">{{ error }}</div>
     <div class="flex justify-center" v-if="searchBooks">
-      <UPagination 
-      v-model="page" 
-      :page-count= "pageSize"
-      :total="totalPages"
-     />
+      <UPagination v-model="page" :page-count="pageSize" :total="totalPages" />
 
     </div>
 
@@ -15,7 +14,7 @@
   </div>
 </template>
 
-<script setup >
+<script setup>
 
 const { fetchBooks, loading, error } = useBooks()
 
@@ -30,15 +29,15 @@ const page = ref(route.query.page ? route.query.page : 1)
 const totalPages = ref(1)
 const pageSize = 3
 
-watch([searchQuery,page], () => {
+watch([searchQuery, page], () => {
   console.log(page.value)
   getBooks()
 })
 
 async function getBooks() {
   console.log("bobs")
-  const skip = (page.value - 1)*pageSize
-  const books= await fetchBooks({
+  const skip = (page.value - 1) * pageSize
+  const books = await fetchBooks({
     query: searchQuery.value,
     skip: skip,
     take: pageSize

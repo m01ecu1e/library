@@ -43,12 +43,5 @@ async function getBook() {
     }
 }
 
-// const props = defineProps({
-//     libs: {
-//         type: Array,
-//         required: true
-//     }
-// })
-
 getBook()
 </script>

@@ -18,12 +18,25 @@ model Users {
   id            String    @id @default(uuid()) @db.VarChar(36)
   firstName     String
   lastName      String
-  email         String
+  email         String @unique
   password      String    
   
   created_at    DateTime  @default(now()) @db.Timestamp
   updated_at    DateTime  @updatedAt
 
+  refreshToken RefreshToken[]
+
+}
+
+model RefreshToken {
+  id            String   @id @default(uuid()) @db.VarChar(36)
+  token String @unique
+
+  created_at    DateTime  @default(now()) @db.Timestamp
+  updated_at    DateTime  @updatedAt
+
+  userId String   @default(uuid()) @db.VarChar(36)
+  user Users @relation(fields:[userId], references: [id])
 }
 
 model Books {
