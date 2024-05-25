@@ -3,7 +3,7 @@ import { libraryBookTransformer } from "../transformers/libraryBook"
 
 export default defineEventHandler(async (event) => {
 
-    const {query} = getQuery(event)
+    //const {query} = getQuery(event)
 
     let prismaQuery = {
         skip:0,
