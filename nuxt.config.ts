@@ -18,5 +18,12 @@ export default defineNuxtConfig({
         verbatimModuleSyntax: true
       }
     }
+  },
+  nitro: {
+    vercel: {
+      config: {
+        bypassToken: process.env.VERCEL_BYPASS_TOKEN
+      }
+    }
   }
 })
