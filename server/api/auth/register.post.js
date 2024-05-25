@@ -6,7 +6,8 @@ export default defineEventHandler(async (event) => {
 
     const body = await readBody(event)
 
-    const{ firstName, lastName, email, password, repeatPassword } = body
+    const{ firstName, lastName, email, password, repeatPassword, admin } = body
+
 
     if( !email || !password || !repeatPassword || !firstName || !lastName) {
         return sendError(event, createError({statusCode: 400, 
@@ -22,7 +23,8 @@ export default defineEventHandler(async (event) => {
         firstName,
         lastName,
         email,
-        password
+        password,
+        admin
     }
 
     const user = await createUser(userData)

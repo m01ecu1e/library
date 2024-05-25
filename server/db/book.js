@@ -12,11 +12,7 @@ export const createLibraryBook = (bookData) => {
     })
 }
 
-export const createLibrary = (libData) => {
-    return prisma.libraries.create({
-        data: libData
-    })
-}
+
 
 export const getBooks = (params = {}) => {
     return prisma.books.findMany({
@@ -36,6 +32,31 @@ export const getLibraryBooks = (params = {}) => {
     })
 }
 
+export const getBookByInfo = (bookData) => {
+    return prisma.books.findFirst({
+        // include: {
+        //     author: true,
+        //     publisher: true
+        // },
+        where: {
+            AND: [
+                {
+                    title: bookData.title
+                },
+                {
+                    author: {
+                        id: bookData.authorId
+                    }
+                },
+                {
+                    publisher: {
+                        id: bookData.publisherId
+                    }
+                }
+            ]
+        }
+    })
+}
 
 export const getBookById = (bookId) => {
     return prisma.books.findUnique({
@@ -54,10 +75,17 @@ export const getBookById = (bookId) => {
     })
 }
 
-export const getLibraryById = (libData) => {
-    return prisma.libraries.findUnique({
+export const getLibraryBookById = (bookId) => {
+    return prisma.libraryBook.findUnique({
         where: {
-            id: libData
+            id: bookId
         }
     })
 }
+
+export const putLibraryBook = (params) => {
+    return prisma.libraryBook.update({
+        ...params
+    })
+}
+

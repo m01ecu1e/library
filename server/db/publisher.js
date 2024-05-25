@@ -5,3 +5,9 @@ export const createPublisher = (publisherData) => {
         data: publisherData,
     })
 }
+
+export const getPublishers = (params = {}) => {
+    return prisma.publishers.findMany({
+        ...params
+    })
+}

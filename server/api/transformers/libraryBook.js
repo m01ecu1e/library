@@ -4,6 +4,7 @@ export const libraryBookTransformer = (book) => {
     //const author = await getAuthorById(book.authorId)
 
     return {
+        bookId:book.book.id,
         title: book.book.title,
         author: book.book.author.name,
         publisher: book.book.publisher.name,

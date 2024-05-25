@@ -6,6 +6,8 @@ export default defineEventHandler(async (event) => {
     const {query} = getQuery(event)
 
     let prismaQuery = {
+        skip:0,
+        take:5,
         include: {
             book: {
                 include: {
@@ -22,18 +24,6 @@ export default defineEventHandler(async (event) => {
         ]
     }
 
-    if(query) {
-        prismaQuery = {
-            ...prismaQuery,
-            where: {
-                book: {
-                    title: {
-                        search : query
-                    }
-                }
-            }
-        }
-    }
     
     const books = await getLibraryBooks(prismaQuery)
 

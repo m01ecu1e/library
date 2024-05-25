@@ -32,14 +32,36 @@ export default () => {
         setToken(data.access_token)
         setUser(data.user)
 
-        console.log(data)
+        //console.log(data)
 
         resolve(true)
       } catch (error) {
         reject(error)
       }
     })
+  }
 
+  const register = ({ firstName, lastName, email, password, repeatPassword, admin }) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const data = await $fetch('/api/auth/register', {
+          method: 'POST',
+          body: {
+            firstName,
+            lastName,
+            email,
+            password,
+            repeatPassword,
+            admin
+          }
+        })
+        //console.log(data)
+
+        resolve(true)
+      } catch (error) {
+        reject(error)
+      }
+    })
   }
 
   const refreshToken = () => {
@@ -123,6 +145,7 @@ export default () => {
 
   return {
     login,
+    register,
     useAuthUser,
     useAuthToken,
     initAuth,

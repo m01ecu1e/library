@@ -5,5 +5,6 @@ export const userTransformer = (user) => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
+      admin: user.admin
   }
 }

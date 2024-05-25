@@ -1,15 +1,40 @@
 <template>
-  <div>
-    <NuxtLink :to="bookUrl">
-      <p class="font-semibold">
-        {{ props.book.title }}
-      </p>
+  <UCard>
+    <template #header>
+      <Placeholder class="h-8" />
+      <NuxtLink :to="bookUrl">
+        <div class="h-1 grid content-center">
+          <div class="font-semibold">
+            {{ props.book.title }}
+          </div>
+        </div>
+      </NuxtLink>
+    </template>
 
-    </NuxtLink>
-    <p>Автор: {{ props.book.author }}</p>
-    <p>Издательство: {{ props.book.publisher }}</p>
-    <p>В наличии в {{ props.book.libraryBookCount }} библиотеках</p>
-  </div>
+    <Placeholder class="h-32" />
+    <div class="flex">
+      <div class="h-40 w-1/6 content-center border">
+        <img src="/hard-cover-book.png">
+      </div>
+      <div class="h-40 w-full pl-5 content-center">
+        <div class="flex">
+          Автор: <p class="ml-2 font-semibold"> {{ props.book.author }}</p>
+        </div>
+        <div class="flex">
+          Издательство: <p class="ml-2 font-semibold"> {{ props.book.publisher }}</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <template #footer>
+      <div class="h-1 grid content-center">
+        В наличии в {{ props.book.libraryBookCount }} библиотеках
+      </div>
+      <Placeholder class="h-8" />
+    </template>
+  </UCard>
 </template>
 
 <script setup>

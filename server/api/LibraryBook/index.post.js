@@ -1,4 +1,5 @@
-import { getBookById, getLibraryById, createLibraryBook } from "~/server/db/book"
+import { getBookById,  createLibraryBook } from "~/server/db/book"
+import { getLibraryById } from "~/server/db/library"
 
 export default defineEventHandler(async (event) => {
 

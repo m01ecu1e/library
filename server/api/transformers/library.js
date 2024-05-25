@@ -1,12 +1,15 @@
-export const libTransformer = (lib) => {
+export const libTransformer = (libraryBook) => {
     console.log('libTransformer')
 
     return {
-        id: lib.library.id,
-        name: lib.library.name,
-        address: lib.library.Address,
-        info: lib.library.info,
-        amount: lib.amount,
-        amountAvailable: lib.amountAvailable,
+        id: libraryBook.id,
+        libraryId: libraryBook.library.id,
+        libraryName: libraryBook.library.name,
+        address: libraryBook.library.Address,
+        latitude: libraryBook.library.latitude,
+        longitude: libraryBook.library.longitude,
+        info: libraryBook.library.info,
+        amount: libraryBook.amount,
+        amountAvailable: libraryBook.amountAvailable,
     }
 }

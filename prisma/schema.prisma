@@ -18,19 +18,20 @@ model Users {
   id            String    @id @default(uuid()) @db.VarChar(36)
   firstName     String
   lastName      String
-  email         String @unique
-  password      String    
+  email         String    @unique
+  password      String 
+  admin         Boolean   
   
   created_at    DateTime  @default(now()) @db.Timestamp
   updated_at    DateTime  @updatedAt
 
   refreshToken RefreshToken[]
-
+  bookedBooks BookedBooks[]
 }
 
 model RefreshToken {
   id            String   @id @default(uuid()) @db.VarChar(36)
-  token String @unique
+  token String           @unique
 
   created_at    DateTime  @default(now()) @db.Timestamp
   updated_at    DateTime  @updatedAt
@@ -71,8 +72,10 @@ model LibraryBook {
   library   Libraries @relation(fields: [libraryId], references: [id])
   libraryId String
 
-  amount Int?
-  amountAvailable Int?
+  amount Int
+  amountAvailable Int
+
+  bookedBook BookedBooks[]
 
   created_at    DateTime   @default(now()) @db.Timestamp
   updated_at    DateTime   @updatedAt
@@ -99,7 +102,25 @@ model Libraries {
   name     String
   info     String?
   Address  String
+  latitude Float
+  longitude Float
 
   LibraryBook LibraryBook[]
+}
+
+model BookedBooks {
+  id       String  @id @default(uuid()) @db.VarChar(36)
+
+  libraryBook     LibraryBook  @relation(fields: [libraryBookId], references: [id])
+  libraryBookId   String
+
+  user Users @relation(fields:[userId], references: [id])
+  userId String   @default(uuid()) @db.VarChar(36)
+
+  received Boolean
+  orderCode String
+
+  created_at    DateTime   @default(now()) @db.Timestamp
+  updated_at    DateTime   @updatedAt
 
 }

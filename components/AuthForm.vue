@@ -15,7 +15,7 @@
     <div class="ml-2 text-gray-400">
       Нет аккаунта?
     </div>
-    <NuxtLink to="/" class="m-2 hover:text-sky-600">
+    <NuxtLink to="/Register" class="m-2 hover:text-sky-600">
       Зарегистрироваться
     </NuxtLink>
   </form>
@@ -31,6 +31,7 @@ const data = reactive({
 
 async function handleLogin() {
   //alert(JSON.stringify(data))
+  
   navigateTo('/')
   const { login } = useAuth()
 
