@@ -33,7 +33,7 @@ export default () => {
     error.value = null
 
     try {
-      const response = await $fetch('/api/libraryBook', {
+      const response = await $fetch('/api/libraryBook/getLibBooks', {
         method: 'GET',
         // params
       })

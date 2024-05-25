@@ -1,7 +1,7 @@
 import { getLibraryBooks } from "~/server/db/book"
 import { libraryBookTransformer } from "../transformers/libraryBook"
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
 
     //const {query} = getQuery(event)
 
