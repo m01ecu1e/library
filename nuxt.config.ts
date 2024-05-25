@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxt/ui",'@pinia/nuxt','vue-yandex-maps/nuxt'],
   yandexMaps: {
-    apikey: '57e95a23-8693-4fca-8f7b-b858ad223884',
+    apikey: process.env.YANDEX_MAPS_API_KEY,
   },
   colorMode: {
     preference: 'light'
