@@ -108,7 +108,7 @@ export default () => {
   const postLibraryBook = ({ bookId, libraryId, amount, amountAvailable }) => {
     return new Promise(async (resolve, reject) => {
       try {
-        await $fetch('/api/libraryBook', {
+        await $fetch('/api/libraryBook/postLibBook', {
           method: 'POST',
           body: {
             bookId,

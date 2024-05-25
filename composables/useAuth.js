@@ -55,9 +55,7 @@ export default () => {
             admin
           }
         })
-        //console.log(data)
-
-        resolve(true)
+        resolve(data)
       } catch (error) {
         reject(error)
       }

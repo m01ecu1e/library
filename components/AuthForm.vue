@@ -1,27 +1,38 @@
 <template>
-  <form class="pt-5 space-y-2 shadow-lg my-5 px-8 pb-6 rounded-lg bg-white">
-    <p class="pl-4">Email</p>
-    <input class="border px-4 basis-8/12 rounded-md h-full text-md focus:border-sky-500  outline-none"
-      placeholder="Email" v-model="data.email" />
-    <p class="pl-4">Пароль</p>
-    <input class="border px-4 basis-8/12 rounded-md h-full text-md focus:border-sky-500  outline-none"
-      placeholder="•••••••••••" v-model="data.password" type="password" />
-    <div>
-      <button @click="handleLogin"
-        class=" text-white text-md font-semibold bg-sky-500 hover:bg-sky-600 rounded-lg px-4 py-2 mt-3 mb-2 ">
-        Войти
-      </button>
-    </div>
+  <UForm :schema="schema" :state="data" @submit="handleLogin"
+    class="pt-5 space-y-4 shadow-lg my-5 px-8 pb-6 rounded-lg bg-white">
+
+    <UFormGroup name="email" size="lg">
+      <UInput v-model="data.email" placeholder="Email" />
+    </UFormGroup>
+
+    <UFormGroup name="password" size="lg">
+      <UInput v-model="data.password" type="password" placeholder="Пароль" />
+    </UFormGroup>
+
+    <UButton type="submit" size="lg" class="text-md">
+      Войти
+    </UButton>
     <div class="ml-2 text-gray-400">
       Нет аккаунта?
     </div>
     <NuxtLink to="/Register" class="m-2 hover:text-sky-600">
       Зарегистрироваться
     </NuxtLink>
-  </form>
+  </UForm>
+
 </template>
 
 <script setup>
+import { object, string } from 'yup'
+
+const schema = object({
+  email: string().email('Неверный email').required('Required'),
+  password: string().required('Required'),
+})
+
+const error = ref()
+const toast = useToast()
 
 const data = reactive({
   email: '',
@@ -31,8 +42,8 @@ const data = reactive({
 
 async function handleLogin() {
   //alert(JSON.stringify(data))
+
   
-  navigateTo('/')
   const { login } = useAuth()
 
   data.loading = true
@@ -42,13 +53,22 @@ async function handleLogin() {
       email: data.email,
       password: data.password
     })
-  } catch (error) {
-    console.log(error)
+    navigateTo('/')
+  } catch (err) {
+    if (err.statusMessage) {
+      error.value = err.statusMessage
+      toast.add({
+            title: 'Ошибка:',
+            description: '' + err.statusMessage + '',
+            icon: 'i-heroicons-x-circle',
+            color: 'red'
+        })
+    } else {
+      error.value = 'An unexpected error occurred'
+    }
   } finally {
     data.loading = false
-    
   }
-
 }
 
 </script>

@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
   if(!user) {
     return sendError(event, createError({
       statusCode:400,
-      statusMessage: 'Username or password is invalid'
+      statusMessage: 'There is no user with this email'
     }))
   }
 

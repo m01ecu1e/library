@@ -28,7 +28,8 @@
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vue-yandex-maps": "^2.1.2",
-    "vue3-google-map": "^0.20.0"
+    "vue3-google-map": "^0.20.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0"
