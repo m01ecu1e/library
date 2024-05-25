@@ -5,3 +5,9 @@ export const createAuthor = (authorData) => {
         data: authorData,
     })
 }
+
+export const getAuthors = (params = {}) => {
+    return prisma.authors.findMany({
+        ...params
+    })
+}

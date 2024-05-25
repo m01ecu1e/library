@@ -1,16 +1,24 @@
 <template>
-  <div class="flex flex-col bg-red-600">
-    Home Page
+
+  <div class="flex flex-col bg-gray-200">
+    <!-- Search bar -->
+    <div class="row-span-3 content-center ">
+      <HomePageSearchBar :user="user" />
+    </div>
+    <!-- {{ user }} -->
     <LatestBooks :books="searchBooks" />
   </div>
 </template>
 
 <script setup>
-const { fetchBooks, loading, error } = useBooks()
+const { fetchLibraryBooks, loading, error } = useBooks()
 
 const searchBooks = ref([])
 const route = useRoute()
 const searchQuery = computed(() => route.query.q)
+
+const {useAuthUser} = useAuth()
+const user = useAuthUser()
 
 
 watch(searchQuery, () => {
@@ -19,12 +27,13 @@ watch(searchQuery, () => {
 })
 
 async function getBooks() {
-  const books = await fetchBooks({
+
+  const books = await fetchLibraryBooks({
     query: searchQuery.value
   })
 
   if (books) {
-    searchBooks.value = books
+    searchBooks.value = books.books
   }
 }
 

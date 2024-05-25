@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
         name,
         info
     }
-
+    console.log("author add")
     const author = await createAuthor(authorData)
 
     return {

@@ -1,27 +1,23 @@
-<template>
-  <div>
-    <div class="flex">
-      <div class="grid grid-rows-12">
+<template class="bg-gray-200">
+  <UContainer class=" max-w-full">
+    <Header :user="user"></Header>
+  </UContainer>
+  <UNotifications />
+  <UContainer :user="user" class="bg-gray-200 max-w-full h-full">
+    <NuxtPage />
+  </UContainer>
 
-        <!-- Header -->
-        <div class=" row-span-1 content-center">
-          <Header></Header>
-        </div>
-        <!-- Search bar -->
-        <div class="row-span-3 content-center border">
-          <HomePageSearchBar/>
-        </div>
-
-        <!-- Book cards -->
-        <div class=" md:block row-span-8">
-          <NuxtPage/>
-        </div>
-      </div>
-
-    </div>
-  </div>
 </template>
 
 <script setup>
+
+const { useAuthUser, initAuth, useAuthLoading } = useAuth()
+const isAuthLoading = useAuthLoading()
+const user = useAuthUser()
+
+
+onBeforeMount(() => {
+  initAuth()
+})
 
 </script>

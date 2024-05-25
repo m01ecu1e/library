@@ -1,14 +1,17 @@
-import { getBookById, getLibraryById, createLibraryBook } from "~/server/db/book"
+import { getBookById,  createLibraryBook } from "~/server/db/book"
+import { getLibraryById } from "~/server/db/library"
 
 export default defineEventHandler(async (event) => {
-   
+
     const body = await readBody(event)
 
-    const{ bookId, libraryId } = body
+    const { bookId, libraryId, amount, amountAvailable } = body
 
     const bookData = {
         bookId,
-        libraryId
+        libraryId,
+        amount,
+        amountAvailable
     }
 
     if (!await getBookById(bookData.bookId)) {
@@ -16,7 +19,7 @@ export default defineEventHandler(async (event) => {
             book: "Book does not exist"
         }
     }
-        
+
     if (!await getLibraryById(bookData.libraryId)) {
         return {
             book: "Library does not exist"

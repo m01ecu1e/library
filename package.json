@@ -7,14 +7,25 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@nuxt/ui": "^2.16.0",
+    "@pinia/nuxt": "^0.5.1",
     "@prisma/client": "^5.13.0",
+    "@tailwindcss/forms": "^0.5.7",
+    "bcrypt": "^5.1.1",
+    "crypto": "^1.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "nuxt": "^3.11.2",
+    "pinia": "^2.1.7",
     "prisma": "^5.13.0",
+    "url-pattern": "^1.0.3",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vue-yandex-maps": "^2.1.2",
+    "vue3-google-map": "^0.20.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0"

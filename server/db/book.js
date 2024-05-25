@@ -1,4 +1,4 @@
-import {prisma} from ".";
+import { prisma } from ".";
 
 export const createBook = (bookData) => {
     return prisma.books.create({
@@ -12,11 +12,7 @@ export const createLibraryBook = (bookData) => {
     })
 }
 
-export const createLibrary = (libData) => {
-    return prisma.libraries.create({
-        data: libData
-    })
-}
+
 
 export const getBooks = (params = {}) => {
     return prisma.books.findMany({
@@ -24,19 +20,43 @@ export const getBooks = (params = {}) => {
     })
 }
 
+export const getBooksCount = (params = {}) => {
+    return prisma.books.count({
+        ...params
+    });
+};
+
 export const getLibraryBooks = (params = {}) => {
     return prisma.libraryBook.findMany({
         ...params
     })
 }
 
-export const getLibraryBookIdByBookTitle = (title) => {
-    return prisma.books.findUnique({
+export const getBookByInfo = (bookData) => {
+    return prisma.books.findFirst({
+        // include: {
+        //     author: true,
+        //     publisher: true
+        // },
         where: {
-            title
+            AND: [
+                {
+                    title: bookData.title
+                },
+                {
+                    author: {
+                        id: bookData.authorId
+                    }
+                },
+                {
+                    publisher: {
+                        id: bookData.publisherId
+                    }
+                }
+            ]
         }
     })
-} 
+}
 
 export const getBookById = (bookId) => {
     return prisma.books.findUnique({
@@ -46,7 +66,6 @@ export const getBookById = (bookId) => {
         include: {
             author: true,
             publisher: true,
-            //LibraryBook: true,
             _count: {
                 select: {
                     LibraryBook: true
@@ -56,10 +75,17 @@ export const getBookById = (bookId) => {
     })
 }
 
-export const getLibraryById = (libData) => {
-    return prisma.libraries.findUnique({
+export const getLibraryBookById = (bookId) => {
+    return prisma.libraryBook.findUnique({
         where: {
-            id: libData
+            id: bookId
         }
     })
 }
+
+export const putLibraryBook = (params) => {
+    return prisma.libraryBook.update({
+        ...params
+    })
+}
+

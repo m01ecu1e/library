@@ -1,16 +1,9 @@
 <template>
-  <div class="flex justify-center bg-green-400 w-full h-10">
-    <h1 class="bg-green-200 content-center text-lg">Последние поступления</h1>
+  <div class="flex justify-center h-12 mb-5 w-full rounded-md shadow-lg bg-white">
+    <h1 class="content-center text-lg">Последние поступления</h1>
   </div>
-  <div class="grid-cols-12 justify-start mx-5 content-center bg-blue-300">
-    <ul class="flex">
-      <BookCard
-        v-for="book in props.books"
-        :book="book"
-        :key="book.id"
-        class="bg-red-300 border h-full mx-1 flex-none"
-      />
-    </ul>
+  <div class="flex justify-center">
+    <LibraryBookCard v-for="book in props.books" :book="book" :key="book.id" class=" border h-full mx-3 flex-none" />
   </div>
 </template>
 
@@ -22,4 +15,5 @@ const props = defineProps({
     required: true
   }
 })
+
 </script>
