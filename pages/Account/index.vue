@@ -44,9 +44,9 @@ const loading = ref(false)
 const { fetchBookedBooks } = useBooks()
 const bookedBooks = ref([])
 
-const { useAuthUser, initAuth, useAuthLoading } = useAuth()
+// const { useAuthUser, initAuth, useAuthLoading } = useAuth()
 
-const user = useAuthUser()
+const user = useState('auth_user')
 
 const getBookedBooks = async (userId) => {
   if (userId === '') return []
@@ -65,7 +65,7 @@ const getBookedBooks = async (userId) => {
 
 onBeforeMount(() => {
   console.log("onBeforeMount")
-  initAuth()
+  // initAuth()
 })
 
 watch(() => user._object?.$sauth_user?.id, async (newUserId) => {

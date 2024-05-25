@@ -20,10 +20,6 @@ export default defineNuxtConfig({
     }
   },
   nitro: {
-    vercel: {
-      config: {
-        bypassToken: process.env.VERCEL_BYPASS_TOKEN
-      }
-    }
+    preset: 'netlify_edge'
   }
 })

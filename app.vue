@@ -12,8 +12,8 @@
 <script setup>
 
 const { useAuthUser, initAuth, useAuthLoading } = useAuth()
-const isAuthLoading = useAuthLoading()
-const user = useAuthUser()
+// const isAuthLoading = useAuthLoading()
+const user = useState('auth_user')
 
 
 onBeforeMount(() => {
