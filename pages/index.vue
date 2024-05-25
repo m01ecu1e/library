@@ -15,22 +15,20 @@ const { fetchLibraryBooks, loading, error } = useBooks()
 
 const searchBooks = ref([])
 const route = useRoute()
-const searchQuery = computed(() => route.query.q)
+// const searchQuery = computed(() => route.query.q)
 
-const {useAuthUser} = useAuth()
-const user = useAuthUser()
+// const {useAuthUser} = useAuth()
+const user = useState('auth_user')
 
 
-watch(searchQuery, () => {
-  console.log("route changed")
-  getBooks()
-})
+// watch(searchQuery, () => {
+//   console.log("route changed")
+//   getBooks()
+// })
 
 async function getBooks() {
 
-  const books = await fetchLibraryBooks({
-    query: searchQuery.value
-  })
+  const books = await fetchLibraryBooks()
 
   if (books) {
     searchBooks.value = books.books

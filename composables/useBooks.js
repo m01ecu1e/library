@@ -26,16 +26,16 @@ export default () => {
     }
   }
 
-  const fetchLibraryBooks = async (params = {}) => {
+  const fetchLibraryBooks = async () => {
     if (loading.value) return
 
     loading.value = true
     error.value = null
 
     try {
-      const response = await useFetchApi('/api/libraryBook', {
+      const response = await $fetch('/api/libraryBook', {
         method: 'GET',
-        params
+        // params
       })
       return {
         books: response.books
