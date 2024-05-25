@@ -38,8 +38,7 @@ export default () => {
         params
       })
       return {
-        books: response.books,
-        total: response.total
+        books: response.books
       }
     }
     catch (err) {
