@@ -9,7 +9,7 @@ export default () => {
     error.value = null
 
     try {
-      const response = await useFetchApi('/api/books/', {
+      const response = await useFetchApi('/api/books', {
         method: 'GET',
         params
       })
@@ -33,7 +33,7 @@ export default () => {
     error.value = null
 
     try {
-      const response = await useFetchApi('/api/libraryBook/', {
+      const response = await useFetchApi('/api/libraryBook', {
         method: 'GET',
         params
       })
@@ -57,7 +57,7 @@ export default () => {
     error.value = null
 
     try {
-      const response = await useFetchApi('/api/bookedBooks/', {
+      const response = await useFetchApi('/api/bookedBooks', {
         method: 'GET',
         params
       })
@@ -90,7 +90,7 @@ export default () => {
   const postBook = ({ publisherId, authorId, title }) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const data = await $fetch('/api/books', {
+        await $fetch('/api/books', {
           method: 'POST',
           body: {
             publisherId,
@@ -109,7 +109,7 @@ export default () => {
   const postLibraryBook = ({ bookId, libraryId, amount, amountAvailable }) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const data = await $fetch('/api/libraryBook', {
+        await $fetch('/api/libraryBook', {
           method: 'POST',
           body: {
             bookId,
