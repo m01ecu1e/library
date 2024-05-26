@@ -3,7 +3,7 @@
     <Header :user="user"></Header>
   </UContainer>
   <UNotifications />
-  <UContainer :user="user" class="bg-gray-100 max-w-full h-full">
+  <UContainer :user="user" class="bg-gray-200 max-w-full h-full">
     <NuxtPage />
   </UContainer>
 

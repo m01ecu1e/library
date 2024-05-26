@@ -68,7 +68,7 @@
     <!-- <UContainer class="p-4"> -->
       <div v-if="selectedLib && selectedLibInfo" class="px-7 py-5">
         <p>Вы выбрали библиотеку:</p>
-        <p class="font-semibold">{{ selectedLibInfo }}</p>
+        <p class="font-semibold">{{ selectedLibInfo.name }}</p>
         <p>По адресу: {{ selectedLibInfo.address }}</p>
         <p>Книга: {{ book.title }}</p>
         <p>Издательство: {{ book.publisher }}</p>
