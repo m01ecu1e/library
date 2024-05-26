@@ -63,6 +63,15 @@
             No results :(
           </div>
         </div>
+
+        <UInput
+        type="file"
+        :disabled="loading"
+        accept="image/*"
+        @change="handleFileUpload"
+        class="mb-2"
+        size="xl"
+        />
         <UButton
         type="submit"
         :loading="loading"
@@ -89,6 +98,7 @@ const loading = ref(false)
 
 const selectedAuthor = ref()
 const selectedPublisher = ref()
+const coverImage = ref('')
 
 const searchAuthors = async (q) => {
   if (q === '') return []
@@ -125,6 +135,19 @@ const searchPublishers = async (q) => {
   return publishers.value
 }
 
+const handleFileUpload = (event) => {
+  console.log(event[0])
+  const file = event[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      // console.log(e.target.result)
+      coverImage.value = e.target.result
+    }
+    reader.readAsDataURL(file)
+  }
+}
+
 async function handleAddBook() {
   const { postBook } = useBooks()
   loading.value = true
@@ -132,7 +155,8 @@ async function handleAddBook() {
     await postBook({
       publisherId: selectedPublisher.value.id,
       authorId: selectedAuthor.value.id,
-      title: title.value
+      title: title.value,
+      coverImage: coverImage.value
     })
   } catch (error) {
     console.log(error)
@@ -144,10 +168,5 @@ async function handleAddBook() {
   console.log(selectedPublisher.value.id)
   console.log(title.value)
 }
-// const submit = async (e) => {
-//   e.preventDefault()
-
-//   await searchAuthors(query.value)
-// }
 
 </script>

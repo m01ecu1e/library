@@ -7,8 +7,8 @@
                 </div>
             </template>
             <div class="flex">
-                <div class="h-40 w-1/6 content-center border">
-                    <img src="/hard-cover-book.png">
+                <div class="h-50 w-1/6 content-center border border-gray-400 shadow-xl">
+                    <img :src="book.coverImage" alt="Обложка">
                 </div>
                 <div class=" w-full pl-5  content-center">
                     <div class="flex">
@@ -37,10 +37,13 @@
                     placeholder="Для бронирования выберите библиотеку" value-attribute="id"
                     option-attribute="libraryName" class="mb-2" size="xl" />
                 <div v-if="user">
-                    <button @click="handleBooking"
+                    <!-- <button v-if="selectedLib.amountAvailable > 0" @click="handleBooking"
                         class=" text-white text-md font-semibold bg-sky-500 hover:bg-sky-600 rounded-lg px-4 py-2 mt-3 mb-2 ">
                         Забронировать
-                    </button>
+                    </button> -->
+                    <UButton @click="handleBooking" size="lg" class="my-2">
+                        Забронировать
+                    </UButton>
                 </div>
             </template>
         </UCard>
@@ -65,11 +68,11 @@
     <!-- <UContainer class="p-4"> -->
       <div v-if="selectedLib && selectedLibInfo" class="px-7 py-5">
         <p>Вы выбрали библиотеку:</p>
-        <p class="font-semibold">{{ selectedLibInfo.libraryName }}</p>
+        <p class="font-semibold">{{ selectedLibInfo }}</p>
         <p>По адресу: {{ selectedLibInfo.address }}</p>
         <p>Книга: {{ book.title }}</p>
         <p>Издательство: {{ book.publisher }}</p>
-        <button @click="handleBooking" class="text-white text-md font-semibold bg-sky-500 hover:bg-sky-600 rounded-lg px-4 py-2 mt-3 mb-2">
+        <button  @click="handleBooking" class="text-white text-md font-semibold bg-sky-500 hover:bg-sky-600 rounded-lg px-4 py-2 mt-3 mb-2">
           Забронировать
         </button>
       </div>
@@ -100,6 +103,7 @@ const selectedLibInfo = ref()
 const route = useRoute()
 const loading = ref(false)
 const toast = useToast()
+const error = ref()
 
 const { useAuthUser, initAuth, useAuthLoading } = useAuth()
 
@@ -131,23 +135,32 @@ async function handleBooking() {
     const { postBookedBook, putLibraryBook } = useBooks()
     loading.value = true
     isOpen.value = false
+    error.value = null
     try {
-        await postBookedBook({
-            libraryBookId: selectedLib.value,
-            userId: user._object.$sauth_user.id
-        })
         await putLibraryBook({
             libraryBookId: selectedLib.value,
             value: -1
         })
-    } catch (error) {
-        console.log(error)
-    } finally {
+        await postBookedBook({
+            libraryBookId: selectedLib.value,
+            userId: user._object.$sauth_user.id
+        })
         toast.add({
             title: 'Вы забронировали книгу:',
             description: '' + book.value.title + '',
-            icon: 'i-mdi-check'
+            icon: 'i-heroicons-check-circle'
         })
+    } catch (err) {
+        console.log(err.statusMessage)
+        toast.add({
+            title: 'Ошибка:',
+            description: '' + err.statusMessage + '',
+            icon: 'i-heroicons-x-circle',
+            color: 'red'
+        })
+    } finally {
+       
+        
         loading.value = false
     }
 }

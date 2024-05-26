@@ -15,16 +15,9 @@ const { fetchLibraryBooks, loading, error } = useBooks()
 
 const searchBooks = ref([])
 const route = useRoute()
-// const searchQuery = computed(() => route.query.q)
 
-// const {useAuthUser} = useAuth()
 const user = useState('auth_user')
 
-
-// watch(searchQuery, () => {
-//   console.log("route changed")
-//   getBooks()
-// })
 
 async function getBooks() {
 

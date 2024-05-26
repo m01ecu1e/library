@@ -8,6 +8,7 @@ export const libraryBookTransformer = (book) => {
         title: book.book.title,
         author: book.book.author.name,
         publisher: book.book.publisher.name,
-        library: book.library.name
+        library: book.library.name,
+        coverImage: book.book.coverImage
     }
 }

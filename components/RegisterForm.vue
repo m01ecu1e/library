@@ -1,52 +1,57 @@
 <template>
-  <UForm :schema="schema" :state="data" @submit="handleRegister" class="pt-5 space-y-4 shadow-lg my-5 px-8 pb-6 rounded-lg bg-white">
-    <UFormGroup name="firstName" size="lg">
-      <UInput v-model="data.firstName" placeholder="Имя"/>
-    </UFormGroup>
-
-    <UFormGroup name="lastName" size="lg">
-      <UInput v-model="data.lastName" placeholder="Фамилия"/>
-    </UFormGroup>
-
-    <UFormGroup name="email" size="lg">
-      <UInput v-model="data.email" placeholder="Email"/>
-    </UFormGroup>
-
-    <UFormGroup name="password" size="lg">
-      <UInput v-model="data.password" type="password" placeholder="Пароль" />
-    </UFormGroup>
-
-    <UFormGroup name="repeatPassword" size="lg" >
-      <UInput v-model="data.repeatPassword" type="password" placeholder="Повторите пароль" />
-    </UFormGroup>
-
-    <UButton type="submit" size="lg" class="text-md">
-      Зарегистрироваться
-    </UButton>
-    <div class="text-gray-400">Уже есть аккаунт?</div>
-    <NuxtLink to="/AuthPage" class=" hover:text-sky-600">
-      Войти
-    </NuxtLink>
-  </UForm>
+  <UContainer class="w-1/4">
+    <UForm :schema="schema" :state="data" @submit="handleRegister" class="pt-5 space-y-4 shadow-lg my-5 px-8 pb-6 rounded-lg bg-white">
+      <UFormGroup name="firstName" size="lg">
+        <UInput v-model="data.firstName" placeholder="Имя" @input="clearError"/>
+      </UFormGroup>
+  
+      <UFormGroup name="lastName" size="lg">
+        <UInput v-model="data.lastName" placeholder="Фамилия" @input="clearError"/>
+      </UFormGroup>
+  
+      <UFormGroup name="email" size="lg">
+        <UInput v-model="data.email" placeholder="Email" @input="clearError"/>
+      </UFormGroup>
+  
+      <UFormGroup name="password" size="lg">
+        <UInput v-model="data.password" type="password" placeholder="Пароль" @input="clearError"/>
+      </UFormGroup>
+  
+      <UFormGroup name="repeatPassword" size="lg" >
+        <UInput v-model="data.repeatPassword" type="password" placeholder="Повторите пароль" @input="clearError"/>
+      </UFormGroup>
+      <div v-if="error" class="text-red-500">
+        {{ error }}
+      </div>      
+      <UButton type="submit" size="lg" class="text-md">
+        Зарегистрироваться
+      </UButton>
+      <div class="text-gray-400">Уже есть аккаунт?</div>
+      <NuxtLink to="/AuthPage" class=" hover:text-sky-600">
+        Войти
+      </NuxtLink>
+      
+    </UForm>
+  </UContainer>
 </template>
 
 <script setup>
 import { object, string } from 'yup'
+const error = ref()
 
 const schema = object({
-  email: string().email('Неверный email').required('Required'),
+  email: string().email('Неверный формат email').required('Обязательное поле'),
   password: string()
-    .min(3,'Не менее 3 символов')
-    .required('Required'),
+    .min(3,'Пароль должен быть не менее 3 символов')
+    .required('Обязательное поле'),
   firstName: string()
     .min(2,'Некорректное имя')
-    .required('Required'),
+    .required('Обязательное поле'),
   lastName :string()
     .min(2,'Некорректная фамилия')
-    .required('Required'),
+    .required('Обязательное поле'),
 })
 
-const error = ref()
 const toast = useToast()
 
 const data = reactive({
@@ -59,11 +64,15 @@ const data = reactive({
   loading: false
 })
 
+function clearError() {
+  error.value = null
+}
+
 async function handleRegister() {
   // console.log("reg")
   const { register } = useAuth()
   data.loading = true
-  // error.value = null
+  error.value = null
 
   try {
     await register({

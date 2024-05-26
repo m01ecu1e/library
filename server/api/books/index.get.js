@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
             include: {
                 author: true,
                 publisher: true,
-
                 _count: {
                     select: {
                         LibraryBook: true

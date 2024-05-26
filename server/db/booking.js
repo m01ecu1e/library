@@ -16,7 +16,7 @@ export const getBookedBooks = (params = {}) => {
 export const generateOrderCode = (userUuid, bookUuid) => {
     const combined = userUuid + bookUuid
     const hash = crypto.createHash('sha256').update(combined).digest('hex')
-    return hash.substring(0, 9) // Берем первые 8 символов хэша
+    return hash.substring(0, 9) // Первые 8 символов хэша
 }
 
 export const putBookedBook = (params) => {
@@ -27,6 +27,12 @@ export const putBookedBook = (params) => {
 
 export const deleteBookedBook = (params) => {
     return prisma.bookedBooks.delete({
+        ...params
+    })
+}
+
+export const getOrderByUserIdAndBookId = (params) => {
+    return prisma.bookedBooks.findUnique({
         ...params
     })
 }

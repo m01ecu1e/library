@@ -1,5 +1,5 @@
 <template>
-  <UCard>
+  <UCard class="">
     <template #header>
       <Placeholder class="h-8" />
       <NuxtLink :to="bookUrl">
@@ -13,8 +13,10 @@
 
     <Placeholder class="h-32" />
     <div class="flex">
-      <div class="h-40 w-1/6 content-center border">
-        <img src="/hard-cover-book.png">
+      <div class="h-50 w-1/6 content-center border border-gray-400 shadow-lg">
+        <!-- <img src="/hard-cover-book.png"> -->
+        <img :src="props.book.coverImage" alt="Обложка книги">
+        <!-- {{ props.book.coverImage }} -->
       </div>
       <div class="h-40 w-full pl-5 content-center">
         <div class="flex">
@@ -28,11 +30,17 @@
 
     </div>
 
-    <template #footer>
-      <div class="h-1 grid content-center">
-        В наличии в {{ props.book.libraryBookCount }} библиотеках
+    <template #footer v-if="props.book.libraryBookCount > 0" class="justify-start">
+      <div class="h-4 grid grid-cols-12 content-center w-1/2">
+        <p class="col-span-3 content-center ">В наличии в </p>
+        <p class="col-span-1 text-green-600 font-bold">[{{ props.book.libraryBookCount }}]</p>
+        <p class="col-span-8">библиотеках</p>
       </div>
-      <Placeholder class="h-8" />
+    </template>
+    <template #footer v-if="props.book.libraryBookCount == 0">
+      <div class="h-1 grid content-center font-semibold text-red-600">
+        Нет в наличии
+      </div>
     </template>
   </UCard>
 </template>

@@ -86,7 +86,7 @@ export default () => {
     })
   }
 
-  const postBook = ({ publisherId, authorId, title }) => {
+  const postBook = ({ publisherId, authorId, title, coverImage }) => {
     return new Promise(async (resolve, reject) => {
       try {
         await $fetch('/api/books', {
@@ -94,7 +94,8 @@ export default () => {
           body: {
             publisherId,
             authorId,
-            title
+            title,
+            coverImage
           }
         })
 

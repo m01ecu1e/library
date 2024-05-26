@@ -4,12 +4,13 @@ export default defineEventHandler(async (event) => {
    
     const body = await readBody(event)
 
-    const{ publisherId, authorId, title,  } = body
+    const{ publisherId, authorId, title, coverImage  } = body
 
     const bookData = {
         publisherId,
         authorId,
-        title
+        title,
+        coverImage
     }
 
     if (!publisherId || !authorId || !title) {

@@ -21,10 +21,36 @@ export default defineEventHandler(async (event) => {
     }))
   }
 
-  if (!await getLibraryBookById(bookData.libraryBookId)) {
-    return {
-      book: "Book does not exist"
+  const libraryBook = await getLibraryBookById(bookData.libraryBookId)
+
+  if (!libraryBook) {
+    return sendError(event, createError({
+      statusCode: 400,
+      statusMessage: 'Book doesnt exists'
+    }))
+  }
+
+  if(libraryBook.amountAvailable == 0) {
+    return sendError(event, createError({
+      statusCode: 400,
+      statusMessage: 'No available books'
+    }))
+  }
+
+  const query = {
+    where: {
+      AND: [
+        {libraryBookId: bookData.libraryBookId},
+        {userId: bookData.userId}
+      ]
     }
+  }
+
+  if(await getBookedBooks(query) != 0) {
+    return sendError(event, createError({
+      statusCode: 400,
+      statusMessage: 'You cant order the same book twice'
+    }))
   }
 
   // Создание orderCode

@@ -1,25 +1,28 @@
 <template>
-  <UForm :schema="schema" :state="data" @submit="handleLogin"
-    class="pt-5 space-y-4 shadow-lg my-5 px-8 pb-6 rounded-lg bg-white">
+  <UContainer class="w-1/4">
 
-    <UFormGroup name="email" size="lg">
-      <UInput v-model="data.email" placeholder="Email" />
-    </UFormGroup>
-
-    <UFormGroup name="password" size="lg">
-      <UInput v-model="data.password" type="password" placeholder="Пароль" />
-    </UFormGroup>
-
-    <UButton type="submit" size="lg" class="text-md">
-      Войти
-    </UButton>
-    <div class="ml-2 text-gray-400">
-      Нет аккаунта?
-    </div>
-    <NuxtLink to="/Register" class="m-2 hover:text-sky-600">
-      Зарегистрироваться
-    </NuxtLink>
-  </UForm>
+    <UForm :schema="schema" :state="data" @submit="handleLogin"
+      class="pt-5 space-y-4 shadow-lg my-5 px-8 pb-6 rounded-lg bg-white">
+  
+      <UFormGroup name="email" size="lg">
+        <UInput v-model="data.email" placeholder="Email" />
+      </UFormGroup>
+  
+      <UFormGroup name="password" size="lg">
+        <UInput v-model="data.password" type="password" placeholder="Пароль" />
+      </UFormGroup>
+  
+      <UButton type="submit" size="lg" class="text-md">
+        Войти
+      </UButton>
+      <div class="ml-2 text-gray-400">
+        Нет аккаунта?
+      </div>
+      <NuxtLink to="/Register" class="m-2 hover:text-sky-600">
+        Зарегистрироваться
+      </NuxtLink>
+    </UForm>
+  </UContainer>
 
 </template>
 
@@ -27,8 +30,8 @@
 import { object, string } from 'yup'
 
 const schema = object({
-  email: string().email('Неверный email').required('Required'),
-  password: string().required('Required'),
+  email: string().email('Неверный формат email').required('Обязательное поле'),
+  password: string().required('Введите пароль'),
 })
 
 const error = ref()

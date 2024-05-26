@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   const libraryBook = await getLibraryBookById(libraryBookId)
 
-  if (libraryBook.amountAvailable < 1 && value < 0) {
+  if (libraryBook.amountAvailable == 0 && value == -1) {
     return sendError(event, createError({
       statusCode: 400,
       statusMessage: 'Book is not available'

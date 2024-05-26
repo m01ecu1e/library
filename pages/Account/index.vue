@@ -21,17 +21,26 @@
       </div>
       <div>
         <div v-if="bookedBooks" v-for="bookedBook in bookedBooks">
-          <p class="font">
+          <div class="cursor-pointer" @click="openModal(bookedBook.orderCode)">
+            <p>
               {{ bookedBook.libraryBook.book.title }},
               {{ bookedBook.libraryBook.book.author.name }},
               {{ bookedBook.libraryBook.book.publisher.name }}
               </p>
-          <p class="flex">Номер заказа: <p class="font-semibold mx-2">{{ bookedBook.orderCode }}</p> Никому его не сообщайте</p>
+              <p class="flex" >
+            Номер заказа: <p class="font-semibold mx-2">{{ bookedBook.orderCode }}</p> Никому его не сообщайте
+          </p>
           <p v-if="bookedBook.received == false" class="text-sky-600 font-semibold"> Забронирована</p>
           <p v-else class="text-green-600 font-semibold">Выдана</p>
-          <br>
+          </div>
         </div>
       </div>
+      <UModal v-model="isModalOpen">
+        <div class="p-4">
+          <canvas ref="qrcodeCanvas"></canvas>
+          <!-- <p>https://libpnz.netlify.app/Admin/{{ selectedOrderCode }} ({{ selectedOrderCode }})</p> -->
+        </div>
+      </UModal>
     </UContainer>
   </UContainer>
 
@@ -39,10 +48,31 @@
 </template>
 
 <script setup>
+import QRCode from 'qrcode'
+
 const loading = ref(false)
 
 const { fetchBookedBooks } = useBooks()
 const bookedBooks = ref([])
+
+const isModalOpen = ref(false)
+const selectedOrderCode = ref('')
+const qrcodeCanvas = ref(null)
+
+function openModal(orderCode) {
+  selectedOrderCode.value = orderCode
+  isModalOpen.value = true
+}
+
+watch(isModalOpen, async (newValue) => {
+  if (newValue) {
+    await nextTick()
+    QRCode.toCanvas(qrcodeCanvas.value, `https://libpnz.netlify.app/Admin/${selectedOrderCode.value}`, (error) => {
+      if (error) console.error(error)
+    })
+  }
+})
+
 
 // const { useAuthUser, initAuth, useAuthLoading } = useAuth()
 
