@@ -24,12 +24,14 @@ export default defineEventHandler(async (event) => {
                         author: {
                             name: {
                                 search: query.trim().split(" ").join(" & "),
+                                mode: 'insensitive'
                             }
                         }
                     },
                     {
                         title: {
                             search: query.trim().split(" ").join(" & "),
+                            mode: 'insensitive'
                         }
                     }
                 ]
@@ -37,12 +39,12 @@ export default defineEventHandler(async (event) => {
         }
         const books = []
 
-        
+
         books[0] = await getBooks(prismaQuery)
         books[1] = await getBooksCount({
             where: prismaQuery.where
         });
-        
+
         return {
             books: books[0].map(bookTransformer),
             total: books[1]

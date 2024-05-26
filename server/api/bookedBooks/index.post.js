@@ -51,21 +51,20 @@ export default defineEventHandler(async (event) => {
       statusCode: 400,
       statusMessage: 'You cant order the same book twice'
     }))
+  } else {
+    bookData.orderCode = generateOrderCode(userId, libraryBookId)
+    const bookedBook = await createBookedBook(bookData)
+    return {
+      book: bookedBook
+    }
   }
 
   // Создание orderCode
-  bookData.orderCode = generateOrderCode(userId, libraryBookId)
 
-  // Проверка уникальности orderCode
-  // const existingBookedBooks = await getBookedBooks()
-  // while (existingBookedBooks.some(book => book.orderCode === bookData.orderCode)) {
-  //   bookData.orderCode = generateOrderCode(userId, libraryBookId + Math.random())
-  // }
 
-  const bookedBook = await createBookedBook(bookData)
+  
 
-  return {
-    book: bookedBook
-  }
+
+  // return await getBookedBooks(query) != 0
 
 })

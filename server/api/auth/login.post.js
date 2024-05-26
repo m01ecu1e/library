@@ -23,10 +23,15 @@ export default defineEventHandler(async (event) => {
   const user = await getUserByEmail(email)
 
   if(!user) {
-    return sendError(event, createError({
+    // return sendError(event, createError({
+    //   statusCode:400,
+    //   statusMessage: 'There is no user with this email'
+    // }))
+    throw createError({
       statusCode:400,
-      statusMessage: 'There is no user with this email'
-    }))
+      statusMessage:'Username or password is invalid',
+      message:'Пользователь не зарегистрирован'
+    })
   }
 
   // Compare password
@@ -34,10 +39,15 @@ export default defineEventHandler(async (event) => {
   const doesThePasswordMatch = await bcrypt.compare(password, user.password)
     
   if(!doesThePasswordMatch) {
-      return sendError(event, createError({
-          statusCode: 400,
-          statusMessage: 'Username or password is invalid'
-      }))
+      // return sendError(event, createError({
+      //     statusCode: 400,
+      //     message: 'Username or password is invalid',
+      // }))
+      throw createError({
+        statusCode:400,
+        statusMessage:'Username or password is invalid',
+        message:'Неверный пароль или email'
+      })
   }
 
   //Generate tokens

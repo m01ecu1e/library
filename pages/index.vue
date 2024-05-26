@@ -14,7 +14,7 @@
 const { fetchLibraryBooks, loading, error } = useBooks()
 
 const searchBooks = ref([])
-const route = useRoute()
+// const route = useRoute()
 
 const user = useState('auth_user')
 

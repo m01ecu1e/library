@@ -36,7 +36,8 @@ export default () => {
 
         resolve(true)
       } catch (error) {
-        reject(error)
+        // console.log("err:", error.data)
+        reject(error.data)
       }
     })
   }

@@ -14,7 +14,7 @@
 
 
     <div class="h-50 flex justify-center content-center ">
-      <div class="border border-gray-400 shadow-xl">
+      <div class="border border-gray-500 shadow-xl">
         <img :src="props.book.coverImage" alt="Обложка">
       </div>
     </div>

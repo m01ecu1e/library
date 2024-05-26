@@ -21,7 +21,7 @@
       </div>
       <div>
         <div v-if="bookedBooks" v-for="bookedBook in bookedBooks">
-          <div class="cursor-pointer" @click="openModal(bookedBook.orderCode)">
+          <div class="cursor-pointer mb-5" @click="openModal(bookedBook.orderCode)">
             <p>
               {{ bookedBook.libraryBook.book.title }},
               {{ bookedBook.libraryBook.book.author.name }},

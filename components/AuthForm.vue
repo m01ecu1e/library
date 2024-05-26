@@ -58,16 +58,17 @@ async function handleLogin() {
     })
     navigateTo('/')
   } catch (err) {
-    if (err.statusMessage) {
-      error.value = err.statusMessage
+    if (err.message) {
+      // console.log(err.message)
+      error.value = err.message
       toast.add({
             title: 'Ошибка:',
-            description: '' + err.statusMessage + '',
+            description: '' + error.value + '',
             icon: 'i-heroicons-x-circle',
             color: 'red'
         })
     } else {
-      error.value = 'An unexpected error occurred'
+      error.value = 'Что-то пошло не так :/'
     }
   } finally {
     data.loading = false
