@@ -91,17 +91,23 @@ async function handleRegister() {
         })
     // navigateTo('/AuthPage')
   } catch (err) {
-    if (err.statusMessage) {
-      error.value = err.statusMessage
+    if (err.message) {
+      error.value = err.message
       toast.add({
             title: 'Ошибка:',
-            description: '' + err.statusMessage + '',
+            description: '' + error.value + '',
             icon: 'i-heroicons-x-circle',
             color: 'red'
         })
     } 
     else {
-      error.value = 'An unexpected error occurred'
+      error.value = 'Что-то пошло не так :/'
+      toast.add({
+            title: 'Ошибка:',
+            description: '' + error.value + '',
+            icon: 'i-heroicons-x-circle',
+            color: 'red'
+        })
     }
   } finally {
     data.loading = false

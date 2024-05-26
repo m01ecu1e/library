@@ -1,5 +1,5 @@
 <template>
-  <UCard class="max-w-80">
+  <UCard class="w-full">
     <h3 class="mb-4">Добавить книгу:</h3>
     <form
           @submit="handleAddBook"
@@ -69,7 +69,8 @@
         :disabled="loading"
         accept="image/*"
         @change="handleFileUpload"
-        class="mb-2"
+        class="mb-2 hover:bg-red-200"
+        
         size="xl"
         />
         <UButton

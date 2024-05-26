@@ -1,5 +1,5 @@
-<template class="bg-gray-100">
-  <UContainer class="max-w-full">
+<template>
+  <UContainer class="max-w-full max-h-full">
     <Header :user="user"></Header>
   </UContainer>
   <UNotifications />

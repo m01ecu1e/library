@@ -80,7 +80,7 @@ export default () => {
         resolve(response)
 
       } catch (error) {
-        reject(error)
+        reject(error.data)
       }
     })
   }
@@ -94,7 +94,7 @@ export default () => {
         resolve(response)
 
       } catch (error) {
-        reject(error)
+        reject(error.data)
       }
     })
   }
@@ -114,7 +114,7 @@ export default () => {
 
         resolve(true)
       } catch (error) {
-        reject(error)
+        reject(error.data)
       }
     })
   }
@@ -133,7 +133,7 @@ export default () => {
         })
         resolve(true)
       } catch (error) {
-        reject(error)
+        reject(error.data)
       }
     })
   }
@@ -150,7 +150,7 @@ export default () => {
         })
         resolve(true)
       } catch (error) {
-        reject(error)
+        reject(error.data)
       }
     })
   }
@@ -167,7 +167,7 @@ export default () => {
 
         resolve(true)
       } catch (error) {
-        reject(error)
+        reject(error.data)
       }
     })
   }
@@ -184,7 +184,7 @@ export default () => {
 
         resolve(true)
       } catch (error) {
-        reject(error)
+        reject(error.data)
       }
     })
   }
@@ -202,7 +202,7 @@ export default () => {
 
         resolve(true)
       } catch (error) {
-        reject(error)
+        reject(error.data)
       }
     })
   }

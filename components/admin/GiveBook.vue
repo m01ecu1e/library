@@ -1,5 +1,5 @@
 <template>
-  <UCard class="max-w-80">
+  <UCard class="w-full">
     <h3 class="mb-4">Выдать книгу</h3>
     <form class="flex flex-col">
       <UInputMenu 

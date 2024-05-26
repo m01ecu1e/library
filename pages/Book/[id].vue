@@ -151,10 +151,10 @@ async function handleBooking() {
             icon: 'i-heroicons-check-circle'
         })
     } catch (err) {
-        console.log(err.statusMessage)
+        // console.log(err.statusMessage)
         toast.add({
             title: 'Ошибка:',
-            description: '' + err.statusMessage + '',
+            description: '' + err.message + '',
             icon: 'i-heroicons-x-circle',
             color: 'red'
         })

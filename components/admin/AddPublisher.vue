@@ -1,5 +1,5 @@
 <template>
-  <UCard class="max-w-80">
+  <UCard class="w-full">
     <h3 class="mb-4">Добавить издательство:</h3>
     <form
       @submit="handleAddPublisher"
