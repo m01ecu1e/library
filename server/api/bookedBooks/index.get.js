@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
     include: {
       libraryBook: {
         include: {
+          library:true,
           book: {
             include: {
               author:true,

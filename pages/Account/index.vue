@@ -28,7 +28,7 @@
               {{ bookedBook.libraryBook.book.publisher.name }}
               </p>
               <p class="flex" >
-            Номер заказа: <p class="font-semibold mx-2">{{ bookedBook.orderCode }}</p> Никому его не сообщайте
+            Библиотека: <p class="font-semibold mx-2">{{ bookedBook.libraryBook.library.name }}</p> {{ bookedBook.libraryBook.library.info}}
           </p>
           <p v-if="bookedBook.received == false" class="text-sky-600 font-semibold"> Забронирована</p>
           <p v-else class="text-green-600 font-semibold">Выдана</p>
@@ -67,7 +67,7 @@ function openModal(orderCode) {
 watch(isModalOpen, async (newValue) => {
   if (newValue) {
     await nextTick()
-    QRCode.toCanvas(qrcodeCanvas.value, `https://libpnz.netlify.app/Admin/${selectedOrderCode.value}`, (error) => {
+    QRCode.toCanvas(qrcodeCanvas.value, `https://libpnz.netlify.app/Admin/Order/${selectedOrderCode.value}`, (error) => {
       if (error) console.error(error)
     })
   }

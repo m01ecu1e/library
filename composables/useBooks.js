@@ -72,6 +72,19 @@ export default () => {
     }
   }
 
+  const getOrderByCode = (orderCode) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await useFetchApi(`/api/bookedBooks/${orderCode}`)
+
+        resolve(response)
+
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
 
   const getBookById = (bookId) => {
     return new Promise(async (resolve, reject) => {
@@ -207,6 +220,7 @@ export default () => {
     fetchBookedBooks,
     giveOrder,
     putLibraryBook,
-    takeOrder
+    takeOrder,
+    getOrderByCode
   }
 }
