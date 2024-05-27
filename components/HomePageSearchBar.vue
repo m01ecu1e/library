@@ -4,7 +4,7 @@
       <form @submit="handleSearch" class="flex flex-row justify-center h-8 mx-5 my-10">
         <UInput v-model="search" :loading="loading"
           class=" basis-8/12 rounded-md h-full text-md"
-          placeholder="Название, автор, тема, издательство" />
+          placeholder="Название, автор, тема, издательство" required/>
         <UButton type="submit" onSubmit="handleSearch"
           class="basis-1/12 text-white text-md px-5 ml-4">
           Найти

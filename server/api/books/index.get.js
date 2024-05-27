@@ -5,6 +5,10 @@ export default defineEventHandler(async (event) => {
 
     const { query, skip, take } = getQuery(event)
 
+    if(!query) {
+        return
+    }
+
     if (query) {
         let prismaQuery = {
             include: {

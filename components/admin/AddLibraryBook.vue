@@ -2,6 +2,7 @@
   <UCard class="w-full">
     <h3 class="mb-4">Добавить книгу в выбранную библиотеку:</h3>
     <form
+          @submit="handleAddLibraryBook"
           class="flex flex-col"
         >
         <USelectMenu
@@ -12,6 +13,7 @@
             option-attribute="name"
             class="mb-2"
             size="xl"
+            required
         />
           <UInputMenu
             v-model="selectedBook"
@@ -24,6 +26,7 @@
             option-attribute="title"
             trailing
             by="id"
+            required
           >
           <template #option="{ option: book }">
           <div class="flex-1">
@@ -50,7 +53,7 @@
             placeholder="Количество экземпляров (ВСЕГО)"
             v-model="amount"
             class="mb-2"
-            required
+          
             size="xl"
           />
         <UInput
@@ -59,7 +62,7 @@
             placeholder="Количество экз., доступных для брони"
             v-model="amountAvailable"
             class="mb-2"
-            required
+           
             size="xl"
         />
         <UButton
@@ -105,7 +108,7 @@ const searchBooks = async (q) => {
   })
   //console.log(response.books)
   books.value = response.books
-  console.log(books.value)
+  // console.log(books.value)
   loading.value = false
   return books.value
 }
@@ -150,8 +153,8 @@ async function handleAddLibraryBook() {
     loading.value = false
 
   }
-  console.log("lib:", selectedLib.value)
-  console.log(selectedBook.value)
+  // console.log("lib:", selectedLib.value)
+  // console.log(selectedBook.value)
 }
 
 const getLibs = async (q) => {
@@ -162,7 +165,7 @@ const getLibs = async (q) => {
   const response = await fetchLibs()
 
   libs.value = response.libraries
-  console.log(libs.value)
+  // console.log(libs.value)
   loading.value = false
   return libs.value
 }
