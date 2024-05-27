@@ -79,6 +79,8 @@
 const amount = ref()
 const amountAvailable = ref()
 
+const toast = useToast()
+
 const books = ref([])
 const libs = ref([])
 
@@ -118,8 +120,32 @@ async function handleAddLibraryBook() {
       amountAvailable: Number(amountAvailable.value),
       libraryId: selectedLib.value
     })
-  } catch (error) {
-    console.log(error)
+    toast.add({
+            title: 'Успешно:',
+            description: 'Книга добавлена в библиотеку',
+            icon: 'i-heroicons-check-circle',
+            color: 'green'
+        })
+  } catch (err) {
+    // console.log(error)
+    if (err.message) {
+      // console.log(err.message)
+      error.value = err.message
+      toast.add({
+            title: 'Ошибка:',
+            description: '' + error.value + '',
+            icon: 'i-heroicons-x-circle',
+            color: 'red'
+        })
+      } else {
+        error.value = 'Что-то пошло не так :/'
+        toast.add({
+            title: 'Ошибка:',
+            description: '' + error.value + '',
+            icon: 'i-heroicons-x-circle',
+            color: 'red'
+        })
+      }
   } finally {
     loading.value = false
 

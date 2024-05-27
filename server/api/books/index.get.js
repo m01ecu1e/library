@@ -33,6 +33,13 @@ export default defineEventHandler(async (event) => {
                             search: query.trim().split(" ").join(" & "),
                             mode: 'insensitive'
                         }
+                    },
+                    {
+                        publisher: {
+                            name: {
+                                search: query.trim().split(" ").join(" & "),
+                            }
+                        }
                     }
                 ]
             }

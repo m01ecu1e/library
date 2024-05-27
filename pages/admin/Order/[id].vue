@@ -1,6 +1,6 @@
 <template>
-  <UContainer v-if="order" class=" rounded-lg w-2/3 py-5">
-    <UCard class="px-20 shadow-lg">
+  <UContainer v-if="user.admin" class=" rounded-lg w-2/3 py-5">
+    <UCard v-if="order" class="px-20 shadow-lg">
       <template #header>
         <div class="font-semibold text-xl">
           {{ order[0].orderCode }}
@@ -16,6 +16,9 @@
           </div>
           <div class="flex">
             Издательство: <p class="ml-2 font-semibold"> {{ order[0].libraryBook.book.publisher.name }}</p>
+          </div>
+          <div class="flex">
+            ISBN: <p class="ml-2 font-semibold"> {{ order[0].libraryBook.book.ISBN }}</p>
           </div>
           <div class="flex">
             Количество всего: <p class="ml-2 font-semibold"> {{ order[0].libraryBook.amount }}</p>

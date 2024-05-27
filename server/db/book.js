@@ -58,6 +58,25 @@ export const getBookByInfo = (bookData) => {
     })
 }
 
+export const getLibraryBookByInfo = (bookData) => {
+    return prisma.libraryBook.findFirst({
+        // include: {
+        //     author: true,
+        //     publisher: true
+        // },
+        where: {
+            AND: [
+                {
+                    bookId: bookData.bookId
+                },
+                {
+                    libraryId: bookData.libraryId
+                },
+            ]
+        }
+    })
+}
+
 export const getBookById = (bookId) => {
     return prisma.books.findUnique({
         where: {
@@ -76,11 +95,15 @@ export const getBookById = (bookId) => {
 }
 
 export const getLibraryBookById = (bookId) => {
-    return prisma.libraryBook.findUnique({
-        where: {
-            id: bookId
-        }
-    })
+    try {
+        return prisma.libraryBook.findUnique({
+            where: {
+                id: bookId
+            }
+        })
+    } catch(err) {
+        // return err
+    }
 }
 
 export const putLibraryBook = (params) => {

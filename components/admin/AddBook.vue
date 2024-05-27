@@ -5,9 +5,9 @@
           @submit="handleAddBook"
           class="flex flex-col"
         >
-            <UInput
+          <UInput
             type="text"
-            :disabled="loading"
+            :disabled="bookLoading"
             placeholder="Название"
             v-model="title"
             class="mb-2"
@@ -18,13 +18,14 @@
             v-model="selectedAuthor"
             :search="searchAuthors"
             :options="authors"
-            :loading="loading"
+            :loading="bookLoading"
             size="xl"
             class="w-96 max-w-full mb-2"
             placeholder="Автор"
             option-attribute="name"
             trailing
             by="id"
+            required
           >
           </UInputMenu>
           <div v-if="false">
@@ -39,17 +40,52 @@
           </div>
         </div>
     
+        <UInput
+          type="text"
+          :disabled="bookLoading"
+          placeholder="Год издания"
+          v-model="year"
+          class="mb-2"
+          size="xl"
+          />
+          <!-- <UInput
+          type="text"
+          :disabled="bookLoading"
+          placeholder="Дополнительная информация"
+          v-model="info"
+          class="mb-2"
+          size="xl"
+          /> -->
+        <UTextarea
+        autoresize
+        type="text"
+          :disabled="bookLoading"
+          placeholder="Дополнительная информация"
+          v-model="info"
+          class="mb-2"
+          size="xl"
+        />
+        <UInput
+          type="text"
+          :disabled="bookLoading"
+          placeholder="ISBN"
+          v-model="ISBN"
+          class="mb-2"
+          size="xl"
+        />
+
         <UInputMenu
             v-model="selectedPublisher"
             :search="searchPublishers"
             :options="publishers"
-            :loading="loading"
+            :loading="bookLoading"
             size="xl"
             class="w-96 max-w-full mb-2"
             placeholder="Издательство"
             option-attribute="name"
             trailing
             by="id"
+            required
           >
           </UInputMenu>
           <div v-if="false">
@@ -66,17 +102,17 @@
 
         <UInput
         type="file"
-        :disabled="loading"
+        :disabled="bookLoading"
         accept="image/*"
         @change="handleFileUpload"
         class="mb-2 hover:bg-red-200"
-        
+        required
         size="xl"
         />
         <UButton
         type="submit"
-        :loading="loading"
-        :disabled="loading"
+        :loading="bookLoading"
+        :disabled="bookLoading"
         @submit="handleAddBook"
         class="justify-center"
       >
@@ -89,13 +125,17 @@
 
 // const authorQuery = ref()
 // const publisherQuery = ref()
-
+const toast = useToast()
 const title = ref('')
+const year = ref('')
+const ISBN = ref('')
+const info = ref('')
 
 const authors = ref([])
 const publishers = ref([])
 
-const loading = ref(false)
+const bookLoading = ref(false)
+const error = ref()
 
 const selectedAuthor = ref()
 const selectedPublisher = ref()
@@ -104,7 +144,7 @@ const coverImage = ref('')
 const searchAuthors = async (q) => {
   if (q === '') return []
 
-  loading.value = true
+  bookLoading.value = true
 
   const response = await $fetch('/api/authors/', {
     method: 'GET',
@@ -114,15 +154,15 @@ const searchAuthors = async (q) => {
   })
   
   authors.value = response
-  console.log(authors.value)
-  loading.value = false
+  // console.log(authors.value)
+  bookLoading.value = false
   return authors.value
 }
 
 const searchPublishers = async (q) => {
   if (q === '') return []
 
-  loading.value = true
+  bookLoading.value = true
 
   const response = await $fetch('/api/publishers/', {
     method: 'GET',
@@ -132,12 +172,12 @@ const searchPublishers = async (q) => {
   })
   publishers.value = response
   
-  loading.value = false
+  bookLoading.value = false
   return publishers.value
 }
 
 const handleFileUpload = (event) => {
-  console.log(event[0])
+  // console.log(event[0])
   const file = event[0]
   if (file) {
     const reader = new FileReader()
@@ -151,23 +191,44 @@ const handleFileUpload = (event) => {
 
 async function handleAddBook() {
   const { postBook } = useBooks()
-  loading.value = true
+  bookLoading.value = true
   try {
     await postBook({
       publisherId: selectedPublisher.value.id,
       authorId: selectedAuthor.value.id,
       title: title.value,
+      year: year.value,
+      info: info.value,
+      ISBN: ISBN.value,
       coverImage: coverImage.value
     })
-  } catch (error) {
+  } catch (err) {
     console.log(error)
+    if (err) {
+      // console.log(err.message)
+      error.value = err.message
+      toast.add({
+            title: 'Ошибка:',
+            description: '' + error.value + '',
+            icon: 'i-heroicons-x-circle',
+            color: 'red'
+        })
+    } else {
+      error.value = 'Что-то пошло не так :/'
+      toast.add({
+            title: 'Ошибка:',
+            description: '' + error.value + '',
+            icon: 'i-heroicons-x-circle',
+            color: 'red'
+        })
+    }
   } finally {
-    loading.value = false
+    bookLoading.value = false
 
   }
-  console.log(selectedAuthor.value.id)
-  console.log(selectedPublisher.value.id)
-  console.log(title.value)
+  // console.log(selectedAuthor.value.id)
+  // console.log(selectedPublisher.value.id)
+  // console.log(title.value)
 }
 
 </script>

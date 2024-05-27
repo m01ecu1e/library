@@ -99,7 +99,7 @@ export default () => {
     })
   }
 
-  const postBook = ({ publisherId, authorId, title, coverImage }) => {
+  const postBook = ({ publisherId, authorId, title, year, info, ISBN, coverImage }) => {
     return new Promise(async (resolve, reject) => {
       try {
         await $fetch('/api/books', {
@@ -108,10 +108,12 @@ export default () => {
             publisherId,
             authorId,
             title,
+            year,
+            info,
+            ISBN,
             coverImage
           }
         })
-
         resolve(true)
       } catch (error) {
         reject(error.data)

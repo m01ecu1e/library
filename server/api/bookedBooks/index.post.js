@@ -13,21 +13,24 @@ export default defineEventHandler(async (event) => {
     received: false,
     orderCode: ''
   }
+  // console.log(libraryBookId)
 
-  if (!libraryBookId || !userId) {
-    return sendError(event, createError({
-      statusCode: 400,
-      statusMessage: 'Invalid params'
-    }))
+  if (!bookData.libraryBookId) {
+    throw createError({
+      statusCode:400,
+      statusMessage:'No available books',
+      message:'Сначала выберите библиотеку',
+    })
   }
-
+  
   const libraryBook = await getLibraryBookById(bookData.libraryBookId)
 
-  if (!libraryBook) {
-    return sendError(event, createError({
-      statusCode: 400,
-      statusMessage: 'Book doesnt exists'
-    }))
+  if (!await getLibraryBookById(bookData.libraryBookId)) {
+    throw createError({
+      statusCode:400,
+      statusMessage:'No available books',
+      message:'Что-то пошло не так :/'
+    })
   }
 
   if(libraryBook.amountAvailable == 0) {

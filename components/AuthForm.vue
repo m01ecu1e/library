@@ -11,6 +11,10 @@
       <UFormGroup name="password" size="lg">
         <UInput v-model="data.password" type="password" placeholder="Пароль" />
       </UFormGroup>
+
+      <div v-if="error" class="text-red-500">
+        {{ error }}
+      </div>  
   
       <UButton type="submit" size="lg" class="text-md">
         Войти

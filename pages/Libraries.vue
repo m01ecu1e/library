@@ -31,14 +31,14 @@ const { fetchLibs } = useLibrary()
 
 const libraries = await fetchLibs()
 
-console.log(libraries?.libraries)
+// console.log(libraries?.libraries)
 
 markers.value = libraries?.libraries.map(library => ({
   coordinates: [library.longitude, library.latitude],
   library
 }));
 
-console.log(markers.value)
+// console.log(markers.value)
 
 // function handleSelectLibrary(libraryId) {
 //   const selectedLibrary = libraryBooks.value.find(library => library.id === libraryId);
