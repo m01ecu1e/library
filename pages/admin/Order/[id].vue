@@ -1,5 +1,5 @@
 <template>
-  <UContainer v-if="user.admin" class=" rounded-lg w-2/3 py-5">
+  <UContainer v-if="user && user.admin" class=" rounded-lg w-2/3 py-5">
     <UCard v-if="order" class="px-20 shadow-lg">
       <template #header>
         <div class="font-semibold text-xl">
