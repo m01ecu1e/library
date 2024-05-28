@@ -1,6 +1,6 @@
 <template>
   <UCard class="w-full">
-    <h3 class="mb-4">Выдать книгу</h3>
+    <h3 class="mb-4">Выдать или принять книгу</h3>
     <form class="flex flex-col">
       <UInputMenu 
         v-model="selectedOrder" 
@@ -20,10 +20,10 @@
         </template>
       </UInputMenu>
       <UButton :loading="loading" :disabled="loading" @click="handleGiveOrder" size="xl" class="justify-center mb-5">
-        Выдать
+        Показать заказ
       </UButton>
 
-      <h3 class="mb-4">Принять книгу</h3>
+      <!-- <h3 class="mb-4">Принять книгу</h3>
       <UInputMenu 
         v-model="selectedTakeOrder" 
         :search="getBookedBooks" 
@@ -43,7 +43,7 @@
       </UInputMenu>
       <UButton :loading="loading" @click="handleTakeOrder" :disabled="loading" size="xl" class="justify-center">
         Принять
-      </UButton>
+      </UButton> -->
     </form>
   </UCard>
 </template>
@@ -74,18 +74,21 @@ const getBookedBooks = async (selectedOrder) => {
 }
 
 async function handleGiveOrder() {
-  loading.value = true
-  try {
-    await giveOrder({
-      orderId: selectedOrder.value.id
-    })
-  } catch (error) {
-    console.log(error)
-  } finally {
-    loading.value = false
+  // loading.value = true
+  useRouter().push({
+    path: `/Admin/Order/${selectedOrder.value.id}`,
+  })
+  // try {
+  //   await giveOrder({
+  //     orderId: selectedOrder.value.id
+  //   })
+  // } catch (error) {
+  //   console.log(error)
+  // } finally {
+  //   loading.value = false
 
-  }
-  console.log("order:", selectedOrder.value.id)
+  // }
+  console.log("order:", selectedOrder.value.orderCode)
 }
 
 async function handleTakeOrder() {

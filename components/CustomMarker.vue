@@ -9,7 +9,7 @@
       class="absolute left-full bottom-full mb-3 w-40 transform -translate-x-1/4 bg-white text-black text-xs p-2 border border-gray-400 rounded-lg shadow-lg">
       <p v-if="library.libraryName" class="font-semibold mb-2">{{ library.libraryName }}</p>
       <p v-else class="font-semibold mb-2">{{ library.name }}</p>
-      <p v-if="library.amountAvailable">Экземпляров: {{ library.amountAvailable }}</p>
+      <p v-if="library.amountAvailable">Экземпляров: {{ library.amountAvailable }} из {{ library.amount }}</p>
       <p v-if="library.Address" class="mb-2">{{ library.Address }}</p>
       <p v-if="library.info" class="">{{ library.info }}</p>
       <button v-if="library.amountAvailable > 0" @click="selectLibrary"

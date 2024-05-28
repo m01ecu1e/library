@@ -1,34 +1,17 @@
-import { getBookedBooks } from "~/server/db/booking"
+import { getBookedBooks, getOrderById } from "~/server/db/booking"
+
+
 export default defineEventHandler(async (event) => {
 
-  const { orderCode } = event.context.params
-
-  let prismaQuery = {
-    include: {
-      libraryBook: {
-        include: {
-          book: {
-            include: {
-              author: true,
-              publisher: true
-            }
-          }
-        }
-      }
-    },
-    where: {
-      orderCode: {
-        search: orderCode
-      }
-    }
-  }
+  const { id } = event.context.params
 
   try {
-    const orders = await getBookedBooks(prismaQuery)
+    const order = await getOrderById(id)
 
     return {
-      orders: orders
+      order: order
     }
+
   }
 
   catch (error) {

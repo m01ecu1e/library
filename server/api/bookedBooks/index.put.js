@@ -6,21 +6,17 @@ export default defineEventHandler(async (event) => {
 
   const { orderId } = body
 
-  // const libraryBook = await getLibraryBookById(libraryBookId)
-
-  // if (libraryBook.amountAvailable < 1 && value < 0) {
-  //   return sendError(event, createError({
-  //     statusCode: 400,
-  //     statusMessage: 'Book is not available'
-  //   }))
-  // }
+  const dueDate = new Date()
+  dueDate.setDate(dueDate.getDate() + 14)
 
   const prismaQuery = {
     where: {
       id: orderId,
     },
     data: {
-      received: true
+      received: true,
+      received_at: new Date(),
+      due_date: dueDate
     }
   }
 

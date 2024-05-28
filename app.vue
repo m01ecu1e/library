@@ -10,6 +10,7 @@
 </template>
 
 <script setup>
+// import '~/server/cron'
 
 const { useAuthUser, initAuth, useAuthLoading } = useAuth()
 // const isAuthLoading = useAuthLoading()

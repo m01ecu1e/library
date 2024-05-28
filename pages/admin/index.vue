@@ -16,6 +16,9 @@
       <template #AddPublisher>
         <AdminAddPublisher />
       </template>
+      <template #GiveBook>
+        <AdminGiveBook />
+      </template>
     
     </UAccordion>
   </UContainer>
@@ -48,6 +51,11 @@ const items = [
     label: 'Добавить издателя',
     defaultOpen: false,
     slot: 'AddPublisher'
+  },
+  {
+    label: 'Обработать заказ',
+    defaultOpen: false,
+    slot: 'GiveBook'
   }
 ]
 

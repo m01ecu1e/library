@@ -7,6 +7,8 @@ export default defineEventHandler(async (event) => {
 
     const { id } = event.context.params
 
+    console.log(id)
+
     const book = await getBookById(id)
 
     const query = {

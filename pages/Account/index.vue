@@ -20,20 +20,73 @@
         <h1 class="font-semibold text-xl mb-5 mt-5">Ваши книги:</h1>
       </div>
       <div>
-        <div v-if="bookedBooks" v-for="bookedBook in bookedBooks">
-          <div class="cursor-pointer mb-5" @click="openModal(bookedBook.orderCode)">
-            <p>
-              {{ bookedBook.libraryBook.book.title }},
-              {{ bookedBook.libraryBook.book.author.name }},
-              {{ bookedBook.libraryBook.book.publisher.name }}
+        <UCard v-if="bookedBooks" v-for="bookedBook in bookedBooks" class="">
+          <template #header>
+            <div class="font-semibold content-center">
+              Заказ номер {{ bookedBook.orderCode }}
+            </div>
+          </template>
+
+
+          <div class="flex cursor-pointer"@click="openModal(bookedBook.orderCode)">
+            <div class="w-40 ">
+              <img :src="bookedBook.libraryBook.book.coverImage" alt="Обложка книги">
+            </div>
+
+            <div class="w-full cursor-pointer mb-5 pl-5">
+              <p>
+                {{ bookedBook.libraryBook.book.title }},
+                {{ bookedBook.libraryBook.book.author.name }},
+                {{ bookedBook.libraryBook.book.publisher.name }}
               </p>
-              <p class="flex" >
-            Библиотека: <p class="font-semibold mx-2">{{ bookedBook.libraryBook.library.name }}</p> {{ bookedBook.libraryBook.library.info}}
-          </p>
-          <p v-if="bookedBook.received == false" class="text-sky-600 font-semibold"> Забронирована</p>
-          <p v-else class="text-green-600 font-semibold">Выдана</p>
+              <p class="flex">
+                Библиотека:
+              <p class="font-semibold mx-2">{{ bookedBook.libraryBook.library.name }}</p>
+              </p>
+              <p>
+                Адрес: {{ bookedBook.libraryBook.library.Address }}
+              </p>
+              <p>
+                {{ bookedBook.libraryBook.library.info }}
+              </p>
+              <div v-if="!bookedBook.received" class="text-sky-600 mt-2 font-semibold">
+                Забронирована
+                <p>
+                  Заберите до:
+                </p>
+                <p class="text-black font-light">
+                  {{ formatDate(bookedBook.booked_due_date) }}
+                </p>
+              </div>
+              <div v-if="bookedBook.received">
+                <p class="text-green-600 mt-2 font-semibold">
+                  Выдана:
+                <p class="text-black font-light">
+                  {{ formatDate(bookedBook.received_at) }}
+                </p>
+                Вернуть до:
+                <p class="text-black font-light">
+                  {{ formatDate(bookedBook.due_date) }}
+                </p>
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
+
+
+          <template #footer>
+            <div v-if="bookedBook.received">
+              <p v-if="isNotOverdue(bookedBook.due_date)" class="text-green-600 font-semibold">
+                Не просрочена
+              </p>
+              <p v-else class="text-red-600">
+                Просрочена
+              </p>
+            </div>
+          </template>
+
+
+        </UCard>
       </div>
       <UModal v-model="isModalOpen">
         <div class="p-4">
@@ -49,6 +102,22 @@
 
 <script setup>
 import QRCode from 'qrcode'
+import { format, parseISO, isAfter } from 'date-fns'
+import { toZonedTime, toDate } from 'date-fns-tz'
+const timeZone = 'Europe/Moscow'
+
+const formatDate = (date) => {
+  const zonedDate = toZonedTime(date, timeZone)
+  // return format(zonedDate, 'yyyy-MM-dd HH:mm', { timeZone })
+  // return format(zonedDate, 'yyyy-MM-dd HH:mm', { timeZone })
+  return format(zonedDate, 'dd-MM-yyyy HH:mm', { timeZone })
+}
+
+const isNotOverdue = (dueDate) => {
+  const now = new Date()
+  const parsedDueDate = parseISO(dueDate)
+  return isAfter(parsedDueDate, now)
+}
 
 const loading = ref(false)
 
@@ -86,10 +155,11 @@ const getBookedBooks = async (userId) => {
   const response = await fetchBookedBooks({
     query: userId
   })
-  
+
   bookedBooks.value = response.bookedBooks
-  console.log(bookedBooks.value)
+  // console.log(bookedBooks.value)
   loading.value = false
+  // console.log(now > bookedBooks.value.due_date)
   return bookedBooks.value
 }
 

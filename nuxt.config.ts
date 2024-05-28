@@ -19,4 +19,9 @@ export default defineNuxtConfig({
       }
     }
   },
+  hooks: {
+    'ready': async () => {
+      await import('./server/init')
+    }
+  }
 })

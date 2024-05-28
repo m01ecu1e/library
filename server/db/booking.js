@@ -36,3 +36,24 @@ export const getOrderByUserIdAndBookId = (params) => {
         ...params
     })
 }
+
+export const getOrderById = (orderId) => {
+    return prisma.bookedBooks.findUnique({
+        where: {
+            id: orderId
+        },
+        include: {
+            libraryBook: {
+                include: {
+                    book: {
+                        include: {
+                            author: true,
+                            publisher: true
+                        }
+                    },
+                    library: true
+                }
+            }
+        }
+    })
+}

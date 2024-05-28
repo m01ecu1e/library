@@ -72,10 +72,10 @@ export default () => {
     }
   }
 
-  const getOrderByCode = (orderCode) => {
+  const getOrderById = (orderId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await useFetchApi(`/api/bookedBooks/${orderCode}`)
+        const response = await useFetchApi(`/api/bookedBooks/${orderId}`)
 
         resolve(response)
 
@@ -223,6 +223,6 @@ export default () => {
     giveOrder,
     putLibraryBook,
     takeOrder,
-    getOrderByCode
+    getOrderById
   }
 }

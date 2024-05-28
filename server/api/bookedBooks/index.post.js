@@ -7,13 +7,16 @@ export default defineEventHandler(async (event) => {
 
   const { libraryBookId, userId } = body
 
+  const dueDate = new Date()
+  dueDate.setDate(dueDate.getDate() + 5)
+
   const bookData = {
     libraryBookId,
     userId,
     received: false,
-    orderCode: ''
+    orderCode: '',
+    booked_due_date: dueDate
   }
-  // console.log(libraryBookId)
 
   if (!bookData.libraryBookId) {
     throw createError({
@@ -34,10 +37,6 @@ export default defineEventHandler(async (event) => {
   }
 
   if(libraryBook.amountAvailable == 0) {
-    // return sendError(event, createError({
-    //   statusCode: 400,
-    //   statusMessage: 'No available books'
-    // }))
     throw createError({
       statusCode:400,
       statusMessage:'No available books',
@@ -55,29 +54,18 @@ export default defineEventHandler(async (event) => {
   }
 
   if(await getBookedBooks(query) != 0) {
-    // return sendError(event, createError({
-    //   statusCode: 400,
-    //   statusMessage: 'You cant order the same book twice'
-    // }))
     throw createError({
       statusCode:400,
       statusMessage:'You cant order the same book twice',
       message:'Вы не можете забронировать одну книгу дважды'
     })
   } else {
+
     bookData.orderCode = generateOrderCode(userId, libraryBookId)
     const bookedBook = await createBookedBook(bookData)
     return {
       book: bookedBook
     }
   }
-
-  // Создание orderCode
-
-
-  
-
-
-  // return await getBookedBooks(query) != 0
 
 })

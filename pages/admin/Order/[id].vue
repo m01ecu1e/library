@@ -3,28 +3,28 @@
     <UCard v-if="order" class="px-20 shadow-lg">
       <template #header>
         <div class="font-semibold text-xl">
-          {{ order[0].orderCode }}
+          {{ order.orderCode }}
         </div>
       </template>
       <div class="flex">
         <div class="h-50 w-1/6 content-center border border-gray-400 shadow-xl">
-          <img :src="order[0].libraryBook.book.coverImage" alt="Обложка">
+          <img :src="order.libraryBook.book.coverImage" alt="Обложка">
         </div>
         <div class=" w-full pl-5  content-center">
           <div class="flex">
-            Автор: <p class="ml-2 font-semibold"> {{ order[0].libraryBook.book.author.name }}</p>
+            Автор: <p class="ml-2 font-semibold"> {{ order.libraryBook.book.author.name }}</p>
           </div>
           <div class="flex">
-            Издательство: <p class="ml-2 font-semibold"> {{ order[0].libraryBook.book.publisher.name }}</p>
+            Издательство: <p class="ml-2 font-semibold"> {{ order.libraryBook.book.publisher.name }}</p>
           </div>
           <div class="flex">
-            ISBN: <p class="ml-2 font-semibold"> {{ order[0].libraryBook.book.ISBN }}</p>
+            ISBN: <p class="ml-2 font-semibold"> {{ order.libraryBook.book.ISBN }}</p>
           </div>
           <div class="flex">
-            Количество всего: <p class="ml-2 font-semibold"> {{ order[0].libraryBook.amount }}</p>
+            Количество всего: <p class="ml-2 font-semibold"> {{ order.libraryBook.amount }}</p>
           </div>
           <div class="flex">
-            Количество доступных для выдачи: <p class="ml-2 font-semibold"> {{ order[0].libraryBook.amountAvailable + 1 }}</p>
+            Количество доступных для выдачи: <p class="ml-2 font-semibold"> {{ order.libraryBook.amountAvailable }}</p>
           </div>
         </div>
       </div>
@@ -32,8 +32,11 @@
         <!-- <USelectMenu v-model="selectedLib" :options="libraryBooks" placeholder="Для бронирования выберите библиотеку"
           value-attribute="id" option-attribute="libraryName" class="mb-2" size="xl" />
         <div v-if="user"> -->
-          <UButton @click="handleGiveOrder" size="xl" class="my-2">
+          <UButton @click="handleGiveOrder" size="xl" class="my-2" :loading="loading" :disabled="order.received">
             Выдать
+          </UButton>
+          <UButton @click="handleTakeOrder" size="xl" class="my-2 mx-5" :loading="loading" :disabled="!order.received">
+            Принять
           </UButton>
         <!-- </div> -->
       </template>
@@ -51,22 +54,25 @@ const { useAuthUser, initAuth, useAuthLoading } = useAuth()
 const user = useState('auth_user')
 const loading = ref(false)
 
-const { getOrderByCode, giveOrder} = useBooks()
+const { getOrderById, giveOrder, putLibraryBook, takeOrder} = useBooks()
 
 const route = useRoute([])
 
-const orderCode = computed(() => route.params.id)
+const orderId = computed(() => route.params.id)
 
 const order = ref([])
+
+const toast = useToast()
 
 // console.log("orderCode:", orderCode.value)
 
 async function getOrder() {
   loading.value = true
+  // console.log(orderId)
   try {
-    const response = await getOrderByCode(orderCode.value)
-    order.value = response.orders
-    // console.log(order.value)
+    const response = await getOrderById(orderId.value)
+    order.value = response.order
+    console.log("order:", order.value)
   } catch (error) {
     console.log(error)
   }
@@ -75,21 +81,64 @@ async function getOrder() {
   // return bookedBooks.value
 }
 
+await getOrder()
+
 async function handleGiveOrder() {
   loading.value = true
   try {
     await giveOrder({
-      orderId: order.value[0].id
+      orderId: order.value.id
     })
+    toast.add({
+            title: 'Успешно выдан заказ:',
+            description: order.value.orderCode,
+            icon: 'i-heroicons-check-circle',
+            color: 'green'
+        })
+  } catch (error) {
+    console.log(error)
+    toast.add({
+            title: 'Успешно выдан заказ:',
+            description: error,
+            icon: 'i-heroicons-x-mark',
+            color: 'red'
+        })
+  } finally {
+    loading.value = false
+    useRouter().push({
+    path: '/Admin',
+    })
+  }
+  //console.log("order:", order.value[0].orderCode)
+}
+
+async function handleTakeOrder() {
+  loading.value = true
+  try {
+    await putLibraryBook({
+      libraryBookId: order.value.libraryBookId,
+      value:1
+    })
+    await takeOrder({
+      orderId: order.value.id
+    })
+    toast.add({
+            title: 'Успешно принят заказ:',
+            description: order.value.orderCode,
+            icon: 'i-heroicons-check-circle',
+            color: 'green'
+        })
   } catch (error) {
     console.log(error)
   } finally {
     loading.value = false
-
+    useRouter().push({
+    path: '/Admin',
+    })
   }
-  console.log("order:", order.value[0].orderCode)
+  // console.log("order:", selectedOrder.value.id)
 }
 
-await getOrder()
+
 
 </script>
