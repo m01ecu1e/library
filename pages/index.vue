@@ -1,13 +1,10 @@
 <template>
 
-  <div class="flex flex-col bg-gray-200">
-    <!-- Search bar -->
-    <div class="row-span-3 content-center ">
-      <HomePageSearchBar :user="user" />
-    </div>
-    <!-- {{ user }} -->
-    <LatestBooks :books="searchBooks" />
-  </div>
+    <UContainer class="grid lg:grid p-0">
+      <HomePageSearchBar :user="user"/>
+    </UContainer>
+    
+  <LatestBooks :books="searchBooks" />
 </template>
 
 <script setup>

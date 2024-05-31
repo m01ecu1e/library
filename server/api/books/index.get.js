@@ -5,10 +5,6 @@ export default defineEventHandler(async (event) => {
 
     const { query, skip, take } = getQuery(event)
 
-    if(!query) {
-        return
-    }
-
     if (query) {
         let prismaQuery = {
             include: {
@@ -27,21 +23,19 @@ export default defineEventHandler(async (event) => {
                     {
                         author: {
                             name: {
-                                search: query.trim().split(" ").join(" & "),
-                                mode: 'insensitive'
+                                search: query.trim().split(" ").join(" | ")
                             }
                         }
                     },
                     {
                         title: {
-                            search: query.trim().split(" ").join(" & "),
-                            mode: 'insensitive'
+                            search: query.trim().split(" ").join(" | ")
                         }
                     },
                     {
                         publisher: {
                             name: {
-                                search: query.trim().split(" ").join(" & "),
+                                search: query.trim().split(" ").join(" | ")
                             }
                         }
                     }

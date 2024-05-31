@@ -1,21 +1,30 @@
 <template>
-  <div class="flex flex-row justify-center bg-gray-200">
-    <div class="basis-6/12 shadow-lg px-5 rounded-lg bg-white my-5">
-      <form @submit="handleSearch" class="flex flex-row justify-center h-8 mx-5 my-10">
-        <UInput v-model="search" :loading="loading"
-          class=" basis-8/12 rounded-md h-full text-md"
-          placeholder="Название, автор, тема, издательство" required/>
-        <UButton type="submit" onSubmit="handleSearch"
-          class="basis-1/12 text-white text-md px-5 ml-4">
-          Найти
-        </UButton>
-        <div class="content-center basis-1/12 text-sky-600 hover:text-sky-700 font-semibold text-md ml-3">Избранное
+  <div class="lg:grid lg:grid-cols-12 lg:p-5 lg:w-full shadow-lg rounded-lg my-5 bg-white">
+    <form @submit="handleSearch" class="justify-center grid grid-cols-12 lg:col-span-9 lg:grid lg:grid-cols-12 ">
+      <UInput v-model="search" :loading="loading" class="col-span-10 lg:col-span-10 pl-4 py-4 " size="lg"
+        placeholder="Название, автор, тема, издательство" required />
+      <UButton type="submit" @submit="handleSearch" lg:label="Найти"
+        class="col-span-2 lg:col-span-2 my-4 ml-1 mr-4 content-center justify-center">
+        <template #trailing>
+          <UIcon name="i-heroicons-magnifying-glass-solid" class="w-6 h-6" />
+        </template>
+      </UButton>
+    </form>
+    <div class="grid grid-cols-2 pb-4 pt-2 mx-2 lg:m-0 lg:p-0 justify-items-center md:justify-items-center content-center lg:col-span-3 rounded-lg ">
+      <div class="text-sky-600 hover:text-sky-700 font-semibold text-md flex content-center text-sm lg:text-md ">
+        <UIcon name="i-heroicons-heart" class="w-5 h-5 lg:w-7 lg:h-7 mr-1 " /> 
+        <div class="content-center ">
+          Избранное
         </div>
-        <NuxtLink v-if="props.user" to="Account" class="content-center basis-3/12 text-sky-600 hover:text-sky-700 font-semibold text-md ml-5">Личный кабинет
-        </NuxtLink>
-        <NuxtLink v-else to="AuthPage" class="content-center basis-3/12 text-sky-600 hover:text-sky-700 font-semibold text-md ml-5">Личный кабинет
-        </NuxtLink>
-      </form>
+      </div>
+      <NuxtLink v-if="props.user" to="Account" class=" text-sky-600 hover:text-sky-700 font-semibold flex content-center text-sm lg:text-md mr-2 lg:mr-0">
+        <UIcon name="i-heroicons-user-circle" class="w-5 h-5 lg:w-7 lg:h-7 mr-1" /> 
+        <div class="content-center">Личный кабинет</div>
+      </NuxtLink>
+      <NuxtLink v-else to="AuthPage" class="text-sky-600 hover:text-sky-700 font-semibold flex content-center text-sm lg:text-md mr-2 lg:mr-0">
+        <UIcon name="i-heroicons-user-circle" class="w-5 h-5 lg:w-7 lg:h-7 mr-1" /> 
+        <div class="content-center">Личный кабинет</div>
+      </NuxtLink>
     </div>
   </div>
 </template>

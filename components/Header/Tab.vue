@@ -1,12 +1,8 @@
 <template>
-  <div
-    class="flex p-3 text-black hover:text-sky-600">
-    <div
-      class="text-md"
-      :class="textClasses"
-    >
-      <slot></slot>
-    </div>
+  <div class="ml-5 text-black hover:text-sky-600 bg-blue-200">
+
+    <slot></slot>
+
   </div>
 </template>
 
@@ -18,5 +14,5 @@ const props = defineProps({
   }
 })
 
-const textClasses = computed(() => props.active ? 'font-semibold' : 'font-normal')
+// const textClasses = computed(() => props.active ? 'font-semibold' : 'font-normal')
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <UContainer class="w-1/4">
+  <UContainer class="">
 
     <UForm :schema="schema" :state="data" @submit="handleLogin"
       class="pt-5 space-y-4 shadow-lg my-5 px-8 pb-6 rounded-lg bg-white">

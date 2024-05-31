@@ -20,9 +20,9 @@
     </div>
 
     <template #footer>
-      <div class="text-sm h-20">
+      <div class="text-sm font-light mb-1 h-20 content-center">
         <p class="">Издательство: {{ props.book.publisher }}</p>
-        <p>В наличии в: {{ props.book.library }}</p>
+        <p>Книга поступила в: {{ props.book.library }}</p>
 
 
       </div>

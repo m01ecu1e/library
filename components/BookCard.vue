@@ -1,7 +1,7 @@
 <template>
   <UCard class="">
     <template #header>
-      <Placeholder class="h-8" />
+      <!-- <Placeholder class="h-8" /> -->
       <NuxtLink :to="bookUrl">
         <div class="h-1 grid content-center">
           <div class="font-semibold">
@@ -11,7 +11,7 @@
       </NuxtLink>
     </template>
 
-    <Placeholder class="h-32" />
+    <!-- <Placeholder class="h-32" /> -->
     <div class="flex">
       <div class="h-50 w-1/6 content-center border border-gray-400 shadow-lg">
         <!-- <img src="/hard-cover-book.png"> -->

@@ -1,16 +1,19 @@
 <template>
-  <UContainer class="max-w-full max-h-full">
+
+  <UContainer class="min-w-full max-w-full grid justify-items-center">
     <Header :user="user"></Header>
   </UContainer>
+  
   <UNotifications />
-  <UContainer :user="user" class="bg-gray-200 max-w-full h-full">
-    <NuxtPage />
+
+  <UContainer :user="user" class="bg-gray-200 min-w-full">
+    <NuxtPage/>
   </UContainer>
 
 </template>
 
 <script setup>
-// import '~/server/cron'
+
 
 const { useAuthUser, initAuth, useAuthLoading } = useAuth()
 // const isAuthLoading = useAuthLoading()

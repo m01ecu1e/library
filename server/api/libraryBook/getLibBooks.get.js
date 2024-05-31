@@ -7,7 +7,7 @@ export default defineEventHandler(async () => {
 
     let prismaQuery = {
         skip:0,
-        take:5,
+        take:6,
         include: {
             book: {
                 include: {

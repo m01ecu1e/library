@@ -23,10 +23,6 @@ export default defineEventHandler(async (event) => {
   const user = await getUserByEmail(email)
 
   if(!user) {
-    // return sendError(event, createError({
-    //   statusCode:400,
-    //   statusMessage: 'There is no user with this email'
-    // }))
     throw createError({
       statusCode:400,
       statusMessage:'Username or password is invalid',

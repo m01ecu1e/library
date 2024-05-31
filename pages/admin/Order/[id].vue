@@ -24,7 +24,7 @@
             Количество всего: <p class="ml-2 font-semibold"> {{ order.libraryBook.amount }}</p>
           </div>
           <div class="flex">
-            Количество доступных для выдачи: <p class="ml-2 font-semibold"> {{ order.libraryBook.amountAvailable }}</p>
+            Забронированных / на руках: <p class="ml-2 font-semibold"> {{ order.libraryBook.amount - order.libraryBook.amountAvailable }}</p>
           </div>
         </div>
       </div>

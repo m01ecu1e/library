@@ -70,7 +70,7 @@
                 <button @click="isOpen = true"
                     class="transform -translate-x-1/2 -translate-y-1/2 text-white text-md font-semibold border-4 shadow-lg border-white bg-sky-500 hover:bg-sky-600 rounded-full px-3 py-3">
                 </button> -->
-                <CustomMarker :library="marker.library" @selectLibrary="handleSelectLibrary" />
+                <CustomMarker :library="marker.library" :user="user" @selectLibrary="handleSelectLibrary" />
             </yandex-map-marker>
         </yandex-map>
     </UContainer>
