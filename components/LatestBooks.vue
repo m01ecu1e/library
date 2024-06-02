@@ -1,10 +1,17 @@
 <template>
-  <div class="flex justify-center h-12 mb-5 w-full rounded-md shadow-lg bg-white">
-    <h1 class="content-center text-lg">Последние поступления</h1>
+  <div class="flex justify-center h-12 mb-3 w-full">
+    <UDivider label="Последние поступления" />
   </div>
-  <div class="flex justify-center">
-    <LibraryBookCard v-for="book in props.books" :book="book" :key="book.id" class=" border h-full mx-3 flex-none" />
+
+  <div class="flex justify-center content-center">
+    <div class="grid grid-cols-2 lg:grid-cols-4">
+      <LibraryBookCard v-for="book in props.books" 
+      :book="book" 
+      :key="book.id" 
+      class="text-sm lg:text-md mx-1 mb-6 col-span-1" />
+    </div>
   </div>
+
 </template>
 
 <script setup>

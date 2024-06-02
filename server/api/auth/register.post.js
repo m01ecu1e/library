@@ -36,8 +36,6 @@ export default defineEventHandler(async (event) => {
           })
     }
 
-    
-
     const userData = {
         firstName,
         lastName,

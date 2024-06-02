@@ -1,7 +1,7 @@
 <template>
   <UContainer v-if="user" class=" lg:px-40 py-5 px-0">
     <UContainer
-      class=" justify-start w-full bg-white content-start rounded-lg shadow-lg">
+      class=" justify-start w-full bg-white dark:bg-gray-900 content-start rounded-lg shadow-lg">
       <div class="font-semibold text-xl mb-5 mt-5">
         Личный кабинет
       </div>
@@ -14,7 +14,7 @@
       </div>
 
     </UContainer>
-    <UContainer v-if="user" class=" justify-start bg-white rounded-lg shadow-lg ">
+    <UContainer v-if="user" class=" justify-start bg-white dark:bg-gray-900 rounded-lg shadow-lg pb-5">
 
       <div>
         <h1 class="font-semibold text-xl mb-5 mt-5 pt-5">Ваши книги:</h1>
@@ -60,18 +60,18 @@
                     <p>
                       Заберите до:
                     </p>
-                    <p class="text-black font-light">
+                    <p class=" font-light">
                       {{ formatDate(bookedBook.booked_due_date) }}
                     </p>
                   </div>
                   <div v-if="bookedBook.received">
                     <p class="text-green-600 mt-2 font-semibold">
                       Выдана:
-                    <p class="text-black font-light">
+                    <p class="text-black dark:text-gray-300 ">
                       {{ formatDate(bookedBook.received_at) }}
                     </p>
                     Вернуть до:
-                    <p class="text-black font-light">
+                    <p class="text-black dark:text-gray-300 ">
                       {{ formatDate(bookedBook.due_date) }}
                     </p>
                     </p>

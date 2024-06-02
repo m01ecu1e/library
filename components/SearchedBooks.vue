@@ -1,16 +1,13 @@
 <template>
   
-  <div class="flex justify-center mx-5 content-center">
-
-    <div class="w-1/2 h-full  ">
-      <!-- <NuxtLink :to="bookUrl"> -->
+  <div class="flex justify-center content-center">
+    <div class="grid grid-cols-2 lg:grid-cols-4">
       <BookCard
         v-for="book in props.books"
         :book="book"
         :key="book.id"
-        class=" border h-full mx-1 "
+        class="text-sm lg:text-md mx-1 mb-6 col-span-1"
       />
-      <!-- </NuxtLink> -->
       </div>
   </div>
 </template>

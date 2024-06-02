@@ -1,17 +1,19 @@
 <template>
-  <div class="row-span-3 content-center">
-    <HomePageSearchBar />
-  </div>
-  <div class="flex flex-col justify-center ">
-    <div class="mb-1 font-semibold flex justify-center">Найдено результатов: {{ totalPages }}</div>
+  <UContainer class="grid lg:grid p-0">
+    <HomePageSearchBar :user="user" />
+  </UContainer>
+  
+  <div class="flex flex-col justify-center">
+    
+    <div class="mb-3 mt-2 font-semibold flex justify-center">Найдено результатов: {{ totalPages }}</div>
     <!-- <div v-if="loading">Loading...</div>
     <div v-if="error">{{ error }}</div> -->
-    <div class="flex justify-center mb-2 " v-if="searchBooks">
-
-      <UPagination v-model="page" :page-count="pageSize" :total="totalPages" :active-button="{color:'sky'}" />
-
+    <div class="flex justify-center " v-if="searchBooks">
+      <UPagination v-model="page" :page-count="pageSize" :total="totalPages" :active-button="{ color: 'sky' }" />
     </div>
 
+    <UDivider class="my-4"></UDivider>
+    
     <SearchedBooks :books="searchBooks" />
   </div>
 </template>
@@ -29,7 +31,7 @@ const searchQuery = computed(() => route.query.q)
 const page = ref(route.query.page ? route.query.page : 1)
 
 const totalPages = ref(1)
-const pageSize = 5
+const pageSize = 12
 
 watch([searchQuery, page], () => {
   console.log(page.value)

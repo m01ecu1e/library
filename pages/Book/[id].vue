@@ -1,47 +1,45 @@
 <template>
-    <UContainer v-if="book" class=" rounded-lg w-2/3 py-5">
-        <UCard class="px-20 shadow-lg">
+    <UContainer v-if="book" class=" rounded-lg lg:w-2/3 px-0 py-5">
+        <UCard class="px-0 lg:px-20 shadow-lg">
             <template #header>
                 <div class="font-semibold text-xl">
                     {{ book.title }}
                 </div>
             </template>
             <div class="flex">
-                <div class="h-50 w-1/6 content-center border border-gray-400 shadow-xl">
-                    <img :src="book.coverImage" alt="Обложка">
+                <div class="w-48 lg:w-64 lg:content-start">
+                    <img :src="book.coverImage" alt="Обложка" class="border border-gray-400  shadow-xl">
                 </div>
-                <div class=" w-full pl-5  content-center">
-                    <div class="flex">
-                        Автор: <p class="ml-2 font-semibold"> {{ book.author }}</p>
+                <div class=" w-full pl-5 ">
+                    <div class="lg:flex">
+                        Автор: <p class="lg:ml-2 font-semibold"> {{ book.author }}</p>
                     </div>
-                    <div class="flex">
-                        Издательство: <p class="ml-2 font-semibold"> {{ book.publisher }}</p>
+                    <div class="lg:flex">
+                        Издательство: <p class="lg:ml-2 font-semibold"> {{ book.publisher }}</p>
                     </div>
-                    <div class="flex">
-                        Год издания: <p class="ml-2 font-semibold"> {{ book.year }}</p>
+                    <div class="lg:flex">
+                        Год издания: <p class="lg:ml-2 font-semibold"> {{ book.year }}</p>
                     </div>
-                    <div class="flex mt-5">
-                        ISBN: <p class="ml-2 font-semibold"> {{ book.isbn }}</p>
+                    <div class="lg:flex lg:mt-5">
+                        ISBN: <p class="lg:ml-2 font-semibold"> {{ book.isbn }}</p>
                     </div>
-                    
-                    <div class="mt-8">
+
+                    <div class="mt-5 lg:mt-8">
                         <p class="font-semibold">
                             В наличии в:
                         </p>
                         <p>{{ libraryBooks.length }} библиотеках</p>
-                        <!-- <p v-for="libraryBook in libraryBooks" :key="libraryBook.id" class="mb-3">
-                        <p>
-                            {{ libraryBook.libraryName }}
-                        </p>
-                        <p class="font-semibold">{{ libraryBook.amountAvailable }} экз.</p>
-                        <p> По адресу: {{ libraryBook.address }}</p>
-                        </p> -->
+
                     </div>
                 </div>
             </div>
-            <div class="flex mt-5">
-                {{ book.info }}
-            </div>
+            <UAccordion :items="items" class="mt-5">
+                <template #bookInfo>
+                    <div class="flex">
+                        {{ book.info }}
+                    </div>
+                </template>
+            </UAccordion >
             <template #footer>
                 <USelectMenu v-model="selectedLib" :options="libraryBooks"
                     placeholder="Для бронирования выберите библиотеку" value-attribute="id"
@@ -51,7 +49,7 @@
                         class=" text-white text-md font-semibold bg-sky-500 hover:bg-sky-600 rounded-lg px-4 py-2 mt-3 mb-2 ">
                         Забронировать
                     </button> -->
-                    <UButton @click="handleBooking" :loading="loading" :disabled="loading" size="lg" class="my-2">
+                    <UButton @click="handleBooking" :loading="loading" :disabled="loading" size="lg" class="mt-2">
                         Забронировать
                     </UButton>
                 </div>
@@ -62,6 +60,7 @@
                 center: [44.985491, 53.163541],
                 zoom: 13,
             },
+            theme: colorMode.value,
         }" height="500px" :show-all-markers="true">
             <yandex-map-default-scheme-layer />
             <yandex-map-default-features-layer />
@@ -102,8 +101,14 @@ import { YandexMap, YandexMapDefaultSchemeLayer, YandexMapDefaultFeaturesLayer, 
 
 const markers = ref([])
 
-
 const map = shallowRef<null | YMap>(null);
+
+const items = [{
+    label: 'Показать описание',
+    defaultOpen: false,
+    slot: 'bookInfo'
+}]
+const colorMode = useColorMode()
 
 const isOpen = ref(false)
 const { getBookById } = useBooks()

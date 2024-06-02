@@ -1,30 +1,30 @@
 <template>
-
-  <UCard class="w-64 border-none shadow-lg">
-    <template #header>
-
-      <div class="h-6 content-center">
-        <NuxtLink :to="bookUrl">
-          <p class="font-semibold">
-            {{ props.book.title }}
-          </p>
-        </NuxtLink>
+  <UCard class="border-0 px-1 lg:w-60">
+    
+    <div class="grid justify-items-center ">
+      <div class="shrink-0 w-20 sm:w-20 md:w-28 lg:w-36 content-center shadow-lg">
+        <img :src="props.book.coverImage" alt="Обложка книги">
       </div>
-    </template>
-
-
-    <div class="h-50 flex justify-center content-center ">
-      <div class="border border-gray-500 shadow-xl">
-        <img :src="props.book.coverImage" alt="Обложка">
+      <div class="my-2 h-20 lg:my-2 lg:h-24 w-full content-start lg:content-center">
+        <div class="font-semibold text-xs md:text-sm text-ellipsis overflow-hidden">
+            {{ props.book.title }}
+          </div>
+        <div class="flex text-xs md:text-sm text-ellipsis overflow-hidden">
+          {{ props.book.author }}
+        </div>
+        <div class="flex text-xs md:text-sm text-ellipsis overflow-hidden">
+          Издательство: <p class="ml-2 font-semibold"> {{ props.book.publisher }}</p>
+        </div>
       </div>
     </div>
+    <UButton size="xl" :to="bookUrl" class="w-full justify-center">
+      Забронировать
+    </UButton>
 
     <template #footer>
-      <div class="text-sm font-light mb-1 h-20 content-center">
-        <p class="">Издательство: {{ props.book.publisher }}</p>
-        <p>Книга поступила в: {{ props.book.library }}</p>
-
-
+      <div class="flex items-center justify-center">
+        <p >Книга поступила в: {{ props.book.library }}</p>
+        <!-- <p>В наличии в 3 библиотеках</p> -->
       </div>
     </template>
   </UCard>

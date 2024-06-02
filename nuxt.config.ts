@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     apikey: process.env.YANDEX_MAPS_API_KEY,
   },
   colorMode: {
-    preference: 'light'
+    preference: 'dark'
   },
   runtimeConfig: {
     jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
@@ -23,5 +23,9 @@ export default defineNuxtConfig({
     'ready': async () => {
       await import('./server/init')
     }
-  }
+  },
+  css: [
+    '~/assets/css/main.css'
+  ],
+
 })

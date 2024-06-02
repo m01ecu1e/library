@@ -1,0 +1,12 @@
+body {
+  background-color: #FFFFFF; /* Светлый фон */
+}
+
+/* Пример для темной темы */
+.dark body {
+  background-color: #101010; /* Темный фон */
+}
+
+html {
+    overflow-y: scroll;
+  }

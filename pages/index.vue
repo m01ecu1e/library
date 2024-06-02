@@ -3,8 +3,9 @@
     <UContainer class="grid lg:grid p-0">
       <HomePageSearchBar :user="user"/>
     </UContainer>
-    
-  <LatestBooks :books="searchBooks" />
+    <div class="flex flex-col justify-center">
+      <LatestBooks :books="searchBooks" />
+    </div>
 </template>
 
 <script setup>

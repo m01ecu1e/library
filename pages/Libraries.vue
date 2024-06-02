@@ -5,7 +5,9 @@
         center: [44.985491, 53.163541],
         zoom: 13,
       },
-    }" height="900px" :show-all-markers="true">
+      theme:colorMode.value,
+    }" 
+    height="900px" :show-all-markers="true">
       <yandex-map-default-scheme-layer />
       <yandex-map-default-features-layer />
       <yandex-map-marker v-for="(marker, index) in markers" :key="index" :settings="marker" offset="15">
@@ -30,6 +32,8 @@ const map = shallowRef<null | YMap>(null);
 const { fetchLibs } = useLibrary()
 
 const libraries = await fetchLibs()
+
+const colorMode = useColorMode()
 
 // console.log(libraries?.libraries)
 

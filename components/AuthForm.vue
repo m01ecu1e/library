@@ -2,7 +2,7 @@
   <UContainer class="">
 
     <UForm :schema="schema" :state="data" @submit="handleLogin"
-      class="pt-5 space-y-4 shadow-lg my-5 px-8 pb-6 rounded-lg bg-white">
+      class="pt-5 space-y-4 shadow-lg my-5 px-8 pb-6 rounded-lg bg-white dark:bg-gray-900">
   
       <UFormGroup name="email" size="lg">
         <UInput v-model="data.email" placeholder="Email" />

@@ -1,7 +1,7 @@
 <template>
-  <div class="lg:grid lg:grid-cols-12 lg:p-5 lg:w-full shadow-lg rounded-lg my-5 bg-white">
+  <div class="lg:grid lg:grid-cols-12 lg:p-5 lg:w-full shadow-lg rounded-lg mt-3 mb-3 bg-white dark:bg-gray-900">
     <form @submit="handleSearch" class="justify-center grid grid-cols-12 lg:col-span-9 lg:grid lg:grid-cols-12 ">
-      <UInput v-model="search" :loading="loading" class="col-span-10 lg:col-span-10 pl-4 py-4 " size="lg"
+      <UInput v-model="search" :loading="loading" class="col-span-10 lg:col-span-10 pl-4 py-4" size="lg"
         placeholder="Название, автор, тема, издательство" required />
       <UButton type="submit" @submit="handleSearch" lg:label="Найти"
         class="col-span-2 lg:col-span-2 my-4 ml-1 mr-4 content-center justify-center">
