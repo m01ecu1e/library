@@ -1,7 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  modules: ["@nuxt/ui",'@pinia/nuxt','vue-yandex-maps/nuxt'],
+  devtools: { enabled: false },
+  modules: [
+    "@nuxt/ui",
+    ['@pinia/nuxt',
+      {
+        autoImports: ['defineStore',],
+      },
+    ],
+    'vue-yandex-maps/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+  ],
+
   yandexMaps: {
     apikey: process.env.YANDEX_MAPS_API_KEY,
   },

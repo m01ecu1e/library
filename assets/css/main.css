@@ -1,10 +1,10 @@
 body {
-  background-color: #FFFFFF; /* Светлый фон */
+  background-color: #fafafa; /* Светлый фон */
 }
 
 /* Пример для темной темы */
 .dark body {
-  background-color: #101010; /* Темный фон */
+  background-color: #0a0a0a; /* Темный фон */
 }
 
 html {

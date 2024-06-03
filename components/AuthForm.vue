@@ -33,6 +33,10 @@
 <script setup>
 import { object, string } from 'yup'
 
+// import { useAuthStore } from '~/stores/auth'
+
+const authStore = useAuthStore()
+
 const schema = object({
   email: string().email('Неверный формат email').required('Обязательное поле'),
   password: string().required('Введите пароль'),
@@ -49,18 +53,17 @@ const data = reactive({
 
 async function handleLogin() {
   //alert(JSON.stringify(data))
-
-  
-  const { login } = useAuth()
+  // const { login } = useAuth()
 
   data.loading = true
 
   try {
-    await login({
+    authStore.login({
       email: data.email,
       password: data.password
     })
     navigateTo('/')
+    console.log(authStore.authUser)
   } catch (err) {
     if (err.message) {
       // console.log(err.message)

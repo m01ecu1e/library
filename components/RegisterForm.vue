@@ -68,14 +68,14 @@ function clearError() {
   error.value = null
 }
 
+const authStore = useAuthStore()
+
 async function handleRegister() {
-  // console.log("reg")
-  const { register } = useAuth()
   data.loading = true
   error.value = null
 
   try {
-    await register({
+    await authStore.register({
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,

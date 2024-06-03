@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     const endpoints = [
         '/api/auth/user',
     ]
-    //console.log('auth New request: ' + getRequestURL(event))
+    console.log('auth New request: ' + getRequestURL(event))
     
     const isHandledByThisMiddleware = endpoints.some(endopoint => {
         const pattern = new UrlPattern(endopoint)

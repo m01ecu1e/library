@@ -1,20 +1,20 @@
 <template>
-  <UContainer v-if="user" class=" lg:px-40 py-5 px-0">
+  <UContainer v-if="authStore.authUser" class=" lg:px-40 py-5 px-0">
     <UContainer
       class=" justify-start w-full bg-white dark:bg-gray-900 content-start rounded-lg shadow-lg">
       <div class="font-semibold text-xl mb-5 mt-5">
         Личный кабинет
       </div>
       <div class="grid justify-start space-y-2 mb-5">
-        <p>{{ user.firstName }} {{ user.lastName }}</p>
-        <p>Email: {{ user.email }}</p>
+        <p>{{ authStore.authUser.firstName }} {{ authStore.authUser.lastName }}</p>
+        <p>Email: {{ authStore.authUser.email }}</p>
         <UButton @click="handleLogout" class="" size="lg">
           Выйти из учётной записи
         </UButton>
       </div>
 
     </UContainer>
-    <UContainer v-if="user" class=" justify-start bg-white dark:bg-gray-900 rounded-lg shadow-lg pb-5">
+    <UContainer v-if="authStore.authUser" class=" justify-start bg-white dark:bg-gray-900 rounded-lg shadow-lg pb-5">
 
       <div>
         <h1 class="font-semibold text-xl mb-5 mt-5 pt-5">Ваши книги:</h1>
@@ -112,6 +112,11 @@
 import QRCode from 'qrcode'
 import { format, parseISO, isAfter } from 'date-fns'
 import { toZonedTime, toDate } from 'date-fns-tz'
+
+import { useAuthStore } from '~/stores/auth'
+
+const authStore = useAuthStore()
+
 const timeZone = 'Europe/Moscow'
 
 const formatDate = (date) => {
@@ -154,10 +159,7 @@ watch(isModalOpen, async (newValue) => {
   }
 })
 
-
 // const { useAuthUser, initAuth, useAuthLoading } = useAuth()
-
-const user = useState('auth_user')
 
 const getBookedBooks = async (userId) => {
   if (userId === '') return []
@@ -180,19 +182,20 @@ onBeforeMount(() => {
   // initAuth()
 })
 
-watch(() => user._object?.$sauth_user?.id, async (newUserId) => {
-  if (newUserId) {
-    console.log("User initialized, fetching booked books")
-    await getBookedBooks(newUserId)
-  }
-}, { immediate: true })
+// watch(() => user._object?.$sauth_user?.id, async (newUserId) => {
+//   if (newUserId) {
+//     console.log("User initialized, fetching booked books")
+//     await getBookedBooks(newUserId)
+//   }
+// }, { immediate: true })
 
+await getBookedBooks(authStore.authUser.id)
 
 async function handleLogout() {
-  const { logout } = useAuth()
+  // const { logout } = useAuth()
 
   try {
-    await logout({
+    await authStore.logout({
 
     })
   } catch (error) {

@@ -1,7 +1,8 @@
 <template>
 
     <UContainer class="grid lg:grid p-0">
-      <HomePageSearchBar :user="user"/>
+      <!-- <HomePageSearchBar :user="user"/> -->
+      <HomePageSearchBar/>
     </UContainer>
     <div class="flex flex-col justify-center">
       <LatestBooks :books="searchBooks" />
@@ -12,9 +13,6 @@
 const { fetchLibraryBooks, loading, error } = useBooks()
 
 const searchBooks = ref([])
-// const route = useRoute()
-
-const user = useState('auth_user')
 
 
 async function getBooks() {

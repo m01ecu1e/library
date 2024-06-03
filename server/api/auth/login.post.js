@@ -58,7 +58,7 @@ export default defineEventHandler(async (event) => {
   })
 
   // Add HTTP only cookies
-  sendRefreshToken(event, refreshToken)
+  // sendRefreshToken(event, refreshToken)
 
   return {
     accessToken: accessToken,

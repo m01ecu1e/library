@@ -16,13 +16,13 @@
 
     <UDivider orientation="vertical" class="col-span-1" />
 
-    <div v-if="props.user"
+    <div v-if="authStore.authUser"
       class="col-span-1 lg:flex-none px-5 sm:px-5 md:px-5 lg:px-5 hover:text-sky-600 text-xl content-center ">
-      <NuxtLink v-if="props.user.admin" to="/Admin">
-        <p>{{ props.user.firstName }}</p>
+      <NuxtLink v-if="authStore.authUser.admin" to="/Admin">
+        <p>{{ authStore.authUser.firstName }}</p>
       </NuxtLink>
-      <NuxtLink v-else-if="!props.user.admin" to="/Account">
-        <p>{{ props.user.firstName }}</p>
+      <NuxtLink v-else-if="!authStore.authUser.admin" to="/Account">
+        <p>{{ authStore.authUser.firstName }}</p>
       </NuxtLink>
     </div>
 
@@ -57,10 +57,8 @@
         
       </div>
 
-      <Placeholder class="h-full" />
 
       <template #footer>
-        <Placeholder class="h-8" />
       </template>
     </UCard>
   </USlideover>
@@ -68,11 +66,12 @@
 
 <script setup>
 
-
+const authStore = useAuthStore()
 
 const isOpen = ref(false)
 
 const colorMode = useColorMode()
+
 const isDark = computed({
   get() {
     return colorMode.value === 'dark'
@@ -82,10 +81,11 @@ const isDark = computed({
   }
 })
 
-const props = defineProps({
-  user: {
-    type: Object,
-    required: false
-  }
-})
+// const props = defineProps({
+//   user: {
+//     type: Object,
+//     required: false
+//   }
+// })
+
 </script>
