@@ -1,5 +1,49 @@
 <template>
-    <UContainer v-if="book" class=" rounded-lg lg:w-2/3 px-0 py-5">
+    <UContainer v-if="loading" class=" rounded-lg lg:w-full py-5">
+        <UCard class="px-0 lg:px-20 shadow-lg">
+            <template #header>
+                <div class="font-semibold text-xl">
+                    <USkeleton class="h-8" />
+                </div>
+            </template>
+            <div class="flex">
+                <div class="w-48 lg:w-64 lg:content-start">
+                    <!-- <img :src="book.coverImage" alt="Обложка" class="border border-gray-400  shadow-xl"> -->
+                    <USkeleton class="h-48 lg:h-80" />
+                </div>
+                <div class=" w-full pl-5 space-y-3">
+                    <USkeleton class="h-4 w-80" />
+
+                    <USkeleton class="h-4 w-64" />
+
+                    <USkeleton class="h-4 w-64" />
+
+                    <USkeleton class="h-4 w-48" />
+
+
+                </div>
+
+            </div>
+            <div class="mt-5">
+                <USkeleton class="h-8 w-200" />
+            </div>
+            <div class="mt-10">
+                <USkeleton class="h-10 w-200" />
+            </div>
+            <template #footer>
+                <!-- <USelectMenu v-model="selectedLib" :options="libraryBooks"
+                    placeholder="Для бронирования выберите библиотеку" value-attribute="id"
+                    option-attribute="libraryName" class="mb-2" size="xl" />
+                <div v-if="authStore.authUser">
+                    
+                    <UButton @click="handleBooking" :loading="loading" :disabled="loading" size="lg" class="mt-2">
+                        Забронировать
+                    </UButton>
+                </div> -->
+            </template>
+        </UCard>
+    </UContainer>
+    <UContainer v-if="book" class=" rounded-lg lg:w-full py-5">
         <UCard class="px-0 lg:px-20 shadow-lg">
             <template #header>
                 <div class="font-semibold text-xl">
@@ -39,12 +83,12 @@
                         {{ book.info }}
                     </div>
                 </template>
-            </UAccordion >
+            </UAccordion>
             <template #footer>
                 <USelectMenu v-model="selectedLib" :options="libraryBooks"
                     placeholder="Для бронирования выберите библиотеку" value-attribute="id"
                     option-attribute="libraryName" class="mb-2" size="xl" />
-                <div v-if="user">
+                <div v-if="authStore.authUser">
                     <!-- <button v-if="selectedLib.amountAvailable > 0" @click="handleBooking"
                         class=" text-white text-md font-semibold bg-sky-500 hover:bg-sky-600 rounded-lg px-4 py-2 mt-3 mb-2 ">
                         Забронировать
@@ -69,7 +113,8 @@
                 <button @click="isOpen = true"
                     class="transform -translate-x-1/2 -translate-y-1/2 text-white text-md font-semibold border-4 shadow-lg border-white bg-sky-500 hover:bg-sky-600 rounded-full px-3 py-3">
                 </button> -->
-                <CustomMarker :library="marker.library" :user="user" @selectLibrary="handleSelectLibrary" />
+                <CustomMarker :library="marker.library" :user="authStore.authUser"
+                    @selectLibrary="handleSelectLibrary" />
             </yandex-map-marker>
         </yandex-map>
     </UContainer>
@@ -97,7 +142,7 @@ import type { YMap } from '@yandex/ymaps3-types';
 import { shallowRef } from 'vue';
 import { YandexMap, YandexMapDefaultSchemeLayer, YandexMapDefaultFeaturesLayer, YandexMapMarker } from 'vue-yandex-maps';
 
-// const handleClick = (event: MouseEvent) => console.log(event);
+const authStore = useAuthStore()
 
 const markers = ref([])
 
@@ -111,23 +156,15 @@ const items = [{
 const colorMode = useColorMode()
 
 const isOpen = ref(false)
-const { getBookById } = useBooks()
+const { getBookById, loading } = useBooks()
 const book = ref(null)
 const libraryBooks = ref(null)
 const selectedLib = ref()
 const selectedLibInfo = ref()
 const route = useRoute()
-const loading = ref(false)
+const postLoading = ref(false)
 const toast = useToast()
 const error = ref()
-
-const { useAuthUser, initAuth, useAuthLoading } = useAuth()
-
-const user = useAuthUser()
-
-onBeforeMount(() => {
-    initAuth()
-})
 
 const bookId = computed(() => route.params.id)
 
@@ -147,15 +184,15 @@ async function getBook() {
 }
 
 async function handleBooking() {
-
+    console.log("booking user id", authStore.authUser.id)
     const { postBookedBook, putLibraryBook } = useBooks()
-    loading.value = true
+    postLoading.value = true
     isOpen.value = false
     error.value = null
     try {
         await postBookedBook({
             libraryBookId: selectedLib.value,
-            userId: user._object.$sauth_user.id
+            userId: authStore.authUser.id,
         })
         await putLibraryBook({
             libraryBookId: selectedLib.value,
@@ -186,7 +223,7 @@ async function handleBooking() {
 
     } finally {
 
-        loading.value = false
+        postLoading.value = false
     }
 }
 

@@ -90,15 +90,12 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const reRefreshAccessToken = () => {
-    // const authToken = useAuthToken()
 
     if (!authToken.value) {
       return
     }
 
     const jwt = jwtDecode(authToken.value)
-
-    console.log(jwt)
     const newRefreshTime = jwt.exp - 60000
     setTimeout(async () => {
       await refreshToken()

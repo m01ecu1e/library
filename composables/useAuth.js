@@ -143,12 +143,6 @@ export default () => {
   }
 
   return {
-    login,
-    register,
-    useAuthUser,
-    useAuthToken,
-    initAuth,
-    useAuthLoading,
-    logout
+
   }
 }

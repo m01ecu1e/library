@@ -11,17 +11,17 @@
       </UButton>
     </form>
     <div class="grid grid-cols-2 pb-4 pt-2 mx-2 lg:m-0 lg:p-0 justify-items-center md:justify-items-center content-center lg:col-span-3 rounded-lg ">
-      <div class="text-sky-600 hover:text-sky-700 font-semibold text-md flex content-center text-sm lg:text-md ">
+      <div class="text-sky-500  hover:text-sky-600 font-semibold text-md flex content-center text-sm lg:text-md ">
         <UIcon name="i-heroicons-heart" class="w-5 h-5 lg:w-6 lg:h-6 mr-1 shrink-0" /> 
         <div class="content-center ">
           Избранное
         </div>
       </div>
-      <NuxtLink v-if="authStore.authUser" to="Account" class=" text-sky-600 hover:text-sky-700 font-semibold flex content-center text-sm lg:text-md mr-2 lg:mr-0">
+      <NuxtLink v-if="authStore.authUser" to="Account" class=" text-sky-500  hover:text-sky-600 font-semibold flex content-center text-sm lg:text-md mr-2 lg:mr-0">
         <UIcon name="i-heroicons-user-circle" class="w-5 h-5 lg:w-6 lg:h-6 mr-1 shrink-0" /> 
         <div class="content-center">Личный кабинет</div>
       </NuxtLink>
-      <NuxtLink v-else to="AuthPage" class="text-sky-600 hover:text-sky-700 font-semibold flex content-center text-sm lg:text-md mr-2 lg:mr-0">
+      <NuxtLink v-else to="AuthPage" class="text-sky-500  hover:text-sky-600 font-semibold flex content-center text-sm lg:text-md mr-2 lg:mr-0">
         <UIcon name="i-heroicons-user-circle" class="w-5 h-5 lg:w-6 lg:h-6 mr-1 shrink-0" /> 
         <div class="content-center">Личный кабинет</div>
       </NuxtLink>

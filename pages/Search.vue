@@ -1,21 +1,37 @@
 <template>
-  <UContainer class="grid lg:grid p-0">
+  <UContainer class="grid lg:grid">
     <HomePageSearchBar :user="user" />
+    <div class="flex flex-col justify-center">
+      
+      <div class="mb-3 mt-2 font-semibold flex justify-center">Найдено результатов: {{ totalPages }}</div>
+      <!-- <div v-if="loading">Loading...</div>
+      <div v-if="error">{{ error }}</div> -->
+      
+  
+      <UDivider class="my-4"></UDivider>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+      </div>
+      <SearchedBooks :books="searchBooks" />
+
+      <div class="flex justify-center mb-20" v-if="searchBooks">
+        <UPagination v-model="page" :page-count="pageSize" :total="totalPages" :active-button="{ color: 'sky' }" />
+      </div>
+
+    </div>
   </UContainer>
   
-  <div class="flex flex-col justify-center">
-    
-    <div class="mb-3 mt-2 font-semibold flex justify-center">Найдено результатов: {{ totalPages }}</div>
-    <!-- <div v-if="loading">Loading...</div>
-    <div v-if="error">{{ error }}</div> -->
-    <div class="flex justify-center " v-if="searchBooks">
-      <UPagination v-model="page" :page-count="pageSize" :total="totalPages" :active-button="{ color: 'sky' }" />
-    </div>
-
-    <UDivider class="my-4"></UDivider>
-    
-    <SearchedBooks :books="searchBooks" />
-  </div>
 </template>
 
 <script setup>

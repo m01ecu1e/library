@@ -87,6 +87,7 @@ export default () => {
 
 
   const getBookById = (bookId) => {
+    loading.value = true
     return new Promise(async (resolve, reject) => {
       try {
         const response = await useFetchApi(`/api/books/${bookId}`)
@@ -95,6 +96,8 @@ export default () => {
 
       } catch (error) {
         reject(error.data)
+      } finally {
+        loading.value = false
       }
     })
   }

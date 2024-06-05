@@ -1,1 +1,1 @@
-// import './removeExpiredBookings'
+import './removeExpiredBookings'

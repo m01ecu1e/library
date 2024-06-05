@@ -29,11 +29,11 @@ export default defineNuxtConfig({
       }
     }
   },
-  // hooks: {
-  //   'ready': async () => {
-  //     await import('./server/init')
-  //   }
-  // },
+  hooks: {
+    'ready': async () => {
+      await import('./server/init')
+    }
+  },
   css: [
     '~/assets/css/main.css'
   ],

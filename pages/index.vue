@@ -1,12 +1,33 @@
 <template>
 
-    <UContainer class="grid lg:grid p-0">
-      <!-- <HomePageSearchBar :user="user"/> -->
-      <HomePageSearchBar/>
-    </UContainer>
-    <div class="flex flex-col justify-center">
-      <LatestBooks :books="searchBooks" />
+  <UContainer class="grid lg:grid">
+    <HomePageSearchBar />
+    <!-- <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+      <USkeleton v-if="loading"
+        class="text-sm lg:text-md mb-6 col-span-1" />
+    </div> -->
+
+    <LatestBooks :books="searchBooks" />
+    <div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+        <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
+      </div>
+      <!-- <USkeleton v-if="loading" class="h-80 w-full rounded-lg" /> -->
     </div>
+    <!-- <div v-if="loading">Загрузка</div> -->
+  </UContainer>
+
 </template>
 
 <script setup>
@@ -22,6 +43,7 @@ async function getBooks() {
   if (books) {
     searchBooks.value = books.books
   }
+
 }
 
 getBooks()

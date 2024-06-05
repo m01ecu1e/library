@@ -33,8 +33,6 @@
 <script setup>
 import { object, string } from 'yup'
 
-// import { useAuthStore } from '~/stores/auth'
-
 const authStore = useAuthStore()
 
 const schema = object({
@@ -52,8 +50,6 @@ const data = reactive({
 })
 
 async function handleLogin() {
-  //alert(JSON.stringify(data))
-  // const { login } = useAuth()
 
   data.loading = true
 
@@ -66,7 +62,6 @@ async function handleLogin() {
     console.log(authStore.authUser)
   } catch (err) {
     if (err.message) {
-      // console.log(err.message)
       error.value = err.message
       toast.add({
             title: 'Ошибка:',

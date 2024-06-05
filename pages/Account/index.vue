@@ -1,5 +1,5 @@
 <template>
-  <UContainer v-if="authStore.authUser" class=" lg:px-40 py-5 px-0">
+  <UContainer class=" lg:px-40 py-5 px-0">
     <UContainer
       class=" justify-start w-full bg-white dark:bg-gray-900 content-start rounded-lg shadow-lg">
       <div class="font-semibold text-xl mb-5 mt-5">
@@ -14,12 +14,13 @@
       </div>
 
     </UContainer>
-    <UContainer v-if="authStore.authUser" class=" justify-start bg-white dark:bg-gray-900 rounded-lg shadow-lg pb-5">
+    <UContainer class=" justify-start bg-white dark:bg-gray-900 rounded-lg shadow-lg pb-5">
 
       <div>
         <h1 class="font-semibold text-xl mb-5 mt-5 pt-5">Ваши книги:</h1>
       </div>
       <div>
+        <USkeleton v-if="loading" class="h-80 w-full rounded-lg" />
         <UCard v-if="bookedBooks" v-for="bookedBook in bookedBooks" class="mt-2">
           <template #header>
             <div class="font-semibold content-center text-lg">
@@ -99,7 +100,7 @@
       <UModal v-model="isModalOpen">
         <div class="p-4">
           <canvas ref="qrcodeCanvas"></canvas>
-          <!-- <p>https://libpnz.netlify.app/Admin/{{ selectedOrderCode }} ({{ selectedOrderCode }})</p> -->
+          <p>https://libpnz.netlify.app/Admin/{{ selectedOrderCode }} ({{ selectedOrderCode }})</p>
         </div>
       </UModal>
     </UContainer>
@@ -112,8 +113,6 @@
 import QRCode from 'qrcode'
 import { format, parseISO, isAfter } from 'date-fns'
 import { toZonedTime, toDate } from 'date-fns-tz'
-
-import { useAuthStore } from '~/stores/auth'
 
 const authStore = useAuthStore()
 
@@ -136,9 +135,8 @@ const items = [{
   defaultOpen: false,
   slot: 'orderCard'
 }]
-const loading = ref(false)
 
-const { fetchBookedBooks } = useBooks()
+const { fetchBookedBooks, loading } = useBooks()
 const bookedBooks = ref([])
 
 const isModalOpen = ref(false)
@@ -159,40 +157,24 @@ watch(isModalOpen, async (newValue) => {
   }
 })
 
-// const { useAuthUser, initAuth, useAuthLoading } = useAuth()
-
 const getBookedBooks = async (userId) => {
   if (userId === '') return []
+  console.log("getBookedBooks:",userId)
 
-  loading.value = true
+  // loading.value = true
 
   const response = await fetchBookedBooks({
     query: userId
   })
 
   bookedBooks.value = response.bookedBooks
-  // console.log(bookedBooks.value)
-  loading.value = false
-  // console.log(now > bookedBooks.value.due_date)
+  // loading.value = false
   return bookedBooks.value
 }
 
-onBeforeMount(() => {
-  console.log("onBeforeMount")
-  // initAuth()
-})
-
-// watch(() => user._object?.$sauth_user?.id, async (newUserId) => {
-//   if (newUserId) {
-//     console.log("User initialized, fetching booked books")
-//     await getBookedBooks(newUserId)
-//   }
-// }, { immediate: true })
-
-await getBookedBooks(authStore.authUser.id)
+getBookedBooks(authStore.authUser.id)
 
 async function handleLogout() {
-  // const { logout } = useAuth()
 
   try {
     await authStore.logout({
