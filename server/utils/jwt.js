@@ -54,3 +54,7 @@ export const sendRefreshToken = (event, token) => {
         sameSite: true
     })
 }
+
+export const sendAuthCookie = (event, auth_user) => {
+    setCookie(event, "auth", auth_user)
+}

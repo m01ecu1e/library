@@ -12,6 +12,7 @@ export default defineEventHandler(async (event) => {
   }
 
   sendRefreshToken(event, null)
+  sendAuthCookie(event,null)
   return {
     message: 'Done'
   }

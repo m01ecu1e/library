@@ -154,7 +154,8 @@ export const useAuthStore = defineStore('auth', () => {
   }
 },
 {
-  persist: {
+  persist: 
+  {
     storage: persistedState.cookiesWithOptions({
       sameSite: 'strict',
       httpOnly: false,    // It works when i set it to false or remove this property
