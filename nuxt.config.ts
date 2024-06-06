@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     'vue-yandex-maps/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
   ],
+  
 
   yandexMaps: {
     apikey: process.env.YANDEX_MAPS_API_KEY,

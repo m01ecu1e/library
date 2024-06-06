@@ -1,7 +1,6 @@
 <template>
   <UContainer class=" lg:px-40 py-5 px-0">
-    <UContainer
-      class=" justify-start w-full bg-white dark:bg-gray-900 content-start rounded-lg shadow-lg">
+    <UContainer class=" justify-start w-full bg-white dark:bg-gray-900 content-start rounded-lg shadow-lg">
       <div class="font-semibold text-xl mb-5 mt-5">
         Личный кабинет
       </div>
@@ -31,7 +30,8 @@
             </div>
           </template>
 
-          <div class="flex text-md lg:text-lg content-center mb-2">
+          <div class="flex text-md lg:text-lg content-center mb-2 cursor-pointer"
+            @click="openModal(bookedBook.orderCode)">
             <div class="w-32">
               <img :src="bookedBook.libraryBook.book.coverImage" alt="Обложка книги">
             </div>
@@ -44,40 +44,40 @@
 
           <UAccordion :items="items">
             <template #orderCard>
-              <div class="flex cursor-pointer" @click="openModal(bookedBook.orderCode)">
-                <div class="w-full cursor-pointer ">
-                  <p class="">
-                    Библиотека:
-                  <p class="font-semibold">{{ bookedBook.libraryBook.library.name }}</p>
-                  </p>
+              <div class="w-full ml-1">
+
+                <p class="">
+                  Библиотека:
+                <p class="font-semibold">{{ bookedBook.libraryBook.library.name }}</p>
+                </p>
+                <p>
+                  Адрес: {{ bookedBook.libraryBook.library.Address }}
+                </p>
+                <p>
+                  {{ bookedBook.libraryBook.library.info }}
+                </p>
+                <div v-if="!bookedBook.received" class="text-sky-600 mt-2 font-semibold">
+                  Забронирована
                   <p>
-                    Адрес: {{ bookedBook.libraryBook.library.Address }}
+                    Заберите до:
                   </p>
-                  <p>
-                    {{ bookedBook.libraryBook.library.info }}
+                  <p class=" font-light">
+                    {{ formatDate(bookedBook.booked_due_date) }}
                   </p>
-                  <div v-if="!bookedBook.received" class="text-sky-600 mt-2 font-semibold">
-                    Забронирована
-                    <p>
-                      Заберите до:
-                    </p>
-                    <p class=" font-light">
-                      {{ formatDate(bookedBook.booked_due_date) }}
-                    </p>
-                  </div>
-                  <div v-if="bookedBook.received">
-                    <p class="text-green-600 mt-2 font-semibold">
-                      Выдана:
-                    <p class="text-black dark:text-gray-300 ">
-                      {{ formatDate(bookedBook.received_at) }}
-                    </p>
-                    Вернуть до:
-                    <p class="text-black dark:text-gray-300 ">
-                      {{ formatDate(bookedBook.due_date) }}
-                    </p>
-                    </p>
-                  </div>
                 </div>
+                <div v-if="bookedBook.received">
+                  <p class="text-green-600 mt-2 font-semibold">
+                    Выдана:
+                  <p class="text-black dark:text-gray-300 ">
+                    {{ formatDate(bookedBook.received_at) }}
+                  </p>
+                  Вернуть до:
+                  <p class="text-black dark:text-gray-300 ">
+                    {{ formatDate(bookedBook.due_date) }}
+                  </p>
+                  </p>
+                </div>
+
               </div>
             </template>
 
@@ -159,7 +159,7 @@ watch(isModalOpen, async (newValue) => {
 
 const getBookedBooks = async (userId) => {
   if (userId === '') return []
-  console.log("getBookedBooks:",userId)
+  console.log("getBookedBooks:", userId)
 
   // loading.value = true
 

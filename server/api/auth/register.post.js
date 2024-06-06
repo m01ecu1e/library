@@ -1,6 +1,8 @@
 import { sendError, createError } from "h3"
 import { createUser, getUserByEmail } from "~/server/db/users"
 import { userTransformer } from "../transformers/user"
+import nodemailer from 'nodemailer'
+import crypto from 'crypto'
 
 export default defineEventHandler(async (event) => {
 

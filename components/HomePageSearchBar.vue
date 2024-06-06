@@ -31,12 +31,11 @@
 
 <script setup>
 
-// import { useAuthStore } from '~/stores/auth'
-
 const authStore = useAuthStore()
 
 const search = ref('')
 const loading = ref(false)
+const inStock = ref(false)
 
 async function handleSearch(e) {
   e.preventDefault()
@@ -47,15 +46,7 @@ async function handleSearch(e) {
       q: search.value
     }
   })
-
 }
-
-// const props = defineProps({
-//   user: {
-//     type: Object,
-//     required: false
-//   }
-// })
 
 
 </script>

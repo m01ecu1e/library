@@ -3,14 +3,13 @@
     <h3 class="mb-4">Добавить книгу:</h3>
     <form
           @submit="handleAddBook"
-          class="flex flex-col"
+          class="flex flex-col gap-2"
         >
           <UInput
             type="text"
             :disabled="bookLoading"
             placeholder="Название"
             v-model="title"
-            class="mb-2"
             size="xl"
             required
           />
@@ -20,7 +19,6 @@
             :options="authors"
             :loading="bookLoading"
             size="xl"
-            class="w-96 max-w-full mb-2"
             placeholder="Автор"
             option-attribute="name"
             trailing
@@ -45,7 +43,6 @@
           :disabled="bookLoading"
           placeholder="Год издания"
           v-model="year"
-          class="mb-2"
           size="xl"
           />
           <!-- <UInput
@@ -62,7 +59,6 @@
           :disabled="bookLoading"
           placeholder="Дополнительная информация"
           v-model="info"
-          class="mb-2"
           size="xl"
         />
         <UInput
@@ -70,24 +66,20 @@
           :disabled="bookLoading"
           placeholder="ISBN"
           v-model="ISBN"
-          class="mb-2"
           size="xl"
         />
-
         <UInputMenu
             v-model="selectedPublisher"
             :search="searchPublishers"
             :options="publishers"
             :loading="bookLoading"
             size="xl"
-            class="w-96 max-w-full mb-2"
             placeholder="Издательство"
             option-attribute="name"
             trailing
             by="id"
             required
-          >
-          </UInputMenu>
+          />
           <div v-if="false">
           <div
             v-if="publishers.length > 0"
@@ -105,7 +97,6 @@
         :disabled="bookLoading"
         accept="image/*"
         @change="handleFileUpload"
-        class="mb-2 hover:bg-red-200"
         required
         size="xl"
         />
@@ -118,7 +109,7 @@
       >
         Добавить
       </UButton>
-        </form>
+    </form>
   </UCard>
 </template>
 <script setup>

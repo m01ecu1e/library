@@ -1,9 +1,10 @@
-
 import { getBooks, getBooksCount } from "~/server/db/book";
 import { bookTransformer } from "../transformers/book";
 
 export default defineEventHandler(async (event) => {
-    const { query, skip, take } = getQuery(event);
+    const { query, skip, take, publisherFilter, inStock, libraryId } = getQuery(event);
+
+    const searchConditions = [];
 
     if (query) {
         const searchTerms = query.trim().split(" ");
@@ -49,69 +50,101 @@ export default defineEventHandler(async (event) => {
             }
         }
 
-        // Если нет валидных терминов, возвращаем пустой результат
-        if (validTerms.length === 0) {
-            return {
-                books: [],
-                total: 0
-            };
-        }
-
         // Создаем условия для валидных терминов
-        const searchConditions = validTerms.map((term) => ({
-            OR: [
-                {
-                    author: {
-                        name: {
-                            search: term,
-                            mode: 'insensitive'
+        if (validTerms.length > 0) {
+            searchConditions.push({
+                AND: validTerms.map((term) => ({
+                    OR: [
+                        {
+                            author: {
+                                name: {
+                                    search: term,
+                                    mode: 'insensitive'
+                                }
+                            }
+                        },
+                        {
+                            title: {
+                                search: term,
+                                mode: 'insensitive'
+                            }
+                        },
+                        {
+                            publisher: {
+                                name: {
+                                    search: term,
+                                    mode: 'insensitive'
+                                }
+                            }
                         }
-                    }
-                },
-                {
-                    title: {
-                        search: term,
-                        mode: 'insensitive'
-                    }
-                },
-                {
-                    publisher: {
-                        name: {
-                            search: term,
-                            mode: 'insensitive'
-                        }
-                    }
-                }
-            ]
-        }));
-
-        let prismaQuery = {
-            include: {
-                author: true,
-                publisher: true,
-                _count: {
-                    select: {
-                        LibraryBook: true
-                    }
-                }
-            },
-            skip: +skip,
-            take: +take,
-            where: {
-                AND: searchConditions
-            }
-        };
-
-        const books = [];
-
-        books[0] = await getBooks(prismaQuery);
-        books[1] = await getBooksCount({
-            where: prismaQuery.where
-        });
-
-        return {
-            books: books[0].map(bookTransformer),
-            total: books[1]
-        };
+                    ]
+                }))
+            });
+        }
     }
+
+    // Добавляем фильтр по издателю
+    // if (publisherFilter) {
+    //     searchConditions.push({
+    //         publisher: {
+    //             name: {
+    //                 contains: publisherFilter,
+    //                 mode: 'insensitive'
+    //             }
+    //         }
+    //     });
+    // }
+    console.log("Backend inStock:", inStock)
+    console.log("Backend libraryId:", libraryId)
+    console.log("ALL:",query, skip, take, publisherFilter, inStock, libraryId)
+
+    // Добавляем фильтр по наличию книг
+    if (inStock === 'true') {
+        searchConditions.push({
+            LibraryBook: {
+                some: {
+                    amountAvailable: {
+                        gt: 0
+                    }
+                }
+            }
+        });
+    }
+
+    // Добавляем фильтр по библиотеке
+    if (libraryId) {
+        searchConditions.push({
+            LibraryBook: {
+                some: {
+                    libraryId: libraryId
+                }
+            }
+        });
+    }
+
+    let prismaQuery = {
+        include: {
+            author: true,
+            publisher: true,
+            LibraryBook: true, // Для фильтрации по количеству доступных книг
+            _count: {
+                select: {
+                    LibraryBook: true
+                }
+            }
+        },
+        skip: +skip,
+        take: +take,
+        where: searchConditions.length > 0 ? { AND: searchConditions } : {}
+    };
+
+    const books = await getBooks(prismaQuery);
+    const total = await getBooksCount({
+        where: prismaQuery.where
+    });
+
+    return {
+        books: books.map(bookTransformer),
+        total: total
+    };
 });

@@ -34,23 +34,23 @@ const removeExpiredBookings = async () => {
 
 // Планировщик задач для регулярного удаления просроченных бронирований
 // Каждый день в полночь (00:00)
-// cron.schedule('0 0 * * *', () => {
-//   removeExpiredBookings()
-//     .then(() => {
-//       console.log('Expired bookings removed')
-//     })
-//     .catch((error) => {
-//       console.error('Error removing expired bookings:', error)
-//     })
-// })
-
-// Для тестирования каждые 10 секунд
-cron.schedule('*/10 * * * * *', () => {
+cron.schedule('0 0 * * *', () => {
   removeExpiredBookings()
     .then(() => {
-      console.log('Overdue status updated')
+      console.log('Expired bookings removed')
     })
     .catch((error) => {
-      console.error('Error updating overdue status:', error)
+      console.error('Error removing expired bookings:', error)
     })
 })
+
+// Для тестирования каждые 10 секунд
+// cron.schedule('*/10 * * * * *', () => {
+//   removeExpiredBookings()
+//     .then(() => {
+//       console.log('Overdue status updated')
+//     })
+//     .catch((error) => {
+//       console.error('Error updating overdue status:', error)
+//     })
+// })

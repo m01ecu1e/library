@@ -30,6 +30,4 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Error finding publishers',
     })
   }
-
-
 })

@@ -22,7 +22,7 @@
     
     </UAccordion>
   </UContainer>
-  <div v-if="user && user.admin">
+  <div v-if="authStore.authUser && authStore.authUser.admin">
     <button @click="handleLogout"
       class=" text-white text-md font-semibold bg-sky-500 hover:bg-sky-600 rounded-lg px-4 py-2 mt-3 mb-2 ">
       Выйти из учётной записи
@@ -59,14 +59,7 @@ const items = [
   }
 ]
 
-const { useAuthUser, initAuth, useAuthLoading } = useAuth()
-
-
-const user = useAuthUser()
-
-onBeforeMount(() => {
-  initAuth()
-})
+const authStore = useAuthStore()
 
 async function handleLogout() {
   const { logout } = useAuth()

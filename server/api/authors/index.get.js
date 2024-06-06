@@ -13,7 +13,8 @@ export default defineEventHandler(async (event) => {
   let prismaQuery = {
     where: {
       name: {
-        contains: query.query
+        contains: query.query,
+        mode:'insensitive'
       }
     }
   }

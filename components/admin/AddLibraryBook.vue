@@ -3,7 +3,7 @@
     <h3 class="mb-4">Добавить книгу в выбранную библиотеку:</h3>
     <form
           @submit="handleAddLibraryBook"
-          class="flex flex-col"
+          class="flex flex-col gap-2"
         >
         <USelectMenu
             v-model="selectedLib"
@@ -11,7 +11,6 @@
             placeholder="Выберите библиотеку"
             value-attribute="id"
             option-attribute="name"
-            class="mb-2"
             size="xl"
             required
         />
@@ -21,7 +20,6 @@
             :options="books"
             :loading="loading"
             size="xl"
-            class="w-96 max-w-full mb-2"
             placeholder="Книга"
             option-attribute="title"
             trailing
@@ -52,8 +50,6 @@
             :disabled="loading"
             placeholder="Количество экземпляров (ВСЕГО)"
             v-model="amount"
-            class="mb-2"
-          
             size="xl"
           />
         <UInput
@@ -61,8 +57,6 @@
             :disabled="loading"
             placeholder="Количество экз., доступных для брони"
             v-model="amountAvailable"
-            class="mb-2"
-           
             size="xl"
         />
         <UButton

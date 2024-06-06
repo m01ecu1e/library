@@ -20,29 +20,20 @@
 
                     <USkeleton class="h-4 w-48" />
 
-
                 </div>
-
             </div>
             <div class="mt-5">
                 <USkeleton class="h-8 w-200" />
             </div>
             <div class="mt-10">
-                <USkeleton class="h-10 w-200" />
+                <USkeleton class="h-12 w-200" />
             </div>
             <template #footer>
-                <!-- <USelectMenu v-model="selectedLib" :options="libraryBooks"
-                    placeholder="Для бронирования выберите библиотеку" value-attribute="id"
-                    option-attribute="libraryName" class="mb-2" size="xl" />
-                <div v-if="authStore.authUser">
-                    
-                    <UButton @click="handleBooking" :loading="loading" :disabled="loading" size="lg" class="mt-2">
-                        Забронировать
-                    </UButton>
-                </div> -->
             </template>
         </UCard>
     </UContainer>
+
+
     <UContainer v-if="book" class=" rounded-lg lg:w-full py-5">
         <UCard class="px-0 lg:px-20 shadow-lg">
             <template #header>
@@ -87,13 +78,10 @@
             <template #footer>
                 <USelectMenu v-model="selectedLib" :options="libraryBooks"
                     placeholder="Для бронирования выберите библиотеку" value-attribute="id"
-                    option-attribute="libraryName" class="mb-2" size="xl" />
+                    option-attribute="libraryName" size="xl" />
+
                 <div v-if="authStore.authUser">
-                    <!-- <button v-if="selectedLib.amountAvailable > 0" @click="handleBooking"
-                        class=" text-white text-md font-semibold bg-sky-500 hover:bg-sky-600 rounded-lg px-4 py-2 mt-3 mb-2 ">
-                        Забронировать
-                    </button> -->
-                    <UButton @click="handleBooking" :loading="loading" :disabled="loading" size="lg" class="mt-2">
+                    <UButton @click="handleBooking" :loading="loading" :disabled="loading" size="lg" class="mt-4">
                         Забронировать
                     </UButton>
                 </div>
