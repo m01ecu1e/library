@@ -49,6 +49,13 @@ export default defineEventHandler(async (event) => {
                 validTerms.push(term);
             }
         }
+        
+        if (validTerms.length === 0) {
+            return {
+                books: [],
+                total: 0
+            };
+        }
 
         // Создаем условия для валидных терминов
         if (validTerms.length > 0) {

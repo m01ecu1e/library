@@ -72,7 +72,7 @@ const items = [{
 }]
 
 const page = ref(route.query.page ? route.query.page : 1)
-const totalPages = ref(1)
+const totalPages = ref()
 const pageSize = 12
 
 watch([searchQuery, page, filters.value], () => {
@@ -102,12 +102,12 @@ getBooks()
 const getLibs = async (q) => {
   if (q === '') return []
 
-  loading.value = true
+  // loading.value = true
 
   const response = await fetchLibs()
 
   libs.value = response.libraries
-  loading.value = false
+  // loading.value = false
   return libs.value
 }
 
