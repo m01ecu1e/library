@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { initCronJobs } from './server/cron'
 export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: [
@@ -31,8 +32,10 @@ export default defineNuxtConfig({
     }
   },
   hooks: {
-    'ready': async () => {
-      await import('./server/init')
+    'listen': () => {
+      if (process.env.NODE_ENV !== 'production') {
+        initCronJobs()
+      }
     }
   },
   css: [

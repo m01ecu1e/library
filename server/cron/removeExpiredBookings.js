@@ -3,9 +3,8 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-// Обновляем все записи, которые просрочены
+// Функция для удаления просроченных бронирований и обновления количества книг
 const removeExpiredBookings = async () => {
-
   const now = new Date()
 
   // Найти все просроченные бронирования
@@ -23,7 +22,7 @@ const removeExpiredBookings = async () => {
     await prisma.$transaction([
       prisma.libraryBook.update({
         where: { id: booking.libraryBookId },
-        data: { amountAvailable: { increment: 1 } },
+        data: { amount: { increment: 1 } },
       }),
       prisma.bookedBooks.delete({
         where: { id: booking.id },
@@ -33,24 +32,28 @@ const removeExpiredBookings = async () => {
 }
 
 // Планировщик задач для регулярного удаления просроченных бронирований
-// Каждый день в полночь (00:00)
-cron.schedule('0 0 * * *', () => {
-  removeExpiredBookings()
-    .then(() => {
-      console.log('Expired bookings removed')
-    })
-    .catch((error) => {
-      console.error('Error removing expired bookings:', error)
-    })
-})
+const scheduleCronJobs = () => {
+  // Каждый день в полночь (00:00)
+  // cron.schedule('0 0 * * *', () => {
+  //   removeExpiredBookings()
+  //     .then(() => {
+  //       console.log('Expired bookings removed')
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error removing expired bookings:', error)
+  //     })
+  // })
 
-// Для тестирования каждые 10 секунд
-// cron.schedule('*/10 * * * * *', () => {
-//   removeExpiredBookings()
-//     .then(() => {
-//       console.log('Overdue status updated')
-//     })
-//     .catch((error) => {
-//       console.error('Error updating overdue status:', error)
-//     })
-// })
+  // Для тестирования каждые 10 секунд (раскомментировать для тестирования)
+  cron.schedule('*/10 * * * * *', () => {
+    removeExpiredBookings()
+      .then(() => {
+        console.log('Expired bookings removed')
+      })
+      .catch((error) => {
+        console.error('Error removing expired bookings:', error)
+      })
+  })
+}
+
+export { scheduleCronJobs }
