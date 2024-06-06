@@ -50,28 +50,41 @@ const data = reactive({
 })
 
 async function handleLogin() {
-
   data.loading = true
+  error.value = null
 
   try {
-    authStore.login({
+    await authStore.login({
       email: data.email,
       password: data.password
     })
-    // navigateTo('/')
-    console.log(authStore.authUser)
-  } catch (err) {
-    if (err.message) {
-      error.value = err.message
-      toast.add({
-            title: 'Ошибка:',
-            description: '' + error.value + '',
-            icon: 'i-heroicons-x-circle',
-            color: 'red'
+    toast.add({
+            title: 'Вы авторизованы :)',
+            // description: 'Ваш email: ' + data.email + '',
+            icon: 'i-heroicons-check-circle',
+            color: 'green'
         })
+    navigateTo('/')
+  } catch (err) {
+    console.log("error", err.message)
+    if(err && err.message) {
+      error.value = err.message
     } else {
       error.value = 'Что-то пошло не так :/'
     }
+    // if (err && err.data && err.message) {
+    //   error.value = err.message
+    // } else if (err && err.response && err.response._data) {
+    //   error.value = err.response._data.message
+    // } else {
+    //   error.value = 'Что-то пошло не так :/'
+    // }
+    toast.add({
+      title: 'Ошибка:',
+      description: error.value,
+      icon: 'i-heroicons-x-circle',
+      color: 'red'
+    })
   } finally {
     data.loading = false
   }

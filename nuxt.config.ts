@@ -12,8 +12,9 @@ export default defineNuxtConfig({
     'vue-yandex-maps/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
   ],
-  
-
+  build: {
+    transpile: ['vue-qrcode-reader'],
+  },
   yandexMaps: {
     apikey: process.env.YANDEX_MAPS_API_KEY,
   },

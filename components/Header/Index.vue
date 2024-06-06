@@ -19,10 +19,10 @@
     <div v-if="authStore.authUser"
       class="col-span-3 lg:flex-none px-5 sm:px-5 md:px-5 lg:px-5 hover:text-sky-600 text-xl content-center">
       <NuxtLink v-if="authStore.authUser.admin" to="/Admin">
-        <p class="truncate">{{ authStore.authUser.firstName }}</p>
+        <p class="truncate max-w-32 overflow-hidden whitespace-nowrap">{{ authStore.authUser.firstName }}</p>
       </NuxtLink>
       <NuxtLink v-else-if="!authStore.authUser.admin" to="/Account">
-        <p class="truncate">{{ authStore.authUser.firstName }}</p>
+        <p class="truncate max-w-32 overflow-hidden whitespace-nowrap">{{ authStore.authUser.firstName }}</p>
       </NuxtLink>
     </div>
 

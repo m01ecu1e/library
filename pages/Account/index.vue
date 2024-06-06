@@ -31,7 +31,7 @@
           </template>
 
           <div class="flex text-md lg:text-lg content-center mb-2 cursor-pointer"
-            @click="openModal(bookedBook.orderCode)">
+            @click="openModal(bookedBook.id)">
             <div class="w-32">
               <img :src="bookedBook.libraryBook.book.coverImage" alt="Обложка книги">
             </div>
@@ -100,7 +100,7 @@
       <UModal v-model="isModalOpen">
         <div class="p-4">
           <canvas ref="qrcodeCanvas"></canvas>
-          <p>https://libpnz.netlify.app/Admin/{{ selectedOrderCode }} ({{ selectedOrderCode }})</p>
+          <p>({{ selectedOrderCode }})</p>
         </div>
       </UModal>
     </UContainer>
@@ -151,7 +151,7 @@ function openModal(orderCode) {
 watch(isModalOpen, async (newValue) => {
   if (newValue) {
     await nextTick()
-    QRCode.toCanvas(qrcodeCanvas.value, `https://libpnz.netlify.app/Admin/Order/${selectedOrderCode.value}`, (error) => {
+    QRCode.toCanvas(qrcodeCanvas.value, selectedOrderCode.value, (error) => {
       if (error) console.error(error)
     })
   }

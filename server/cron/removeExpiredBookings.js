@@ -34,18 +34,7 @@ const removeExpiredBookings = async () => {
 // Планировщик задач для регулярного удаления просроченных бронирований
 const scheduleCronJobs = () => {
   // Каждый день в полночь (00:00)
-  // cron.schedule('0 0 * * *', () => {
-  //   removeExpiredBookings()
-  //     .then(() => {
-  //       console.log('Expired bookings removed')
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error removing expired bookings:', error)
-  //     })
-  // })
-
-  // Для тестирования каждые 10 секунд (раскомментировать для тестирования)
-  cron.schedule('*/10 * * * * *', () => {
+  cron.schedule('0 0 * * *', () => {
     removeExpiredBookings()
       .then(() => {
         console.log('Expired bookings removed')
@@ -54,6 +43,17 @@ const scheduleCronJobs = () => {
         console.error('Error removing expired bookings:', error)
       })
   })
+
+  // Для тестирования каждые 10 секунд (раскомментировать для тестирования)
+  // cron.schedule('*/10 * * * * *', () => {
+  //   removeExpiredBookings()
+  //     .then(() => {
+  //       console.log('Expired bookings removed')
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error removing expired bookings:', error)
+  //     })
+  // })
 }
 
 export { scheduleCronJobs }

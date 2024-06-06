@@ -32,10 +32,10 @@ export const useAuthStore = defineStore('auth', () => {
 
         //console.log(data)
 
-        resolve(true)
+        resolve(data)
       } catch (error) {
-        // console.log("err:", error.data)
-        reject(error.data)
+        console.log("err:",error)
+        reject(error)
       }
     })
   }

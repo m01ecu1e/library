@@ -2,17 +2,8 @@
   <UCard class="w-full">
     <h3 class="mb-4">Выдать или принять книгу</h3>
     <form class="flex flex-col">
-      <UInputMenu 
-        v-model="selectedOrder" 
-        :search="getBookedBooks" 
-        :options="bookedBooks" 
-        :loading="loading" 
-        size="xl"
-        class="w-96 max-w-full mb-2" 
-        placeholder="Номер заказа" 
-        option-attribute="orderCode" 
-        trailing by="orderCode"
-      >
+      <UInputMenu v-model="selectedOrder" :search="getBookedBooks" :options="bookedBooks" :loading="loading" size="xl"
+        class="w-96 max-w-full mb-2" placeholder="Номер заказа" option-attribute="orderCode" trailing by="orderCode">
         <template #option="{ option: orderCode }">
           <div class="flex-1 font-semibold">
             {{ orderCode.orderCode }}
@@ -22,41 +13,26 @@
       <UButton :loading="loading" :disabled="loading" @click="handleGiveOrder" size="xl" class="justify-center mb-5">
         Показать заказ
       </UButton>
-
-      <!-- <h3 class="mb-4">Принять книгу</h3>
-      <UInputMenu 
-        v-model="selectedTakeOrder" 
-        :search="getBookedBooks" 
-        :options="bookedBooks" 
-        :loading="loading" 
-        size="xl"
-        class="w-96 max-w-full mb-2" 
-        placeholder="Номер заказа" 
-        option-attribute="orderCode" 
-        trailing by="orderCode"
-      >
-        <template #option="{ option: orderCode }">
-          <div class="flex-1 font-semibold">
-            {{ orderCode.orderCode }}
-          </div>
-        </template>
-      </UInputMenu>
-      <UButton :loading="loading" @click="handleTakeOrder" :disabled="loading" size="xl" class="justify-center">
-        Принять
-      </UButton> -->
+      <UButton @click="toggleScanner" size="xl" class="justify-center mb-5">
+        Отсканировать
+      </UButton>
+      <div v-if="scannerVisible" class="mb-5">
+        <qrcode-stream :constraints="selectedConstraints" :track="trackFunctionSelected.value"
+          :formats="selectedBarcodeFormats" @error="onError" @detect="onDetect" @camera-on="onCameraReady" />
+      </div>
     </form>
   </UCard>
 </template>
 
 <script setup>
+import { QrcodeStream } from 'vue-qrcode-reader'
 
 const loading = ref(false)
-
-const selectedOrder = ref()
-const selectedTakeOrder = ref()
-
-const { fetchBookedBooks, giveOrder, takeOrder, putLibraryBook } = useBooks()
+const selectedOrder = ref('')
 const bookedBooks = ref([])
+
+const { fetchBookedBooks } = useBooks()
+const router = useRouter()
 
 const getBookedBooks = async (selectedOrder) => {
   if (selectedOrder === '') return []
@@ -66,48 +42,169 @@ const getBookedBooks = async (selectedOrder) => {
   const response = await fetchBookedBooks({
     query: selectedOrder
   })
-  
+
   bookedBooks.value = response.bookedBooks
-  console.log(bookedBooks.value)
   loading.value = false
   return bookedBooks.value
 }
 
-async function handleGiveOrder() {
-  // loading.value = true
-  useRouter().push({
-    path: `/Admin/Order/${selectedOrder.value.id}`,
+const handleGiveOrder = () => {
+  router.push({
+    path: `/Admin/Order/${selectedOrder.value}`,
   })
-  // try {
-  //   await giveOrder({
-  //     orderId: selectedOrder.value.id
-  //   })
-  // } catch (error) {
-  //   console.log(error)
-  // } finally {
-  //   loading.value = false
-
-  // }
   console.log("order:", selectedOrder.value.orderCode)
 }
 
-async function handleTakeOrder() {
-  loading.value = true
-  try {
-    await putLibraryBook({
-      libraryBookId: selectedTakeOrder.value.libraryBookId,
-      value:1
-    })
-    await takeOrder({
-      orderId: selectedTakeOrder.value.id
-    })
-  } catch (error) {
-    console.log(error)
-  } finally {
-    loading.value = false
+const scannerVisible = ref(false)
 
-  }
-  console.log("order:", selectedOrder.value.id)
+const toggleScanner = () => {
+  scannerVisible.value = !scannerVisible.value
 }
 
+const result = ref('')
+
+function onDetect(detectedCodes) {
+  if (detectedCodes.length > 0) {
+    const decodedString = detectedCodes[0].rawValue // берем только первую распознанную строку
+    result.value = decodedString
+    selectedOrder.value = decodedString
+    console.log("result:", result.value)
+  }
+}
+
+const selectedConstraints = ref({ facingMode: 'environment' })
+const defaultConstraintOptions = [
+  { label: 'rear camera', constraints: { facingMode: 'environment' } },
+  { label: 'front camera', constraints: { facingMode: 'user' } }
+]
+const constraintOptions = ref(defaultConstraintOptions)
+
+async function onCameraReady() {
+  const devices = await navigator.mediaDevices.enumerateDevices()
+  const videoDevices = devices.filter(({ kind }) => kind === 'videoinput')
+
+  constraintOptions.value = [
+    ...defaultConstraintOptions,
+    ...videoDevices.map(({ deviceId, label }) => ({
+      label: `${label} (ID: ${deviceId})`,
+      constraints: { deviceId }
+    }))
+  ]
+
+  error.value = ''
+}
+
+function paintOutline(detectedCodes, ctx) {
+  for (const detectedCode of detectedCodes) {
+    const [firstPoint, ...otherPoints] = detectedCode.cornerPoints
+
+    ctx.strokeStyle = 'red'
+
+    ctx.beginPath()
+    ctx.moveTo(firstPoint.x, firstPoint.y)
+    for (const { x, y } of otherPoints) {
+      ctx.lineTo(x, y)
+    }
+    ctx.lineTo(firstPoint.x, firstPoint.y)
+    ctx.closePath()
+    ctx.stroke()
+  }
+}
+
+function paintBoundingBox(detectedCodes, ctx) {
+  for (const detectedCode of detectedCodes) {
+    const {
+      boundingBox: { x, y, width, height }
+    } = detectedCode
+
+    ctx.lineWidth = 2
+    ctx.strokeStyle = '#007bff'
+    ctx.strokeRect(x, y, width, height)
+  }
+}
+
+function paintCenterText(detectedCodes, ctx) {
+  for (const detectedCode of detectedCodes) {
+    const { boundingBox, rawValue } = detectedCode
+
+    const centerX = boundingBox.x + boundingBox.width / 2
+    const centerY = boundingBox.y + boundingBox.height / 2
+
+    const fontSize = Math.max(12, (50 * boundingBox.width) / ctx.canvas.width)
+
+    ctx.font = `bold ${fontSize}px sans-serif`
+    ctx.textAlign = 'center'
+
+    ctx.lineWidth = 3
+    ctx.strokeStyle = '#35495e'
+    ctx.strokeText(detectedCode.rawValue, centerX, centerY)
+
+    ctx.fillStyle = '#5cb984'
+    ctx.fillText(rawValue, centerX, centerY)
+  }
+}
+
+const trackFunctionOptions = [
+  { text: 'nothing (default)', value: undefined },
+  { text: 'outline', value: paintOutline },
+  { text: 'centered text', value: paintCenterText },
+  { text: 'bounding box', value: paintBoundingBox }
+]
+const trackFunctionSelected = ref(trackFunctionOptions[1])
+
+/*** barcode formats ***/
+
+const barcodeFormats = ref({
+  aztec: false,
+  code_128: false,
+  code_39: false,
+  code_93: false,
+  codabar: false,
+  databar: false,
+  databar_expanded: false,
+  data_matrix: false,
+  dx_film_edge: false,
+  ean_13: false,
+  ean_8: false,
+  itf: false,
+  maxi_code: false,
+  micro_qr_code: false,
+  pdf417: false,
+  qr_code: true,
+  rm_qr_code: false,
+  upc_a: false,
+  upc_e: false,
+  linear_codes: false,
+  matrix_codes: false
+})
+const selectedBarcodeFormats = computed(() => {
+  return Object.keys(barcodeFormats.value).filter((format) => barcodeFormats.value[format])
+})
+
+/*** error handling ***/
+
+const error = ref('')
+
+function onError(err) {
+  error.value = `[${err.name}]: `
+
+  if (err.name === 'NotAllowedError') {
+    error.value += 'you need to grant camera access permission'
+  } else if (err.name === 'NotFoundError') {
+    error.value += 'no camera on this device'
+  } else if (err.name === 'NotSupportedError') {
+    error.value += 'secure context required (HTTPS, localhost)'
+  } else if (err.name === 'NotReadableError') {
+    error.value += 'is the camera already in use?'
+  } else if (err.name === 'OverconstrainedError') {
+    error.value += 'installed cameras are not suitable'
+  } else if (err.name === 'StreamApiNotSupportedError') {
+    error.value += 'Stream API is not supported in this browser'
+  } else if (err.name === 'InsecureContextError') {
+    error.value +=
+      'Camera access is only permitted in secure context. Use HTTPS or localhost rather than HTTP.'
+  } else {
+    error.value += err.message
+  }
+}
 </script>
