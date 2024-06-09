@@ -1,8 +1,8 @@
-import { getBooks, getBooksCount } from "~/server/db/book";
+import { getBooks, getBooksCount, getTotalAvailableBooks } from "~/server/db/book";
 import { bookTransformer } from "../transformers/book";
 
 export default defineEventHandler(async (event) => {
-    const { query, skip, take, publisherFilter, inStock, libraryId } = getQuery(event);
+    const { query, skip, take, publisherId, inStock, libraryId, minYear, maxYear } = getQuery(event);
 
     const searchConditions = [];
 
@@ -49,7 +49,7 @@ export default defineEventHandler(async (event) => {
                 validTerms.push(term);
             }
         }
-        
+
         if (validTerms.length === 0) {
             return {
                 books: [],
@@ -90,20 +90,10 @@ export default defineEventHandler(async (event) => {
         }
     }
 
-    // Добавляем фильтр по издателю
-    // if (publisherFilter) {
-    //     searchConditions.push({
-    //         publisher: {
-    //             name: {
-    //                 contains: publisherFilter,
-    //                 mode: 'insensitive'
-    //             }
-    //         }
-    //     });
-    // }
+
     console.log("Backend inStock:", inStock)
     console.log("Backend libraryId:", libraryId)
-    console.log("ALL:",query, skip, take, publisherFilter, inStock, libraryId)
+    console.log("ALL:", query, skip, take, publisherId, inStock, libraryId, minYear, maxYear)
 
     // Добавляем фильтр по наличию книг
     if (inStock === 'true') {
@@ -128,6 +118,27 @@ export default defineEventHandler(async (event) => {
             }
         });
     }
+    // Добавляем фильтр по издателю
+    if (publisherId) {
+        searchConditions.push({
+            publisher: {
+                id: publisherId,
+            }
+        });
+    }
+
+    if (minYear || maxYear) {
+        const yearCondition = {};
+        if (minYear) {
+            yearCondition.gte = minYear;
+        }
+        if (maxYear) {
+            yearCondition.lte = maxYear;
+        }
+        searchConditions.push({
+            year: yearCondition
+        });
+    }
 
     let prismaQuery = {
         include: {
@@ -150,8 +161,11 @@ export default defineEventHandler(async (event) => {
         where: prismaQuery.where
     });
 
+const totalAvailable = await getTotalAvailableBooks(prismaQuery.where);
+
     return {
         books: books.map(bookTransformer),
-        total: total
+        total: total,
+        totalAvailable: totalAvailable
     };
 });

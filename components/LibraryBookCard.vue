@@ -2,7 +2,7 @@
   <UCard class="ring-0 shadow-lg">
     
     <div class="grid justify-items-center">
-      <div class=" w-20 sm:w-20 md:w-28 lg:w-36 lg:h-60 justify-center">
+      <div class=" w-20 sm:w-20 md:w-28 lg:w-36 lg:h-60 justify-center content-center">
         <img :src="props.book.coverImage" alt="Обложка книги" class="shadow-l rounded-sm">
       </div>
       <div class="my-2 h-20 lg:my-2 lg:h-24 w-full content-start lg:content-center overflow-hidden ">

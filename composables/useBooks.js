@@ -146,7 +146,7 @@ export default () => {
   const postBookedBook = ({ libraryBookId, userId }) => {
     return new Promise(async (resolve, reject) => {
       try {
-        await $fetch('/api/bookedBooks', {
+        await useFetchApi('/api/bookedBooks', {
           method: 'POST',
           body: {
             libraryBookId,
@@ -163,7 +163,7 @@ export default () => {
   const giveOrder = ({ orderId }) => {
     return new Promise(async (resolve, reject) => {
       try {
-        await $fetch('/api/bookedBooks', {
+        await useFetchApi('/api/bookedBooks', {
           method: 'PUT',
           body: {
             orderId
@@ -180,7 +180,7 @@ export default () => {
   const takeOrder = ({ orderId }) => {
     return new Promise(async (resolve, reject) => {
       try {
-        await $fetch('/api/bookedBooks', {
+        await useFetchApi('/api/bookedBooks', {
           method: 'DELETE',
           body: {
             orderId

@@ -3,8 +3,10 @@
     <form @submit="handleSearch" class="justify-center grid grid-cols-12 lg:col-span-9 lg:grid lg:grid-cols-12 ">
       <UInput v-model="search" :loading="loading" class="col-span-10 lg:col-span-10 pl-4 py-4" size="lg"
         placeholder="Название, автор, тема, издательство" required />
+
       <UButton type="submit" @submit="handleSearch" lg:label="Найти"
         class="col-span-2 lg:col-span-2 my-4 ml-1 mr-4 content-center justify-center">
+
         <template #trailing>
           <UIcon name="i-heroicons-magnifying-glass-solid" class="w-6 h-6" />
         </template>

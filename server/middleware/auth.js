@@ -6,6 +6,7 @@ import { getUserById } from "../db/users.js"
 export default defineEventHandler(async (event) => {
     const endpoints = [
         '/api/auth/user',
+        '/api/bookedBooks'
     ]
     console.log('auth New request: ' + getRequestURL(event))
     
@@ -16,12 +17,15 @@ export default defineEventHandler(async (event) => {
     })
 
     if (!isHandledByThisMiddleware) {
+        console.log("not handled by this middleware")
         return
     }
 
     const token = event.node.req.headers['authorization']?.split(' ')[1]
 
     const decoded = decodeAccessToken(token)
+
+    console.log("token:",token)
 
     if (!decoded) {
         return sendError(event, createError({
@@ -37,6 +41,8 @@ export default defineEventHandler(async (event) => {
         const user = await getUserById(userId)
 
         event.context.auth = { user }
+
+        console.log("middleware auth success")
 
     } catch (error) {
         return

@@ -112,3 +112,48 @@ export const putLibraryBook = (params) => {
     })
 }
 
+export const getTotalAvailableBooks = async (where) => {
+    const result = await prisma.libraryBook.aggregate({
+        _sum: {
+            amountAvailable: true
+        },
+        where: {
+            book: where
+        }
+    });
+
+    return result._sum.amountAvailable || 0;
+};
+
+export const getBooksWithAvailability = async (params = {}) => {
+    const books = await prisma.books.findMany({
+        ...params,
+        include: {
+            author: true,
+            publisher: true,
+            LibraryBook: {
+                select: {
+                    amountAvailable: true
+                }
+            },
+            _count: {
+                select: {
+                    LibraryBook: true
+                }
+            }
+        }
+    });
+
+    // Подсчет доступного количества книг
+    let totalAvailable = 0;
+    books.forEach(book => {
+        book.LibraryBook.forEach(libraryBook => {
+            totalAvailable += libraryBook.amountAvailable;
+        });
+    });
+
+    return {
+        books,
+        totalAvailable
+    };
+};

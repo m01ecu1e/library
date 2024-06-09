@@ -97,10 +97,10 @@
 
         </UCard>
       </div>
-      <UModal v-model="isModalOpen">
-        <div class="p-4">
+      <UModal v-model="isModalOpen" >
+        <div class="flex justify-center">
           <canvas ref="qrcodeCanvas"></canvas>
-          <p>({{ selectedOrderCode }})</p>
+          <!-- <p>({{ selectedOrderCode }})</p> -->
         </div>
       </UModal>
     </UContainer>
@@ -151,7 +151,10 @@ function openModal(orderCode) {
 watch(isModalOpen, async (newValue) => {
   if (newValue) {
     await nextTick()
-    QRCode.toCanvas(qrcodeCanvas.value, selectedOrderCode.value, (error) => {
+    QRCode.toCanvas(qrcodeCanvas.value, selectedOrderCode.value, {
+      width: 300, // Увеличение размера QR-кода
+      errorCorrectionLevel: 'H' // Увеличение качества QR-кода
+    }, (error) => {
       if (error) console.error(error)
     })
   }

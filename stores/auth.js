@@ -29,7 +29,7 @@ export const useAuthStore = defineStore('auth', () => {
         })
         setToken(data.access_token)
         setUser(data.user)
-
+        await initAuth()
         //console.log(data)
 
         resolve(data)
@@ -81,7 +81,7 @@ export const useAuthStore = defineStore('auth', () => {
         const data = await useFetchApi('/api/auth/user')
 
         setUser(data.user)
-
+        console.log("storeGetUser")
         resolve(true)
       } catch (error) {
         reject(error)
@@ -108,7 +108,7 @@ export const useAuthStore = defineStore('auth', () => {
       setIsAuthLoading(true)
       try {
         await refreshToken()
-        // await getUser()
+        await getUser()
 
         reRefreshAccessToken()
 
@@ -158,7 +158,6 @@ export const useAuthStore = defineStore('auth', () => {
   {
     storage: persistedState.cookiesWithOptions({
       sameSite: 'strict',
-      httpOnly: false,    // It works when i set it to false or remove this property
       secure: true,
       encode: true,
     }),

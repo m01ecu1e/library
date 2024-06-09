@@ -1,5 +1,5 @@
 <template>
-  <UCard class="w-full">
+  <UCard v-if="authStore.authUser.admin" class="w-full">
     <h3 class="mb-4">Выдать или принять книгу</h3>
     <form class="flex flex-col">
       <UInputMenu v-model="selectedOrder" :search="getBookedBooks" :options="bookedBooks" :loading="loading" size="xl"
@@ -26,6 +26,8 @@
 
 <script setup>
 import { QrcodeStream } from 'vue-qrcode-reader'
+
+const authStore = useAuthStore()
 
 const loading = ref(false)
 const selectedOrder = ref('')
@@ -68,8 +70,25 @@ function onDetect(detectedCodes) {
     const decodedString = detectedCodes[0].rawValue // берем только первую распознанную строку
     result.value = decodedString
     selectedOrder.value = decodedString
+    playBeepSound() // Воспроизведение звука
+    handleGiveOrder()
     console.log("result:", result.value)
   }
+}
+
+function playBeepSound() {
+  const audioCtx = new (window.AudioContext || window.AudioContext)()
+  const oscillator = audioCtx.createOscillator()
+  const gainNode = audioCtx.createGain()
+
+  oscillator.type = 'sine'
+  oscillator.frequency.setValueAtTime(700, audioCtx.currentTime) // частота 440 Гц (нотка Ля)
+  oscillator.connect(gainNode)
+  gainNode.connect(audioCtx.destination)
+
+  oscillator.start()
+  gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 1)
+  oscillator.stop(audioCtx.currentTime + 0.2)
 }
 
 const selectedConstraints = ref({ facingMode: 'environment' })

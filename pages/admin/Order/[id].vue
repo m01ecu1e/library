@@ -1,5 +1,5 @@
 <template>
-  <UContainer class=" rounded-lg w-2/3 py-5">
+  <UContainer v-if="authStore.authUser && authStore.authUser.admin" class=" rounded-lg w-2/3 py-5">
     <UCard v-if="order" class="px-20 shadow-lg">
       <template #header>
         <div class="font-semibold text-xl">
@@ -46,12 +46,8 @@
 
 <script setup>
 
+const authStore = useAuthStore()
 
-const { useAuthUser, initAuth, useAuthLoading } = useAuth()
-// onBeforeMount(() => {
-//   initAuth()
-// })
-const user = useState('auth_user')
 const loading = ref(false)
 
 const { getOrderById, giveOrder, putLibraryBook, takeOrder} = useBooks()
@@ -98,7 +94,7 @@ async function handleGiveOrder() {
   } catch (error) {
     console.log(error)
     toast.add({
-            title: 'Успешно выдан заказ:',
+            title: 'Ошибка:',
             description: error,
             icon: 'i-heroicons-x-mark',
             color: 'red'
