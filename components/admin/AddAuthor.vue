@@ -1,35 +1,13 @@
 <template>
   <UCard class="w-full">
     <h3 class="mb-4">Добавить автора:</h3>
-    <form
-      @submit="handleAddAuthor"
-      class="flex flex-col"
-    >
-      <UInput
-        type="text"
-        :disabled="data.loading"
-        placeholder="Имя автора"
-        v-model="data.name"
-        class="mb-2"
-        size="xl"
-        required
-      />
-      <UInput
-        type="text"
-        :disabled="data.loading"
-        placeholder="Доп. информация"
-        v-model="data.info"
-        class="mb-6"
-        size="xl"
-        required
-      />
-      <UButton
-        type="submit"
-        :loading="data.loading"
-        :disabled="data.loading"
-        @submit="handleAddAuthor"
-        class="justify-center"
-      >
+    <form @submit="handleAddAuthor" class="flex flex-col">
+      <UInput type="text" :disabled="data.loading" placeholder="Имя автора" v-model="data.name" class="mb-2" size="xl"
+        required />
+      <UInput type="text" :disabled="data.loading" placeholder="Доп. информация" v-model="data.info" class="mb-6"
+        size="xl" required />
+      <UButton type="submit" :loading="data.loading" :disabled="data.loading" @submit="handleAddAuthor"
+        class="justify-center">
         Добавить
       </UButton>
     </form>

@@ -6,6 +6,7 @@ export default defineEventHandler(async (event) => {
   const cookies = parseCookies(event)
 
   const refreshToken = cookies?.refresh_token
+  console.log("refreshToken:", refreshToken)
 
   if (!refreshToken) {
     return sendError(event, createError({
@@ -20,12 +21,13 @@ export default defineEventHandler(async (event) => {
   if (!rToken) {
     return sendError(event, createError({
       statusCode: 401,
-      statusMessage: "Refresh token is invalid"
+      statusMessage: "Refresh token is invalid 2"
 
     }))
   }
 
   const token = decodeRefreshToken(refreshToken)
+  // console.log("token:",token)
 
   try {
     const user = await getUserById(token.userId)

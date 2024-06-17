@@ -35,10 +35,6 @@ export default defineEventHandler(async (event) => {
   const doesThePasswordMatch = await bcrypt.compare(password, user.password)
     
   if(!doesThePasswordMatch) {
-      // return sendError(event, createError({
-      //     statusCode: 400,
-      //     message: 'Username or password is invalid',
-      // }))
       throw createError({
         statusCode:400,
         statusMessage:'Username or password is invalid',

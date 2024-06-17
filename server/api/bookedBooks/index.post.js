@@ -26,15 +26,8 @@ export default defineEventHandler(async (event) => {
     })
   }
   
+  
   const libraryBook = await getLibraryBookById(bookData.libraryBookId)
-
-  if (!await getLibraryBookById(bookData.libraryBookId)) {
-    throw createError({
-      statusCode:400,
-      statusMessage:'No available books',
-      message:'Что-то пошло не так :/'
-    })
-  }
 
   if(libraryBook.amountAvailable == 0) {
     throw createError({
@@ -43,6 +36,17 @@ export default defineEventHandler(async (event) => {
       message:'Книги нет в наличии'
     })
   }
+
+  // const newAmountAvailable = libraryBook.amountAvailable + value
+
+  // const prismaQuery = {
+  //   where: {
+  //     id: libraryBookId,
+  //   },
+  //   data: {
+  //     amountAvailable: newAmountAvailable
+  //   }
+  // }
 
   const query = {
     where: {
@@ -62,7 +66,9 @@ export default defineEventHandler(async (event) => {
   } else {
 
     bookData.orderCode = generateOrderCode(userId, libraryBookId)
+    
     const bookedBook = await createBookedBook(bookData)
+
     return {
       book: bookedBook
     }

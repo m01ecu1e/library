@@ -3,7 +3,7 @@
 
     <div class="grid justify-items-center">
       <div class="shrink-0 w-20 sm:w-20 md:w-28 lg:w-36 md:h-48 lg:h-60 md:content-start content-center ">
-        <img :src="props.book.coverImage" alt="Обложка книги" class="shadow-l rounded-sm">
+        <img :src="props.book.coverImage" alt="Обложка книги" class="border shadow-l rounded-sm">
       </div>
       <div class="my-2 h-20 lg:my-2 lg:h-24 w-full content-start lg:content-center">
         <div class="font-semibold text-xs md:text-sm text-ellipsis overflow-hidden">
@@ -23,7 +23,7 @@
 
     <template #footer v-if="props.book.libraryBookCount > 0">
       <div class="h-1 flex items-center justify-center">
-        <p class="flex-none text-xs md:text-sm">В наличии в </p>
+        <p class="flex-none text-xs md:text-sm">Доступна в </p>
         <p class="flex-none text-green-600 font-bold mx-1 text-xs md:text-sm">[{{ props.book.libraryBookCount }}]</p>
         <p class="flex-none text-xs md:text-sm">библиотеках</p>
       </div>

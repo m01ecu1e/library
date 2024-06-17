@@ -7,8 +7,6 @@
       </NuxtLink>
     </div>
     <UDivider orientation="vertical" class="col-span-1" />
-    <!-- <div
-      class=" pr-5 justify-items-end grid grid-cols-2 col-span-2 content-center text-xl px-5 sm:px-5 md:px-5 lg:px-5 lg:justify-items-center"> -->
     <NuxtLink to="/Libraries"
       class="col-span-3 px-5 sm:px-5 md:px-3 lg:px-5 hover:text-sky-600 text-xl content-center ">
       <p>Библиотеки</p>
@@ -35,9 +33,6 @@
     <UDivider orientation="vertical" class="col-span-1" />
     <UButton :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'" color="gray" variant="ghost"
           aria-label="Theme" @click="isDark = !isDark" class="col-span-1 content-center px-5 sm:px-5 md:px-5 lg:px-5" />
-    <!-- <UButton color="gray" variant="link" icon="i-heroicons-bars-3-20-solid" @click="isOpen = true"
-      class="col-span-1 content-center px-5 sm:px-5 md:px-5 lg:px-5" size="xl" /> -->
-    <!-- </div> -->
   </div>
 
 
@@ -82,11 +77,5 @@ const isDark = computed({
   }
 })
 
-// const props = defineProps({
-//   user: {
-//     type: Object,
-//     required: false
-//   }
-// })
 
 </script>

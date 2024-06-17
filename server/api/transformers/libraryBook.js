@@ -1,7 +1,4 @@
-
 export const libraryBookTransformer = (book) => {
-    // console.log('libraryBookTransformer')
-    //const author = await getAuthorById(book.authorId)
 
     return {
         bookId:book.book.id,
@@ -9,6 +6,6 @@ export const libraryBookTransformer = (book) => {
         author: book.book.author.name,
         publisher: book.book.publisher.name,
         library: book.library.name,
-        coverImage: book.book.coverImage
+        coverImage: book.book.coverImage,
     }
 }

@@ -22,7 +22,7 @@ const removeExpiredBookings = async () => {
     await prisma.$transaction([
       prisma.libraryBook.update({
         where: { id: booking.libraryBookId },
-        data: { amount: { increment: 1 } },
+        data: { amountAvailable: { increment: 1 } },
       }),
       prisma.bookedBooks.delete({
         where: { id: booking.id },

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1 class="text-xl font-medium mb-4">Admin page</h1>
+    <h1 class="text-xl font-medium mb-4"></h1>
   </div>
-  <UContainer class="w-1/2">
+  <UContainer class="w-3/4">
     <UAccordion :items="items" class="w-full">
       <template #AddLibraryBook>
         <AdminAddLibraryBook/>
@@ -15,6 +15,9 @@
       </template>
       <template #AddPublisher>
         <AdminAddPublisher />
+      </template>
+      <template #GetLibraryBooks>
+        <AdminGetLibraryBooks />
       </template>
       <template #GiveBook>
         <AdminGiveBook />
@@ -53,6 +56,11 @@ const items = [
     slot: 'AddPublisher'
   },
   {
+    label: 'Учёт',
+    defaultOpen: false,
+    slot: 'GetLibraryBooks'
+  },
+  {
     label: 'Обработать заказ',
     defaultOpen: false,
     slot: 'GiveBook'
@@ -62,16 +70,15 @@ const items = [
 const authStore = useAuthStore()
 
 async function handleLogout() {
-  const { logout } = useAuth()
 
-  try {
-    await logout({
+try {
+  await authStore.logout({
 
-    })
-  } catch (error) {
-    console.log(error)
-  }
-  navigateTo('/')
+  })
+} catch (error) {
+  console.log(error)
+}
+navigateTo('/')
 }
 
 

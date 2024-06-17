@@ -35,21 +35,11 @@ const libraries = await fetchLibs()
 
 const colorMode = useColorMode()
 
-// console.log(libraries?.libraries)
-
 markers.value = libraries?.libraries.map(library => ({
   coordinates: [library.longitude, library.latitude],
   library
 }));
 
-// console.log(markers.value)
-
-// function handleSelectLibrary(libraryId) {
-//   const selectedLibrary = libraryBooks.value.find(library => library.id === libraryId);
-//   selectedLib.value = selectedLibrary.id;
-//   selectedLibInfo.value = selectedLibrary;
-//   isOpen.value = true;
-// }
 </script>
 
 <style></style>

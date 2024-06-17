@@ -3,19 +3,29 @@
     <h3 class="mb-4">Выдать или принять книгу</h3>
     <form class="flex flex-col">
       <UInputMenu v-model="selectedOrder" :search="getBookedBooks" :options="bookedBooks" :loading="loading" size="xl"
-        class="w-96 max-w-full mb-2" placeholder="Номер заказа" option-attribute="orderCode" trailing by="orderCode">
+        class="" placeholder="Отсканированный номер заказа" option-attribute="orderCode" trailing by="orderCode">
+        <template #option="{ option: orderCode }">
+          <div class="">
+            {{ orderCode.orderCode }}
+          </div>
+        </template>
+      </UInputMenu>
+      <UButton @click="toggleScanner" size="xl" class="justify-center mt-2">
+        Отсканировать
+      </UButton>
+      <UDivider label="или" class="my-2"></UDivider>
+      <UInputMenu v-model="selectedOrder" :search="getBookedBooks" :options="bookedBooks" :loading="loading" size="xl"
+        class="" placeholder="Введите номер заказа" option-attribute="orderCode" trailing by="orderCode">
         <template #option="{ option: orderCode }">
           <div class="flex-1 font-semibold">
             {{ orderCode.orderCode }}
           </div>
         </template>
       </UInputMenu>
-      <UButton :loading="loading" :disabled="loading" @click="handleGiveOrder" size="xl" class="justify-center mb-5">
+      <UButton :loading="loading" :disabled="loading" @click="handleGiveOrder" size="xl" class="justify-center mt-2 mb-5">
         Показать заказ
       </UButton>
-      <UButton @click="toggleScanner" size="xl" class="justify-center mb-5">
-        Отсканировать
-      </UButton>
+      
       <div v-if="scannerVisible" class="mb-5">
         <qrcode-stream :constraints="selectedConstraints" :track="trackFunctionSelected.value"
           :formats="selectedBarcodeFormats" @error="onError" @detect="onDetect" @camera-on="onCameraReady" />

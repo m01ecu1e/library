@@ -15,41 +15,19 @@
           <USelectMenu v-model="filters.libraryId" :options="libs" placeholder="Библиотека" value-attribute="id"
             option-attribute="name" class="" size="xl" required />
 
-          <UButton :loading="loading" :disabled="loading" @click="resetLibraryFilter"
-            class="justify-center my-2">
+          <UButton :loading="loading" :disabled="loading" @click="resetLibraryFilter" class="justify-center my-2">
             Сбросить
           </UButton>
 
-          <UInputMenu
-            v-model="filters.publisherId"
-            :search="searchPublishers"
-            :options="publishers"
-            :loading="loading"
-            size="xl"
-            placeholder="Издательство"
-            option-attribute="name"
-            trailing
-            value-attribute="id"
-            required
-          />
+          <UInputMenu v-model="filters.publisherId" :search="searchPublishers" :options="publishers" :loading="loading"
+            size="xl" placeholder="Издательство" option-attribute="name" trailing value-attribute="id" required />
 
-          <UButton :loading="loading" :disabled="loading" @click="resetPublisherFilter"
-            class="justify-center my-2">
+          <UButton :loading="loading" :disabled="loading" @click="resetPublisherFilter" class="justify-center my-2">
             Сбросить
           </UButton>
-          <UInput
-            v-model.lazy="filters.minYear"
-            placeholder="Мин. год"
-            required
-            class="mb-2"
-          />
-          <UInput
-            v-model.lazy="filters.maxYear"
-            placeholder="Макс. год"
-            required
-          />
-          <UButton :loading="loading" :disabled="loading" @click="clearAllFilters"
-            class="justify-center my-2">
+          <UInput v-model.lazy="filters.minYear" placeholder="Мин. год" required class="mb-2" />
+          <UInput v-model.lazy="filters.maxYear" placeholder="Макс. год" required />
+          <UButton :loading="loading" :disabled="loading" @click="clearAllFilters" class="justify-center my-2">
             Очистить все фильтры
           </UButton>
         </div>
@@ -71,12 +49,14 @@
       <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
       <USkeleton v-if="loading" class="h-[380px] w-70 mb-6 col-span-1 rounded-lg" />
     </div>
-
+    <div class="flex justify-center mb-2" v-if="searchBooks">
+      <UPagination v-model="page" :page-count="pageSize" :total="totalPages" :active-button="{ color: 'sky' }" />
+    </div>
     <SearchedBooks :books="searchBooks" />
-
     <div class="flex justify-center mb-20" v-if="searchBooks">
       <UPagination v-model="page" :page-count="pageSize" :total="totalPages" :active-button="{ color: 'sky' }" />
     </div>
+    
 
   </UContainer>
 </template>
@@ -111,7 +91,7 @@ const page = ref(route.query.page ? route.query.page : 1)
 const totalPages = ref()
 const pageSize = 12
 
-watch([searchQuery, page, filters.value], async() => {
+watch([searchQuery, page, filters.value], async () => {
   console.log("watch")
   console.log(filters.value)
   getBooks()
@@ -159,7 +139,7 @@ const searchPublishers = async (q) => {
     }
   })
   publishers.value = response
-  
+
   // bookLoading.value = false
   return publishers.value
 }

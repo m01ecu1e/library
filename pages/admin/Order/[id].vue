@@ -7,16 +7,24 @@
         </div>
       </template>
       <div class="flex">
-        <div class="h-50 w-1/6 content-center border border-gray-400 shadow-xl">
+        <div class="w-60 content-center border border-gray-400 shadow-xl">
           <img :src="order.libraryBook.book.coverImage" alt="Обложка">
         </div>
+        
         <div class=" w-full pl-5  content-center">
+          <div class="flex mb-5">
+            Получатель: <p class="ml-2 font-semibold"> {{ order.user.firstName }} {{ order.user.lastName }}</p>
+          </div>
+          <div class="flex">
+            Библиотека: <p class="ml-2 font-semibold"> {{ order.libraryBook.library.name }}</p>
+          </div>
           <div class="flex">
             Автор: <p class="ml-2 font-semibold"> {{ order.libraryBook.book.author.name }}</p>
           </div>
           <div class="flex">
             Издательство: <p class="ml-2 font-semibold"> {{ order.libraryBook.book.publisher.name }}</p>
           </div>
+          
           <div class="flex">
             ISBN: <p class="ml-2 font-semibold"> {{ order.libraryBook.book.ISBN }}</p>
           </div>
@@ -24,14 +32,12 @@
             Количество всего: <p class="ml-2 font-semibold"> {{ order.libraryBook.amount }}</p>
           </div>
           <div class="flex">
-            Забронированных / на руках: <p class="ml-2 font-semibold"> {{ order.libraryBook.amount - order.libraryBook.amountAvailable }}</p>
+            Есть в наличии: <p class="ml-2 font-semibold"> {{  order.libraryBook.amountAvailable + 1 }}</p>
           </div>
+          
         </div>
       </div>
       <template #footer>
-        <!-- <USelectMenu v-model="selectedLib" :options="libraryBooks" placeholder="Для бронирования выберите библиотеку"
-          value-attribute="id" option-attribute="libraryName" class="mb-2" size="xl" />
-        <div v-if="user"> -->
           <UButton @click="handleGiveOrder" size="xl" class="my-2" :loading="loading" :disabled="order.received">
             Выдать
           </UButton>
@@ -60,7 +66,7 @@ const order = ref([])
 
 const toast = useToast()
 
-// console.log("orderCode:", orderCode.value)
+
 
 async function getOrder() {
   loading.value = true
@@ -105,7 +111,6 @@ async function handleGiveOrder() {
     path: '/Admin',
     })
   }
-  //console.log("order:", order.value[0].orderCode)
 }
 
 async function handleTakeOrder() {
@@ -132,9 +137,5 @@ async function handleTakeOrder() {
     path: '/Admin',
     })
   }
-  // console.log("order:", selectedOrder.value.id)
 }
-
-
-
 </script>

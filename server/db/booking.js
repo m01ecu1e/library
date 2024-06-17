@@ -2,9 +2,19 @@ import { prisma } from ".";
 import crypto from 'crypto'
 
 export const createBookedBook = (bookData) => {
-    return prisma.bookedBooks.create({
-        data: bookData,
-    })
+    return prisma.$transaction([
+        prisma.bookedBooks.create({
+            data: bookData,
+        }),
+        prisma.libraryBook.update({
+            where: {
+                id: bookData.libraryBookId,
+            },
+            data: {
+                amountAvailable: { decrement: 1 }
+            }
+        })
+    ])
 }
 
 export const getBookedBooks = (params = {}) => {
@@ -43,6 +53,7 @@ export const getOrderById = (orderId) => {
             id: orderId
         },
         include: {
+            user: true,
             libraryBook: {
                 include: {
                     book: {
@@ -53,7 +64,15 @@ export const getOrderById = (orderId) => {
                     },
                     library: true
                 }
-            }
+            },
+            // user: {
+            //     include: {
+            //         firstName: true,
+            //         lastName: true,
+            //         email: true,
+            //     }
+            // }
+
         }
     })
 }

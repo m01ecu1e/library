@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', () => {
         resolve(data)
       } catch (error) {
         console.log("err:",error)
-        reject(error)
+        reject(error.data)
       }
     })
   }
@@ -90,16 +90,21 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const reRefreshAccessToken = () => {
-
+    console.log("reRefreshAccessToken")
     if (!authToken.value) {
+      console.log("returned reRefreshAccessToken")
       return
     }
 
     const jwt = jwtDecode(authToken.value)
-    const newRefreshTime = jwt.exp - 60000
+    const newRefreshTime = (jwt.exp * 1000) - Date.now() - 60000
+    console.log("jwt:", jwt)
+    console.log("newRefreshTime:", newRefreshTime)
+    console.log("reRefreshAccessToken")
     setTimeout(async () => {
       await refreshToken()
       reRefreshAccessToken()
+      console.log("reRefreshAccessToken!!!!!!!!!!!!!")
     }, newRefreshTime);
   }
 
@@ -107,6 +112,7 @@ export const useAuthStore = defineStore('auth', () => {
     return new Promise(async (resolve, reject) => {
       setIsAuthLoading(true)
       try {
+        console.log("initAuth")
         await refreshToken()
         await getUser()
 

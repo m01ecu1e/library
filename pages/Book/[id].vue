@@ -182,10 +182,10 @@ async function handleBooking() {
             libraryBookId: selectedLib.value,
             userId: authStore.authUser.id,
         })
-        await putLibraryBook({
-            libraryBookId: selectedLib.value,
-            value: -1
-        })
+        // await putLibraryBook({
+        //     libraryBookId: selectedLib.value,
+        //     value: -1
+        // })
         toast.add({
             title: 'Вы забронировали книгу:',
             description: '' + book.value.title + '',

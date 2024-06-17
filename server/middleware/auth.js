@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
         '/api/auth/user',
         '/api/bookedBooks'
     ]
-    console.log('auth New request: ' + getRequestURL(event))
+    // console.log('auth New request: ' + getRequestURL(event))
     
     const isHandledByThisMiddleware = endpoints.some(endopoint => {
         const pattern = new UrlPattern(endopoint)
@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
 
     const decoded = decodeAccessToken(token)
 
-    console.log("token:",token)
+    // console.log("token:",token)
 
     if (!decoded) {
         return sendError(event, createError({
@@ -33,7 +33,6 @@ export default defineEventHandler(async (event) => {
             statusMessage: 'Unauthorized'
         }))
     }
-
 
     try {
         const userId = decoded.userId

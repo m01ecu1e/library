@@ -46,13 +46,6 @@ const emits = defineEmits(['selectLibrary']);
 
 function selectLibrary() {
   emits('selectLibrary', props.library.id);
-  // console.log(props.library.id)
-  // toast.add({
-  //   title: 'Успешно добавлена книга: "Мастер и Маргарита" в "Городская библиотека №10"',
-  //   description: '' + props.library.libraryName + '',
-  //   icon: 'i-mdi-check',
-  //   color: 'red'
-  // })
 }
 
 </script>

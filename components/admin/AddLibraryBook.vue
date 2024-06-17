@@ -1,74 +1,24 @@
 <template>
   <UCard class="w-full">
     <h3 class="mb-4">Добавить книгу в выбранную библиотеку:</h3>
-    <form
-          @submit="handleAddLibraryBook"
-          class="flex flex-col gap-2"
-        >
-        <USelectMenu
-            v-model="selectedLib"
-            :options="libs"
-            placeholder="Выберите библиотеку"
-            value-attribute="id"
-            option-attribute="name"
-            size="xl"
-            required
-        />
-          <UInputMenu
-            v-model="selectedBook"
-            :search="searchBooks"
-            :options="books"
-            :loading="loading"
-            size="xl"
-            placeholder="Книга"
-            option-attribute="title"
-            trailing
-            by="id"
-            required
-          >
-          <template #option="{ option: book }">
+    <form @submit="handleAddLibraryBook" class="flex flex-col gap-2">
+      <USelectMenu v-model="selectedLib" :options="libs" placeholder="Выберите библиотеку" value-attribute="id"
+        option-attribute="name" size="xl" required />
+      <UInputMenu v-model="selectedBook" :search="searchBooks" :options="books" :loading="loading" size="xl"
+        placeholder="Книга" option-attribute="title" trailing by="id" required>
+        <template #option="{ option: book }">
           <div class="flex-1">
             &laquo;{{ book.title }}&raquo;,&nbsp;{{ book.publisher }}
           </div>
-          </template>
-          </UInputMenu>
-          
-          <!-- <div v-if="false">
-          <div
-            v-if="books.length > 0"
-            v-for="book in books"
-          >
-            <div >{{ book.title, book.publisher }} </div>
-          </div>
-          <div v-else>
-            No results :(
-          </div>
-          </div> -->
-          
-        <UInput
-            type="text"
-            :disabled="loading"
-            placeholder="Количество экземпляров (ВСЕГО)"
-            v-model="amount"
-            size="xl"
-          />
-        <UInput
-            type="text"
-            :disabled="loading"
-            placeholder="Количество экз., доступных для брони"
-            v-model="amountAvailable"
-            size="xl"
-        />
-        <UButton
-
-        :loading="loading"
-        :disabled="loading"
-        @click="handleAddLibraryBook"
-        class="justify-center"
-      >
+        </template>
+      </UInputMenu>
+      <UInput type="text" :disabled="loading" placeholder="Количество экземпляров (ВСЕГО)" v-model="amount" size="xl" />
+      <UInput type="text" :disabled="loading" placeholder="Количество экз., доступных для брони"
+        v-model="amountAvailable" size="xl" />
+      <UButton :loading="loading" :disabled="loading" @click="handleAddLibraryBook" class="justify-center">
         Добавить
       </UButton>
-        </form>
+    </form>
   </UCard>
 </template>
 <script setup>
@@ -96,9 +46,9 @@ const searchBooks = async (q) => {
   loading.value = true
 
   const response = await fetchBooks({
-      query: q,
-      skip: 0,
-      take: 10
+    query: q,
+    skip: 0,
+    take: 10
   })
   //console.log(response.books)
   books.value = response.books
@@ -118,31 +68,31 @@ async function handleAddLibraryBook() {
       libraryId: selectedLib.value
     })
     toast.add({
-            title: 'Успешно:',
-            description: 'Книга добавлена в библиотеку',
-            icon: 'i-heroicons-check-circle',
-            color: 'green'
-        })
+      title: 'Успешно:',
+      description: 'Книга добавлена в библиотеку',
+      icon: 'i-heroicons-check-circle',
+      color: 'green'
+    })
   } catch (err) {
     // console.log(error)
     if (err.message) {
       // console.log(err.message)
       error.value = err.message
       toast.add({
-            title: 'Ошибка:',
-            description: '' + error.value + '',
-            icon: 'i-heroicons-x-circle',
-            color: 'red'
-        })
-      } else {
-        error.value = 'Что-то пошло не так :/'
-        toast.add({
-            title: 'Ошибка:',
-            description: '' + error.value + '',
-            icon: 'i-heroicons-x-circle',
-            color: 'red'
-        })
-      }
+        title: 'Ошибка:',
+        description: '' + error.value + '',
+        icon: 'i-heroicons-x-circle',
+        color: 'red'
+      })
+    } else {
+      error.value = 'Что-то пошло не так :/'
+      toast.add({
+        title: 'Ошибка:',
+        description: '' + error.value + '',
+        icon: 'i-heroicons-x-circle',
+        color: 'red'
+      })
+    }
   } finally {
     loading.value = false
 
@@ -166,17 +116,5 @@ const getLibs = async (q) => {
 
 getLibs()
 
-// const props = defineProps({
-//   libraries: {
-//     type: Array,
-//     required: true
-//   }
-// })
-
-// const submit = async (e) => {
-//   e.preventDefault()
-
-//   await searchAuthors(query.value)
-// }
 
 </script>

@@ -49,6 +49,29 @@ export default () => {
     }
   }
 
+  const searchLibraryBooks = async (params = {}) => {
+    if (loading.value) return
+
+    loading.value = true
+    error.value = null
+
+    try {
+      const response = await useFetchApi('/api/libraryBook/searchLibBooks', {
+        method: 'GET',
+        params
+      })
+      return {
+        libraryBooks: response
+      }
+    }
+    catch (err) {
+      error.value = err.message
+    }
+    finally {
+      loading.value = false
+    }
+  }
+
   const fetchBookedBooks = async (params = {}) => {
     if (loading.value) return
 
@@ -211,7 +234,7 @@ export default () => {
       }
     })
   }
-  
+
 
   return {
     fetchBooks,
@@ -226,6 +249,7 @@ export default () => {
     giveOrder,
     putLibraryBook,
     takeOrder,
-    getOrderById
+    getOrderById,
+    searchLibraryBooks
   }
 }

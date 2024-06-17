@@ -7,9 +7,15 @@
       <div class="grid justify-start space-y-2 mb-5">
         <p>{{ authStore.authUser.firstName }} {{ authStore.authUser.lastName }}</p>
         <p>Email: {{ authStore.authUser.email }}</p>
-        <UButton @click="handleLogout" class="" size="lg">
-          Выйти из учётной записи
-        </UButton>
+        <div class="flex space-x-2">
+          <UButton @click="handleLogout" class="" size="lg">
+            Выйти из учётной записи
+          </UButton>
+          <UButton @click="" class="" size="lg">
+            Сменить пароль
+          </UButton>
+
+        </div>
       </div>
 
     </UContainer>

@@ -66,7 +66,7 @@ async function handleLogin() {
         })
     navigateTo('/')
   } catch (err) {
-    console.log("error", err.message)
+    console.log("error", err)
     if(err && err.message) {
       error.value = err.message
     } else {
